@@ -17,6 +17,11 @@ const state = {
     isPlayingSequence: false
 };
 
+// Check if running in demo mode (GitHub Pages)
+const isDemoMode = window.location.hostname.includes('github.io') ||
+    window.location.hostname.includes('vercel.app') ||
+    window.location.hostname === 'pav44515-ctrl.github.io';
+
 // ===================================
 // INITIALIZATION
 // ===================================
@@ -38,6 +43,20 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===================================
 
 function checkAuthentication() {
+    if (isDemoMode) {
+        console.log('Demo mode detected: Backend features disabled');
+        const fakeUser = localStorage.getItem('demo_user');
+        if (fakeUser) {
+            state.isAuthenticated = true;
+            state.user = JSON.parse(fakeUser);
+            updateUIForAuthenticatedUser();
+            if (document.getElementById('editor')) {
+                updateEditorUI();
+            }
+        }
+        return;
+    }
+
     fetch('/api/auth/check', {
         credentials: 'include'
     })
@@ -82,6 +101,15 @@ function updateUIForAuthenticatedUser() {
 }
 
 async function handleLogout() {
+    if (isDemoMode) {
+        localStorage.removeItem('demo_user');
+        showNotification('Logged out (Demo Mode) 👋', 'success');
+        setTimeout(() => {
+            window.location.reload();
+        }, 800);
+        return;
+    }
+
     try {
         const response = await fetch('/api/auth/logout', {
             method: 'POST',
@@ -414,6 +442,19 @@ async function handleLogin(e) {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
+    if (isDemoMode) {
+        const fakeUser = { id: 'demo-123', name: 'Demo User', email: email };
+        state.isAuthenticated = true;
+        state.user = fakeUser;
+        localStorage.setItem('demo_user', JSON.stringify(fakeUser));
+
+        updateUIForAuthenticatedUser();
+        closeModal(document.getElementById('loginModal'));
+        showNotification('Welcome back! (Demo Mode) 🎉', 'success');
+        if (typeof loadUserProjects === 'function') loadUserProjects();
+        return;
+    }
+
     try {
         const response = await fetch('/api/auth/login', {
             method: 'POST',
@@ -432,7 +473,7 @@ async function handleLogin(e) {
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('loginModal'));
             showNotification('Welcome back! 🎉', 'success');
-            loadUserProjects();
+            if (typeof loadUserProjects === 'function') loadUserProjects();
         } else {
             showNotification(data.error || 'Login failed', 'error');
         }
@@ -448,6 +489,19 @@ async function handleSignup(e) {
     const name = document.getElementById('signupName').value;
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
+
+    if (isDemoMode) {
+        const fakeUser = { id: 'demo-123', name: name, email: email };
+        state.isAuthenticated = true;
+        state.user = fakeUser;
+        localStorage.setItem('demo_user', JSON.stringify(fakeUser));
+
+        updateUIForAuthenticatedUser();
+        closeModal(document.getElementById('signupModal'));
+        showNotification('Account created! (Demo Mode) 🎉', 'success');
+        scrollToEditor();
+        return;
+    }
 
     try {
         const response = await fetch('/api/auth/signup', {
@@ -1664,3 +1718,12 @@ function applyVoicePreset(preset) {
 document.addEventListener('DOMContentLoaded', () => {
     setupVoiceEffects();
 });
+
+
+function loadUserProjects() {
+    console.log('Loading user projects...');
+    // In demo mode, we could load from localStorage or show dummy projects
+    if (isDemoMode) {
+        console.log('Demo mode: No backend projects to load');
+    }
+}
