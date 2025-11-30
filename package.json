@@ -1,0 +1,24 @@
+{
+  "name": "ai-video-studio",
+  "version": "1.0.0",
+  "description": "Premium AI-powered video editing platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "video",
+    "editing",
+    "ai",
+    "machine-learning"
+  ],
+  "author": "AI Video Studio",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "bcrypt": "^5.1.1",
+    "express-session": "^1.17.3"
+  }
+}
