@@ -147,19 +147,6 @@ function setupEventListeners() {
         setupEditorListeners();
     }
 
-    // Feature Cards
-    setupFeatureCards();
-
-    // Smooth Scrolling
-    setupSmoothScroll();
-
-    // Home Page Buttons
-    setupHomePageButtons();
-}
-
-function setupEditorListeners() {
-    // Media Import
-    setupMediaImport();
 
     // Tool Buttons (Header & Timeline)
     const buttons = document.querySelectorAll('button');
