@@ -20,7 +20,26 @@ const state = {
 // Check if running in demo mode (GitHub Pages)
 const isDemoMode = window.location.hostname.includes('github.io') ||
     window.location.hostname.includes('vercel.app') ||
-    window.location.hostname === 'pav44515-ctrl.github.io';
+    window.location.hostname === 'pav44515-ctrl.github.io' ||
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
+
+// Debug logging
+function logDebug(message, data = null) {
+    if (data) {
+        console.log(`[DEBUG] ${message}`, data);
+    } else {
+        console.log(`[DEBUG] ${message}`);
+    }
+}
+
+window.addEventListener('beforeunload', () => {
+    const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+    console.log('BEFORE UNLOAD - Projects:', projects);
+    if (projects.length > 0) {
+        console.log('BEFORE UNLOAD - First Project Name:', projects[0].name);
+    }
+});
 
 // ===================================
 // INITIALIZATION
@@ -38,7 +57,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setupAnimations();
+
+    // Initialize Dashboard if on dashboard page
+    if (document.getElementById('projectsGrid')) {
+        initializeDashboard();
+    }
+
+    // Global listener for New Project button
+    const createBtn = document.getElementById('createNewProjectBtn');
+    if (createBtn) {
+        createBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            createNewProject();
+        });
+    }
+
+    // Global listener for Clear Data button
+    const clearBtn = document.getElementById('clearDataBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+            if (confirm('Clear all local data? This cannot be undone.')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.reload();
+            }
+        });
+    }
 });
+
 // AUTHENTICATION
 // ===================================
 
@@ -201,6 +247,56 @@ function setupEventListeners() {
     // Property Panel Controls
     setupPropertyControls();
 }
+
+function setupEditorListeners() {
+    // Media import
+    setupMediaImport();
+
+    // Play/Pause button
+    const playBtn = document.getElementById('playBtn');
+    if (playBtn) {
+        playBtn.addEventListener('click', () => {
+            const video = document.querySelector('.preview-screen video');
+            if (video) {
+                if (video.paused) {
+                    video.play();
+                    playBtn.textContent = '⏸️ Pause';
+                } else {
+                    video.pause();
+                    playBtn.textContent = '▶️ Play';
+                }
+            }
+        });
+    }
+
+    // Stop button
+    const stopBtn = document.getElementById('stopBtn');
+    if (stopBtn) {
+        stopBtn.addEventListener('click', () => {
+            const video = document.querySelector('.preview-screen video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+                const playBtn = document.getElementById('playBtn');
+                if (playBtn) playBtn.textContent = '▶️ Play';
+            }
+        });
+    }
+}
+
+function renderTimeline() {
+    // Clear existing clips
+    const tracks = document.querySelectorAll('.timeline-track');
+    tracks.forEach(track => {
+        track.innerHTML = '';
+    });
+
+    // Re-render all clips
+    state.timelineClips.forEach(clip => {
+        renderTimelineClip(clip);
+    });
+}
+
 
 function setupMediaImport() {
     const importBtn = document.getElementById('mediaLibraryUpload');
@@ -522,10 +618,145 @@ async function handleSignup(e) {
 // EDITOR FUNCTIONALITY
 // ===================================
 
+async function loadProjectFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('project');
+
+    if (projectId) {
+        logDebug(`Loading project from URL: ${projectId}`);
+
+        // Try to load from backend first
+        try {
+            const response = await fetch('/api/projects', { credentials: 'include' });
+            if (response.ok) {
+                const projects = await response.json();
+                const project = projects.find(p => p.id == projectId);
+                if (project) {
+                    const projectData = typeof project.data === 'string' ? JSON.parse(project.data) : project.data;
+                    state.currentProject = project;
+                    state.mediaFiles = projectData.mediaFiles || [];
+                    state.timelineClips = projectData.timelineClips || [];
+
+                    const titleInput = document.getElementById('projectTitleInput');
+                    if (titleInput) titleInput.value = project.name;
+
+                    // Clear existing
+                    const mediaLibrary = document.getElementById('mediaLibrary');
+                    if (mediaLibrary) mediaLibrary.innerHTML = '';
+
+                    state.mediaFiles.forEach(file => addMediaToLibrary(file));
+                    renderTimeline();
+                    showNotification('Project loaded from database! 📂', 'success');
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error("Backend load failed", e);
+        }
+
+        // Try to load from local storage first (for demo/local mode)
+        let projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+
+        // Check session storage backup
+        const sessionProjects = JSON.parse(sessionStorage.getItem('user_projects') || '[]');
+
+        logDebug(`Found ${projects.length} projects in localStorage`);
+        logDebug(`Found ${sessionProjects.length} projects in sessionStorage`);
+
+        let project = projects.find(p => p.id === projectId);
+        const sessionProject = sessionProjects.find(p => p.id === projectId);
+
+        // Use session project if it's newer
+        if (sessionProject) {
+            if (!project || new Date(sessionProject.modified) > new Date(project.modified)) {
+                logDebug('Using newer version from sessionStorage');
+                project = sessionProject;
+            }
+        }
+
+        if (project) {
+            state.currentProject = project;
+            logDebug('Project loaded successfully:', project.name);
+            logDebug('Project ID:', project.id);
+
+            // Update editor UI with project name
+            const titleInput = document.getElementById('projectTitleInput');
+            if (titleInput) {
+                titleInput.value = project.name;
+                logDebug('Set title input to:', project.name);
+
+                // Save on change (blur or enter)
+                const saveHandler = (e) => {
+                    logDebug('Saving project name:', e.target.value);
+                    state.currentProject.name = e.target.value;
+                    state.currentProject.modified = new Date().toISOString();
+                    saveProject();
+                    showNotification('Project name saved! 💾', 'success');
+                };
+
+                titleInput.addEventListener('blur', saveHandler);
+                titleInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        titleInput.blur();
+                    }
+                });
+            }
+
+            // Load media files
+            const mediaFiles = project.mediaFiles || (project.data && project.data.mediaFiles) || [];
+            if (mediaFiles.length > 0) {
+                state.mediaFiles = mediaFiles;
+                // Clear existing
+                const mediaLibrary = document.getElementById('mediaLibrary');
+                if (mediaLibrary) mediaLibrary.innerHTML = '';
+                state.mediaFiles.forEach(file => addMediaToLibrary(file));
+            }
+
+            // Load clips if any
+            const clips = project.clips || project.timelineClips || (project.data && project.data.timelineClips) || [];
+            if (clips.length > 0) {
+                state.timelineClips = clips;
+                renderTimeline();
+            }
+        } else {
+            console.error('Project not found');
+            showNotification('Project not found', 'error');
+            setTimeout(() => window.location.href = 'dashboard.html', 2000);
+        }
+    }
+}
+
 function initializeEditor() {
+    // Check authentication first
+    if (!state.isAuthenticated && !isDemoMode) {
+        // Optional: redirect or show login
+    }
+
     // Initialize timeline
     setupTimeline();
     setupPlayhead();
+
+    // Load project if ID is present
+    loadProjectFromUrl();
+
+    // Add manual save button
+    const headerActions = document.querySelector('header .flex.items-center.gap-4') || document.querySelector('.header-right');
+    if (headerActions) {
+        // Check if button already exists
+        if (!document.getElementById('manualSaveBtn')) {
+            const saveBtn = document.createElement('button');
+            saveBtn.id = 'manualSaveBtn';
+            saveBtn.innerHTML = '💾 Save';
+            saveBtn.className = 'px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition-all flex items-center gap-2';
+            saveBtn.onclick = () => {
+                saveProject();
+                showNotification('Project saved! 💾', 'success');
+            };
+            headerActions.insertBefore(saveBtn, headerActions.firstChild);
+        }
+    } else {
+        logDebug('Could not find header actions container');
+    }
 }
 
 function setupPlayhead() {
@@ -570,14 +801,38 @@ function setupPlayhead() {
     });
 }
 
-function handleFileDrop(files) {
-    Array.from(files).forEach(file => {
+async function uploadFile(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) throw new Error('Upload failed');
+
+        const data = await response.json();
+        return data.url;
+    } catch (error) {
+        console.error('Upload error:', error);
+        return URL.createObjectURL(file); // Fallback
+    }
+}
+
+async function handleFileDrop(files) {
+    showNotification('Uploading media... ⏳', 'info');
+
+    for (const file of Array.from(files)) {
+        const url = await uploadFile(file);
+
         const fileData = {
             id: generateId(),
             name: file.name,
             type: file.type,
             size: file.size,
-            url: URL.createObjectURL(file)
+            url: url
         };
 
         state.mediaFiles.push(fileData);
@@ -588,7 +843,7 @@ function handleFileDrop(files) {
         if (fileData.type.startsWith('video/')) {
             addClipToTimeline(fileData, state.timelineClips.length);
         }
-    });
+    }
 }
 
 function addMediaToLibrary(fileData) {
@@ -1069,8 +1324,11 @@ async function saveProject() {
         return;
     }
 
+    const titleInput = document.getElementById('projectTitleInput');
+    const projectName = titleInput ? titleInput.value : `Project ${Date.now()}`;
+
     const projectData = {
-        name: `Project ${Date.now()}`,
+        name: projectName,
         data: {
             mediaFiles: state.mediaFiles,
             timelineClips: state.timelineClips
@@ -1088,15 +1346,17 @@ async function saveProject() {
         });
 
         if (response.ok) {
-            showNotification('Project saved! 💾', 'success');
+            const result = await response.json();
+            state.currentProject = { ...projectData, id: result.id };
+            showNotification('Project saved to database! 💾', 'success');
+        } else {
+            const err = await response.json();
+            showNotification(err.error || 'Failed to save', 'error');
         }
     } catch (error) {
         console.error('Error saving project:', error);
-        return;
+        showNotification('Network error saving project', 'error');
     }
-
-    // Export with effects using canvas
-    exportVideoWithEffects(video);
 }
 
 function exportVideo() {
@@ -1708,9 +1968,159 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function loadUserProjects() {
-    console.log('Loading user projects...');
-    // In demo mode, we could load from localStorage or show dummy projects
-    if (isDemoMode) {
-        console.log('Demo mode: No backend projects to load');
+    const projectsGrid = document.getElementById('projectsGrid');
+    const emptyState = document.getElementById('emptyState');
+    if (!projectsGrid) return;
+
+    const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+
+    if (projects.length === 0) {
+        projectsGrid.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'flex';
+        return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+    projectsGrid.style.display = 'grid';
+    projectsGrid.innerHTML = '';
+
+    projects.forEach(project => {
+        const date = new Date(project.modified).toLocaleDateString();
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+            <div class="project-thumbnail">
+                ${project.thumbnail ? `<img src="${project.thumbnail}" alt="${project.name}">` : '<div class="placeholder-thumb">🎬</div>'}
+                <div class="project-duration">${project.duration || '00:00'}</div>
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">${project.name}</h3>
+                <div class="project-meta">
+                    <span>Edited ${date}</span>
+                    <button class="btn-icon delete-project" data-id="${project.id}" title="Delete">🗑️</button>
+                </div>
+            </div>
+        `;
+
+        // Click to open project
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('.delete-project')) {
+                window.location.href = `editor.html?project=${project.id}`;
+            }
+        });
+
+        // Delete button
+        const deleteBtn = card.querySelector('.delete-project');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm('Are you sure you want to delete this project?')) {
+                    const updatedProjects = projects.filter(p => p.id !== project.id);
+                    localStorage.setItem('user_projects', JSON.stringify(updatedProjects));
+                    loadUserProjects(); // Reload grid
+                }
+            });
+        }
+
+        projectsGrid.appendChild(card);
+    });
+}
+
+function initializeDashboard() {
+    console.log('Initializing Dashboard...');
+    const projectsGrid = document.getElementById('projectsGrid');
+    if (!projectsGrid) return;
+
+    loadUserProjects();
+
+    const createBtn = document.getElementById('createNewProjectBtn');
+    if (createBtn) {
+        createBtn.addEventListener('click', createNewProject);
+    }
+
+    // Add Clear Data button if not exists
+    if (!document.getElementById('clearDataBtn')) {
+        const header = document.querySelector('.dashboard-header');
+        if (header) {
+            const clearBtn = document.createElement('button');
+            clearBtn.id = 'clearDataBtn';
+            clearBtn.className = 'btn btn-secondary';
+            clearBtn.style.marginLeft = '10px';
+            clearBtn.textContent = '🗑️ Clear Data';
+            header.appendChild(clearBtn);
+        }
+    }
+}
+
+function createNewProject() {
+    const projectId = 'proj_' + Date.now();
+    const newProject = {
+        id: projectId,
+        name: 'Untitled Project',
+        created: new Date().toISOString(),
+        modified: new Date().toISOString(),
+        thumbnail: null,
+        duration: '00:00'
+    };
+
+    // Save to local storage
+    const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+    projects.unshift(newProject);
+    localStorage.setItem('user_projects', JSON.stringify(projects));
+    sessionStorage.setItem('user_projects', JSON.stringify(projects)); // Backup
+
+    // Redirect to editor
+    window.location.href = `editor.html?project=${projectId}`;
+}
+
+function saveProject() {
+    if (!state.currentProject) {
+        logDebug('No current project to save');
+        return;
+    }
+
+    // Update project data with current state
+    state.currentProject.modified = new Date().toISOString();
+    state.currentProject.clips = state.timelineClips;
+    state.currentProject.mediaFiles = state.mediaFiles;
+
+    logDebug('Saving project ID:', state.currentProject.id);
+    logDebug('Saving project Name:', state.currentProject.name);
+
+    // Get all projects from localStorage
+    let projects = [];
+    try {
+        const stored = localStorage.getItem('user_projects');
+        projects = stored ? JSON.parse(stored) : [];
+        logDebug('Projects in storage BEFORE save:', projects.length);
+        if (projects.length > 0) {
+            logDebug('First project ID in storage:', projects[0].id);
+        }
+    } catch (e) {
+        logDebug('Error parsing localStorage:', e);
+        projects = [];
+    }
+
+    // Find and update the current project
+    const index = projects.findIndex(p => p.id === state.currentProject.id);
+    if (index !== -1) {
+        projects[index] = state.currentProject;
+        localStorage.setItem('user_projects', JSON.stringify(projects));
+        sessionStorage.setItem('user_projects', JSON.stringify(projects)); // Backup
+        logDebug('Project updated at index:', index);
+
+        // Verify save
+        const verify = JSON.parse(localStorage.getItem('user_projects'));
+        logDebug('Projects in storage AFTER save:', verify.length);
+        logDebug('Saved project name in storage:', verify[index].name);
+    } else {
+        logDebug('Project not found in array, pushing new. ID:', state.currentProject.id);
+        projects.push(state.currentProject);
+        localStorage.setItem('user_projects', JSON.stringify(projects));
+        sessionStorage.setItem('user_projects', JSON.stringify(projects)); // Backup
+
+        // Verify save
+        const verify = JSON.parse(localStorage.getItem('user_projects'));
+        logDebug('Projects in storage AFTER push:', verify.length);
     }
 }

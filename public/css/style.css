@@ -1084,10 +1084,12 @@ p {
     width: 70%;
     background: rgba(10, 10, 15, 0.95);
     backdrop-filter: blur(20px);
+    display: flex;
     flex-direction: column;
     padding: 6rem 2rem;
     transition: right var(--transition-base);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
 
   .nav-links.active {
@@ -1135,3 +1137,109 @@ p {
     display: none;
   }
 }
+
+
+/* ===================================
+   DASHBOARD STYLES
+   =================================== */
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 4rem;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.project-thumbnail {
+  height: 180px;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--color-text-secondary);
+}
+
+.project-info {
+  padding: 1.5rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.project-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background: var(--glass-bg);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--glass-border);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+

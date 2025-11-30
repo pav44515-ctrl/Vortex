@@ -29,13 +29,59 @@
             z-index: 100;
         }
 
+        /* Editor Toolbar */
+        .editor-toolbar {
+            height: 48px;
+            background: rgba(10, 10, 15, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1.5rem;
+            z-index: 90;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0 0.5rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--color-text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .tool-btn:active {
+            transform: translateY(0);
+        }
+
         .editor-workspace {
             flex: 1;
             display: grid;
             grid-template-columns: 280px 1fr 320px;
             gap: 1px;
             background: rgba(255, 255, 255, 0.05);
-            height: calc(100vh - 60px);
+            height: calc(100vh - 108px);
+            /* Adjusted for header + toolbar */
         }
 
         .panel {
@@ -167,31 +213,86 @@
             width: 100%;
             accent-color: var(--color-accent-purple);
         }
+
+        .project-title-input {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--color-text-primary);
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .project-title-input:hover,
+        .project-title-input:focus {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            outline: none;
+        }
     </style>
 </head>
 
 <body>
     <!-- App Header -->
     <header class="app-header">
-        <a href="index.html" class="logo" style="font-size: 1.25rem;">
-            <span>✨</span> AI Studio <span
-                style="font-size: 0.75rem; opacity: 0.5; margin-left: 0.5rem; border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px;">PRO</span>
-        </a>
-
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <span id="projectTitle" style="color: var(--color-text-secondary); font-size: 0.875rem;">Untitled
-                Project</span>
-        </div>
-
-        <div style="display: flex; gap: 1rem;">
-            <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Export</button>
-            <button class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Share</button>
-            <div
-                style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                U
+        <div class="header-left" style="display: flex; align-items: center; gap: 1rem;">
+            <a href="dashboard.html" class="back-btn" title="Back to Dashboard"
+                style="color: white; text-decoration: none; font-size: 1.2rem;">←</a>
+            <div class="project-title-container">
+                <input type="text" id="projectTitleInput" class="project-title-input" value="Untitled Project">
             </div>
         </div>
+        <div class="header-center" style="display: flex; align-items: center; gap: 1rem;">
+            <div class="playback-controls" style="display: flex; gap: 0.5rem;">
+                <button class="control-btn" id="prevFrameBtn" title="Previous Frame"
+                    style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">⏮️</button>
+                <button class="control-btn" id="playPauseBtn" title="Play/Pause"
+                    style="background: none; border: none; cursor: pointer; font-size: 1.5rem;">▶️</button>
+                <button class="control-btn" id="nextFrameBtn" title="Next Frame"
+                    style="background: none; border: none; cursor: pointer; font-size: 1.2rem;">⏭️</button>
+            </div>
+            <div class="time-display" id="timeDisplay"
+                style="font-family: monospace; color: var(--color-text-secondary);">00:00:00</div>
+        </div>
+        <div class="header-right" style="display: flex; align-items: center; gap: 1rem;">
+            <button class="btn btn-secondary btn-sm" id="importMediaBtn"
+                style="padding: 0.5rem 1rem; font-size: 0.875rem;">Import Media</button>
+            <input type="file" id="mediaUpload" hidden multiple accept="video/*,image/*,audio/*">
+            <button class="btn btn-primary btn-sm" id="exportBtn"
+                style="padding: 0.5rem 1rem; font-size: 0.875rem;">Export Video</button>
+            <div class="user-avatar" id="userAvatar"
+                style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer;">
+                👤</div>
+        </div>
     </header>
+
+    <!-- Editor Toolbar -->
+    <div class="editor-toolbar">
+        <!-- Edit Controls -->
+        <div class="toolbar-group">
+            <button class="tool-btn" title="Undo last action">↶ Undo</button>
+            <button class="tool-btn" title="Redo last action">↷ Redo</button>
+        </div>
+
+        <!-- Editing Tools -->
+        <div class="toolbar-group">
+            <button class="tool-btn" title="Cut/Split clip at playhead">✂️ Cut</button>
+            <button class="tool-btn" title="Add text overlay">📝 Text</button>
+            <button class="tool-btn" title="Apply color effects">🎨 Effects</button>
+            <button class="tool-btn" title="Audio tools">🎵 Audio</button>
+        </div>
+
+        <!-- Timeline Controls -->
+        <div class="toolbar-group">
+            <button class="tool-btn" title="Add new track">➕ Add Track</button>
+        </div>
+
+        <!-- Share -->
+        <div class="toolbar-group">
+            <button class="tool-btn" title="Share project">🔗 Share</button>
+        </div>
+    </div>
 
     <!-- Main Workspace -->
     <div class="editor-workspace" id="editor">
