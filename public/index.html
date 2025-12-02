@@ -324,6 +324,201 @@
                 </button>
             </form>
             <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
+                Already have an account? <a href="#" id="switchToLogin" <p>Start free, upgrade when you need more power
+            </p>
+        </div>
+
+    </div>
+    </section>
+
+    <!-- Editor Launch Section -->
+    <section id="editor-launch"
+        style="padding: 6rem 2rem; text-align: center; background: var(--color-bg-secondary); position: relative; overflow: hidden;">
+        <!-- Background Glow -->
+        <div
+            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%); pointer-events: none;">
+        </div>
+
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="section-header">
+                <h2>Ready to Create <span class="gradient-text">Magic?</span></h2>
+                <p>Launch our professional, full-screen video editor to start your masterpiece.</p>
+            </div>
+
+            <div class="glass-card"
+                style="max-width: 800px; margin: 0 auto; padding: 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
+                <div style="font-size: 4rem;">🎬</div>
+                <h3>Professional Video Editor</h3>
+                <p>Access advanced features like AI Auto-Edit, Magic Cut, and Voice Synthesis in our dedicated studio
+                    environment.</p>
+                <a href="dashboard.html" class="btn btn-primary btn-large" style="min-width: 250px;">
+                    🚀 Launch Studio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="section-header">
+            <h2>Choose Your <span class="gradient-text">Plan</span></h2>
+            <p>Start free, upgrade when you need more power</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div class="pricing-name">Starter</div>
+                <div class="pricing-price">$0<span
+                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
+                <ul class="pricing-features">
+                    <li>720p export quality</li>
+                    <li>5 AI-powered edits/month</li>
+                    <li>Basic color grading</li>
+                    <li>Watermark on exports</li>
+                    <li>5GB cloud storage</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Get Started</button>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <div class="pricing-name">Professional</div>
+                <div class="pricing-price">$9.99<span
+                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
+                <ul class="pricing-features">
+                    <li>4K export quality</li>
+                    <li>Unlimited AI features</li>
+                    <li>Advanced color grading</li>
+                    <li>No watermark</li>
+                    <li>100GB cloud storage</li>
+                    <li>Priority support</li>
+                    <li>Custom AI voice cloning</li>
+                    <li>Batch processing</li>
+                </ul>
+                <button class="btn btn-primary" style="width: 100%;">Start Free Trial</button>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div class="pricing-name">Enterprise</div>
+                <div class="pricing-price">$29.99<span
+                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
+                <ul class="pricing-features">
+                    <li>8K export quality</li>
+                    <li>Unlimited everything</li>
+                    <li>Custom AI model training</li>
+                    <li>White-label solution</li>
+                    <li>Unlimited cloud storage</li>
+                    <li>24/7 dedicated support</li>
+                    <li>API access</li>
+                    <li>Team collaboration</li>
+                    <li>Advanced analytics</li>
+                </ul>
+                <button class="btn btn-secondary" style="width: 100%;">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 class="gradient-text">AI Video Studio</h4>
+                <p style="color: var(--color-text-secondary); margin-top: 1rem;">
+                    The most advanced AI-powered video editing platform. Create professional videos in minutes.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Product</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#editor">Editor</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#">API</a></li>
+                    <li><a href="#">Integrations</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 AI Video Studio. All rights reserved. Built with ❤️ and AI.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Welcome Back</h3>
+                <button class="modal-close" id="closeLoginModal">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Login
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
+                Don't have an account? <a href="#" id="switchToSignup" style="color: var(--color-accent-purple);">Sign
+                    up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" id="closeSignupModal">&times;</button>
+            </div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Create Account
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
                 Already have an account? <a href="#" id="switchToLogin"
                     style="color: var(--color-accent-purple);">Login</a>
             </p>
@@ -331,6 +526,7 @@
     </div>
 
     <script src="js/app.js"></script>
+    <script src="js/password-security.js"></script>
 </body>
 
 </html>

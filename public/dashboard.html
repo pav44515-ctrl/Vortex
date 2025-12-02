@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - AI Video Studio</title>
+    <title>Dashboard - Vortex</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -13,7 +13,7 @@
     <nav class="navbar">
         <div class="navbar-container">
             <a href="index.html" class="logo">
-                <span>✨</span> AI Video Studio
+                <span>✨</span> Vortex
             </a>
             <div class="nav-right">
                 <div class="user-profile" id="userProfile">
@@ -28,6 +28,15 @@
     <main class="dashboard-container">
         <div class="dashboard-header">
             <h1>My Projects</h1>
+
+            <!-- Search Bar with Voice -->
+            <div class="search-container">
+                <input type="text" id="projectSearch" class="search-input" placeholder="🔍 Search projects...">
+                <button class="voice-search-btn" id="voiceSearchBtn" title="Voice Search">
+                    <span class="mic-icon">🎤</span>
+                </button>
+            </div>
+
             <button class="btn btn-primary" id="createNewProjectBtn">
                 <span>+</span> New Project
             </button>
@@ -50,7 +59,61 @@
         </div>
     </main>
 
+    <!--  Voice Assistant Button -->
+    <button class="voice-assistant-btn" id="voiceAssistantBtn" title="Voice Assistant">
+        <span class="mic-icon">🎤</span>
+    </button>
+
+    <!-- Profile Settings Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Profile Settings</h3>
+                <button class="modal-close" id="closeProfileModal">&times;</button>
+            </div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Display Name</label>
+                    <input type="text" id="profileName" required placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="profileEmail">Email</label>
+                    <input type="email" id="profileEmail" disabled placeholder="your@email.com"
+                        style="opacity: 0.6; cursor: not-allowed;">
+                    <small style="color: var(--color-text-secondary); font-size: 0.75rem;">Email cannot be
+                        changed</small>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Voice Assistant Panel -->
+    <div id="voicePanel" class="voice-panel" style="display: none;">
+        <div class="voice-panel-header">
+            <h3>🎙️ Voice Assistant</h3>
+            <button class="voice-close-btn" id="closeVoicePanel">&times;</button>
+        </div>
+        <div class="voice-status" id="voiceStatus">
+            <p>Click the microphone to start</p>
+        </div>
+        <div class="voice-transcription" id="voiceTranscription"></div>
+        <div class="voice-controls">
+            <button class="btn btn-primary" id="startListening">
+                <span class="mic-icon">🎤</span> Start Listening
+            </button>
+            <button class="btn btn-secondary" id="stopListening" style="display: none;">
+                <span>⏹️</span> Stop
+            </button>
+        </div>
+        <div class="voice-suggestions" id="voiceSuggestions"></div>
+    </div>
+
     <script src="js/app.js"></script>
+    <script src="js/voice-assistant.js"></script>
+    <script src="js/voice-search.js"></script>
 </body>
 
 </html>

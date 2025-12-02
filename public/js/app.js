@@ -46,7 +46,7 @@ window.addEventListener('beforeunload', () => {
 // ===================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎬 AI Video Studio initialized');
+    console.log('🎬 Vortex initialized');
     checkAuthentication();
     setupEventListeners();
 
@@ -249,8 +249,16 @@ function setupEventListeners() {
 }
 
 function setupEditorListeners() {
-    // Media import
-    setupMediaImport();
+    // Media import - get reference to the file input
+    const fileInput = setupMediaImport();
+
+    // Header Import Media button - wire to directly trigger file input
+    const headerImportBtn = document.getElementById('importMediaBtn');
+    if (headerImportBtn && fileInput) {
+        headerImportBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+    }
 
     // Play/Pause button
     const playBtn = document.getElementById('playBtn');
@@ -300,7 +308,7 @@ function renderTimeline() {
 
 function setupMediaImport() {
     const importBtn = document.getElementById('mediaLibraryUpload');
-    if (!importBtn) return;
+    if (!importBtn) return null;
 
     // Create hidden file input
     const input = document.createElement('input');
@@ -308,6 +316,7 @@ function setupMediaImport() {
     input.accept = 'video/*,audio/*,image/*';
     input.multiple = true;
     input.style.display = 'none';
+    input.id = 'hiddenFileInput'; // Add ID for debugging
     document.body.appendChild(input);
 
     input.onchange = (e) => {
@@ -342,6 +351,9 @@ function setupMediaImport() {
             handleFileDrop(e.dataTransfer.files);
         }
     });
+
+    // Return the input so other buttons can trigger it
+    return input;
 }
 
 function updateEditorUI() {
@@ -490,6 +502,98 @@ function setupModalListeners() {
             });
         }
     });
+
+    // Demo Video Modal
+    const watchDemoBtn = document.getElementById('watchDemoBtn');
+    const demoVideoModal = document.getElementById('demoVideoModal');
+    const closeDemoModal = document.getElementById('closeDemoModal');
+
+    if (watchDemoBtn && demoVideoModal) {
+        watchDemoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(demoVideoModal);
+        });
+    }
+
+    if (closeDemoModal && demoVideoModal) {
+        closeDemoModal.addEventListener('click', () => closeModal(demoVideoModal));
+    }
+
+    if (demoVideoModal) {
+        demoVideoModal.addEventListener('click', (e) => {
+            if (e.target === demoVideoModal) {
+                closeModal(demoVideoModal);
+            }
+        });
+    }
+
+    // Profile Settings Modal
+    const userProfile = document.getElementById('userProfile');
+    const profileModal = document.getElementById('profileModal');
+    const closeProfileModal = document.getElementById('closeProfileModal');
+    const profileForm = document.getElementById('profileForm');
+
+    if (userProfile && profileModal) {
+        userProfile.addEventListener('click', () => {
+            if (state.isAuthenticated && state.user) {
+                // Populate form with current user data
+                document.getElementById('profileName').value = state.user.name;
+                document.getElementById('profileEmail').value = state.user.email;
+                openModal(profileModal);
+            }
+        });
+        userProfile.style.cursor = 'pointer';
+    }
+
+    if (closeProfileModal && profileModal) {
+        closeProfileModal.addEventListener('click', () => closeModal(profileModal));
+    }
+
+    if (profileModal) {
+        profileModal.addEventListener('click', (e) => {
+            if (e.target === profileModal) {
+                closeModal(profileModal);
+            }
+        });
+    }
+
+    if (profileForm) {
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newName = document.getElementById('profileName').value;
+
+            if (isDemoMode) {
+                // Update demo user
+                state.user.name = newName;
+                localStorage.setItem('demo_user', JSON.stringify(state.user));
+                updateUIForAuthenticatedUser();
+                closeModal(profileModal);
+                showNotification('Profile updated! 🎉', 'success');
+            } else {
+                // Update via backend API
+                try {
+                    const response = await fetch('/api/user/profile', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ name: newName })
+                    });
+
+                    if (response.ok) {
+                        state.user.name = newName;
+                        updateUIForAuthenticatedUser();
+                        closeModal(profileModal);
+                        showNotification('Profile updated! 🎉', 'success');
+                    } else {
+                        showNotification('Failed to update profile', 'error');
+                    }
+                } catch (error) {
+                    console.error('Profile update error:', error);
+                    showNotification('Update failed. Please try again.', 'error');
+                }
+            }
+        });
+    }
 }
 
 function openModal(modal) {
@@ -526,7 +630,9 @@ async function handleLogin(e) {
     const password = document.getElementById('loginPassword').value;
 
     if (isDemoMode) {
-        const fakeUser = { id: 'demo-123', name: 'Demo User', email: email };
+        // Extract name from email (before @)
+        const userName = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+        const fakeUser = { id: 'demo-123', name: userName, email: email };
         state.isAuthenticated = true;
         state.user = fakeUser;
         localStorage.setItem('demo_user', JSON.stringify(fakeUser));
@@ -574,6 +680,7 @@ async function handleSignup(e) {
     const password = document.getElementById('signupPassword').value;
 
     if (isDemoMode) {
+        // Use the actual name entered by user
         const fakeUser = { id: 'demo-123', name: name, email: email };
         state.isAuthenticated = true;
         state.user = fakeUser;
@@ -1249,7 +1356,7 @@ function synthesizeVoice() {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
-    const text = "AI Video Studio voice generation active. Creating professional voiceover.";
+    const text = "Vortex voice generation active. Creating professional voiceover.";
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1;
     utterance.pitch = 1;
@@ -1562,7 +1669,7 @@ function shareProject() {
     if (navigator.share) {
         navigator.share({
             title: 'Check out my video project!',
-            text: 'I created this amazing video with AI Video Studio',
+            text: 'I created this amazing video with Vortex',
             url: projectUrl
         }).then(() => {
             showNotification('Project shared! 🎉', 'success');
@@ -1817,6 +1924,70 @@ window.saveProject = saveProject;
 // VOICE EFFECTS & FILTERS
 // ===================================
 
+// ===================================
+// VOICE EFFECTS & FILTERS (WEB AUDIO API)
+// ===================================
+
+let audioCtx;
+let mediaSource;
+let dryGain;
+let wetGain;
+let delayNode;
+let feedbackGain;
+let convolverNode;
+let filterNode;
+
+function initAudioContext() {
+    if (audioCtx) return;
+
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+
+    const video = document.querySelector('.preview-screen video');
+    if (!video) return;
+
+    // Create nodes
+    try {
+        mediaSource = audioCtx.createMediaElementSource(video);
+    } catch (e) {
+        console.log('Media source already connected or error:', e);
+        return; // Already connected
+    }
+
+    dryGain = audioCtx.createGain();
+    wetGain = audioCtx.createGain();
+    delayNode = audioCtx.createDelay(5.0);
+    feedbackGain = audioCtx.createGain();
+    convolverNode = audioCtx.createConvolver();
+    filterNode = audioCtx.createBiquadFilter();
+
+    // Default connections (Dry only initially)
+    mediaSource.connect(dryGain);
+    dryGain.connect(audioCtx.destination);
+
+    // Effect chain: Source -> Filter -> Delay/Reverb -> WetGain -> Dest
+    mediaSource.connect(filterNode);
+
+    // Echo Loop
+    filterNode.connect(delayNode);
+    delayNode.connect(feedbackGain);
+    feedbackGain.connect(delayNode);
+    delayNode.connect(wetGain);
+
+    // Reverb (Simple impulse for now, or just parallel to delay)
+    // For true reverb we need an impulse response file. 
+    // For this demo, we'll simulate reverb with short delay or just use the delay node as "Echo/Reverb" combo
+    // Or we can generate a simple noise buffer for reverb
+
+    wetGain.connect(audioCtx.destination);
+
+    // Initialize values
+    dryGain.gain.value = 1.0;
+    wetGain.gain.value = 0.0;
+    feedbackGain.gain.value = 0.0;
+    delayNode.delayTime.value = 0.0;
+}
+
 function setupVoiceEffects() {
     // Voice preset selector
     const voicePreset = document.getElementById('voicePreset');
@@ -1826,100 +1997,25 @@ function setupVoiceEffects() {
         });
     }
 
-    // Pitch slider
-    const pitchSlider = document.getElementById('pitchSlider');
-    const pitchValue = document.getElementById('pitchValue');
-    if (pitchSlider && pitchValue) {
-        pitchSlider.addEventListener('input', (e) => {
-            pitchValue.textContent = e.target.value;
-        });
-    }
+    // Sliders
+    const sliders = ['pitch', 'speed', 'reverb', 'echo'];
+    sliders.forEach(type => {
+        const slider = document.getElementById(`${type}Slider`);
+        const valueDisplay = document.getElementById(`${type}Value`);
+        if (slider && valueDisplay) {
+            slider.addEventListener('input', (e) => {
+                let val = e.target.value;
+                if (type === 'speed') val += 'x';
+                else if (type === 'reverb' || type === 'echo') val += '%';
+                valueDisplay.textContent = val;
+            });
+        }
+    });
 
-    // Speed slider
-    const speedSlider = document.getElementById('speedSlider');
-    const speedValue = document.getElementById('speedValue');
-    if (speedSlider && speedValue) {
-        speedSlider.addEventListener('input', (e) => {
-            speedValue.textContent = `${e.target.value}x`;
-        });
-    }
-
-    // Reverb slider
-    const reverbSlider = document.getElementById('reverbSlider');
-    const reverbValue = document.getElementById('reverbValue');
-    if (reverbSlider && reverbValue) {
-        reverbSlider.addEventListener('input', (e) => {
-            reverbValue.textContent = `${e.target.value}%`;
-        });
-    }
-
-    // Echo slider
-    const echoSlider = document.getElementById('echoSlider');
-    const echoValue = document.getElementById('echoValue');
-    if (echoSlider && echoValue) {
-        echoSlider.addEventListener('input', (e) => {
-            echoValue.textContent = `${e.target.value}%`;
-        });
-    }
-
-    // Apply voice effects button
-    const applyVoiceEffects = document.getElementById('applyVoiceEffects');
-    if (applyVoiceEffects) {
-        applyVoiceEffects.addEventListener('click', () => {
-            const settings = {
-                pitch: pitchSlider?.value || 0,
-                speed: speedSlider?.value || 1.0,
-                reverb: reverbSlider?.value || 0,
-                echo: echoSlider?.value || 0
-            };
-            showNotification(`🎙️ Voice effects applied! Pitch: ${settings.pitch}, Speed: ${settings.speed}x`, 'success');
-        });
-    }
-
-    // Equalizer toggle
-    const eqToggle = document.getElementById('eqToggle');
-    const eqControls = document.getElementById('eqControls');
-    if (eqToggle && eqControls) {
-        eqToggle.addEventListener('change', (e) => {
-            eqControls.style.display = e.target.checked ? 'block' : 'none';
-        });
-    }
-
-    // Compressor toggle
-    const compressorToggle = document.getElementById('compressorToggle');
-    const compressorControls = document.getElementById('compressorControls');
-    const compressorSlider = document.getElementById('compressorSlider');
-    const compressorValue = document.getElementById('compressorValue');
-
-    if (compressorToggle && compressorControls) {
-        compressorToggle.addEventListener('change', (e) => {
-            compressorControls.style.display = e.target.checked ? 'block' : 'none';
-        });
-    }
-
-    if (compressorSlider && compressorValue) {
-        compressorSlider.addEventListener('input', (e) => {
-            compressorValue.textContent = `${e.target.value}dB`;
-        });
-    }
-
-    // Apply filters button
-    const applyFilters = document.getElementById('applyFilters');
-    if (applyFilters) {
-        applyFilters.addEventListener('click', () => {
-            const filters = [];
-            if (document.getElementById('eqToggle')?.checked) filters.push('Equalizer');
-            if (document.getElementById('noiseReduction')?.checked) filters.push('Noise Reduction');
-            if (document.getElementById('bassBoost')?.checked) filters.push('Bass Boost');
-            if (document.getElementById('vocalEnhancer')?.checked) filters.push('Vocal Enhancer');
-            if (document.getElementById('compressorToggle')?.checked) filters.push('Compressor');
-
-            if (filters.length > 0) {
-                showNotification(`🎚️ Applied filters: ${filters.join(', ')}`, 'success');
-            } else {
-                showNotification('No filters selected', 'info');
-            }
-        });
+    // Apply button
+    const applyBtn = document.getElementById('applyVoiceEffects');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', applyVoiceEffect);
     }
 }
 
@@ -1929,36 +2025,122 @@ function applyVoicePreset(preset) {
     const reverbSlider = document.getElementById('reverbSlider');
     const echoSlider = document.getElementById('echoSlider');
 
+    // Default: Reset everything
+    let settings = { pitch: 0, speed: 1.0, reverb: 0, echo: 0 };
+
     const presets = {
-        'radio': { pitch: 2, speed: 1.0, reverb: 15, echo: 5 },
-        'robot': { pitch: -8, speed: 0.9, reverb: 30, echo: 20 },
-        'chipmunk': { pitch: 8, speed: 1.3, reverb: 0, echo: 0 },
-        'deep': { pitch: -6, speed: 0.8, reverb: 10, echo: 0 },
-        'echo': { pitch: 0, speed: 1.0, reverb: 40, echo: 60 },
-        'telephone': { pitch: 3, speed: 1.0, reverb: 5, echo: 0 },
-        'stadium': { pitch: 0, speed: 1.0, reverb: 80, echo: 40 }
+        'radio': { pitch: 0, speed: 1.0, reverb: 0, echo: 0, filter: 'highpass' }, // Simulated later
+        'robot': { pitch: -5, speed: 1.0, reverb: 20, echo: 30 },
+        'chipmunk': { pitch: 8, speed: 1.0, reverb: 0, echo: 0 }, // Pitch handled via playbackRate for now
+        'deep': { pitch: -8, speed: 1.0, reverb: 10, echo: 0 },
+        'echo': { pitch: 0, speed: 1.0, reverb: 0, echo: 60 },
+        'reverb': { pitch: 0, speed: 1.0, reverb: 60, echo: 0 },
+        'telephone': { pitch: 0, speed: 1.0, reverb: 0, echo: 0, filter: 'bandpass' },
+        'monster': { pitch: -10, speed: 0.8, reverb: 30, echo: 10 } // Monster is slow + deep
     };
 
-    if (preset !== 'none' && presets[preset]) {
-        const settings = presets[preset];
-        if (pitchSlider) {
-            pitchSlider.value = settings.pitch;
-            document.getElementById('pitchValue').textContent = settings.pitch;
-        }
-        if (speedSlider) {
-            speedSlider.value = settings.speed;
-            document.getElementById('speedValue').textContent = `${settings.speed}x`;
-        }
-        if (reverbSlider) {
-            reverbSlider.value = settings.reverb;
-            document.getElementById('reverbValue').textContent = `${settings.reverb}%`;
-        }
-        if (echoSlider) {
-            echoSlider.value = settings.echo;
-            document.getElementById('echoValue').textContent = `${settings.echo}%`;
-        }
-        showNotification(`🎙️ Applied ${preset} preset!`, 'success');
+    if (presets[preset]) {
+        settings = { ...settings, ...presets[preset] };
     }
+
+    if (pitchSlider) {
+        pitchSlider.value = settings.pitch;
+        document.getElementById('pitchValue').textContent = settings.pitch;
+    }
+    if (speedSlider) {
+        speedSlider.value = settings.speed;
+        document.getElementById('speedValue').textContent = `${settings.speed}x`;
+    }
+    if (reverbSlider) {
+        reverbSlider.value = settings.reverb;
+        document.getElementById('reverbValue').textContent = `${settings.reverb}%`;
+    }
+    if (echoSlider) {
+        echoSlider.value = settings.echo;
+        document.getElementById('echoValue').textContent = `${settings.echo}%`;
+    }
+
+    // Auto-apply when preset changes
+    applyVoiceEffect();
+}
+
+function applyVoiceEffect() {
+    const video = document.querySelector('.preview-screen video');
+    if (!video) {
+        showNotification('No video to apply effects to', 'error');
+        return;
+    }
+
+    // Initialize Audio Context on user gesture
+    initAudioContext();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+
+    const pitch = parseFloat(document.getElementById('pitchSlider')?.value || 0);
+    const speed = parseFloat(document.getElementById('speedSlider')?.value || 1.0);
+    const reverb = parseFloat(document.getElementById('reverbSlider')?.value || 0);
+    const echo = parseFloat(document.getElementById('echoSlider')?.value || 0);
+    const preset = document.getElementById('voicePreset')?.value;
+
+    // 1. Apply Speed & Pitch (via playbackRate)
+    // Note: Browsers couple pitch and speed by default. 
+    // To change pitch without speed requires complex DSP.
+    // To change speed without pitch requires preservesPitch = true.
+
+    // Logic:
+    // If Pitch is 0, just use Speed slider.
+    // If Pitch is set, we adjust playbackRate to simulate pitch change.
+    // But this also changes speed. 
+    // If user wants "Chipmunk" (High Pitch), we increase rate.
+    // If user wants "Deep", we decrease rate.
+
+    let finalRate = speed;
+
+    if (pitch !== 0) {
+        // Simple pitch simulation: 1 semitone ~= 6% speed change
+        const pitchFactor = Math.pow(1.05946, pitch);
+        finalRate = speed * pitchFactor;
+
+        // If we are changing pitch, we generally WANT the speed change (chipmunk effect)
+        // So we disable pitch preservation
+        if (video.preservesPitch !== undefined) video.preservesPitch = false;
+        else if (video.mozPreservesPitch !== undefined) video.mozPreservesPitch = false;
+        else if (video.webkitPreservesPitch !== undefined) video.webkitPreservesPitch = false;
+    } else {
+        // If pitch is 0, we just want speed change, usually preserving pitch
+        if (video.preservesPitch !== undefined) video.preservesPitch = true;
+    }
+
+    video.playbackRate = finalRate;
+
+    // 2. Apply Audio Effects (Echo/Reverb)
+    if (audioCtx && wetGain) {
+        // Echo Logic
+        if (echo > 0) {
+            delayNode.delayTime.value = 0.3; // 300ms delay
+            feedbackGain.gain.value = Math.min(0.6, echo / 100); // Feedback
+            wetGain.gain.value = echo / 100;
+        } else if (reverb > 0) {
+            // Simulate reverb with short delay
+            delayNode.delayTime.value = 0.05; // 50ms delay
+            feedbackGain.gain.value = 0.4;
+            wetGain.gain.value = reverb / 100;
+        } else {
+            wetGain.gain.value = 0;
+        }
+
+        // Filter Logic (Telephone/Radio)
+        if (preset === 'telephone' || preset === 'radio') {
+            filterNode.type = 'bandpass';
+            filterNode.frequency.value = 1000; // 1kHz center
+            filterNode.Q.value = 1.0;
+        } else {
+            filterNode.type = 'allpass'; // Neutral
+        }
+    }
+
+    showNotification(`Applied Effects! Rate: ${finalRate.toFixed(2)}x`, 'success');
 }
 
 // Initialize voice effects when DOM is ready
@@ -2048,6 +2230,49 @@ function initializeDashboard() {
             clearBtn.style.marginLeft = '10px';
             clearBtn.textContent = '🗑️ Clear Data';
             header.appendChild(clearBtn);
+        }
+    }
+
+    // Check for voice project intent
+    const voiceIntent = localStorage.getItem('voice_project_intent');
+    if (voiceIntent) {
+        try {
+            const intent = JSON.parse(voiceIntent);
+            console.log('Found voice intent:', intent);
+
+            // Create the project
+            const projectId = 'proj_' + Date.now();
+            const newProject = {
+                id: projectId,
+                name: intent.name || 'New Project',
+                created: new Date().toISOString(),
+                modified: new Date().toISOString(),
+                thumbnail: null,
+                duration: '00:00',
+                description: intent.description,
+                type: intent.type
+            };
+
+            // Save to local storage
+            const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+            projects.unshift(newProject);
+            localStorage.setItem('user_projects', JSON.stringify(projects));
+            sessionStorage.setItem('user_projects', JSON.stringify(projects));
+
+            // Clear intent
+            localStorage.removeItem('voice_project_intent');
+
+            // Show notification
+            showNotification(`Created ${intent.type} project from voice! 🎤`, 'success');
+
+            // Redirect to editor after short delay
+            setTimeout(() => {
+                window.location.href = `editor.html?project=${projectId}`;
+            }, 1500);
+
+        } catch (e) {
+            console.error('Error processing voice intent:', e);
+            localStorage.removeItem('voice_project_intent');
         }
     }
 }
