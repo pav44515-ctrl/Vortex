@@ -17,12 +17,9 @@ const state = {
     isPlayingSequence: false
 };
 
-// Check if running in demo mode (GitHub Pages)
+// Check if running in demo mode (GitHub Pages only - not localhost)
 const isDemoMode = window.location.hostname.includes('github.io') ||
-    window.location.hostname.includes('vercel.app') ||
-    window.location.hostname === 'pav44515-ctrl.github.io' ||
-    window.location.hostname === 'localhost' ||
-    window.location.hostname === '127.0.0.1';
+    window.location.hostname === 'pav44515-ctrl.github.io';
 
 // Debug logging
 function logDebug(message, data = null) {
