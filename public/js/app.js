@@ -1,5 +1,5 @@
 // ===================================
-// AI VIDEO STUDIO - MAIN APPLICATION
+// Vertex - MAIN APPLICATION
 // ===================================
 
 // State Management

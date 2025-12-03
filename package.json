@@ -13,7 +13,7 @@
     "ai",
     "machine-learning"
   ],
-  "author": "AI Video Studio",
+  "author": "Vertex",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",

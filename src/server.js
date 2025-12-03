@@ -56,7 +56,7 @@ app.get('/editor', (req, res) => {
 app.listen(PORT, () => {
     console.log(`
 ╔════════════════════════════════════════╗
-║   🎬 AI VIDEO STUDIO SERVER RUNNING   ║
+║   🎬 Vertex SERVER RUNNING   ║
 ║                                        ║
 ║   🌐 http://localhost:${PORT}            ║
 ║                                        ║
