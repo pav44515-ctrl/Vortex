@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { uploadLimiter } = require('../config/rate-limit-config');
 
 const router = express.Router();
 
@@ -29,8 +30,8 @@ const upload = multer({
     }
 });
 
-// Upload endpoint
-router.post('/', upload.single('file'), (req, res) => {
+// Upload endpoint - with rate limiting
+router.post('/', uploadLimiter, upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
