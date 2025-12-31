@@ -24,7 +24,6 @@
             </button>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#features">Features</a></li>
-                <li><a href="editor.html">Editor</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#" class="btn btn-secondary" id="loginBtn">Login</a></li>
                 <li><a href="#" class="btn btn-primary" id="signupBtn">Get Started</a></li>
@@ -44,10 +43,10 @@
                 Professional results in minutes, not hours.
             </p>
             <div class="hero-cta">
-                <button class="btn btn-primary btn-large" id="startEditingBtn">
+                <a href="dashboard.html" class="btn btn-primary btn-large">
                     🎬 Start Creating Free
-                </button>
-                <button class="btn btn-secondary btn-large">
+                </a>
+                <button class="btn btn-secondary btn-large" id="watchDemoBtn">
                     ▶️ Watch Demo
                 </button>
             </div>
@@ -136,288 +135,476 @@
         </div>
     </section>
 
-    <!-- Editor Launch Section -->
-    <section id="editor-launch"
-        style="padding: 6rem 2rem; text-align: center; background: var(--color-bg-secondary); position: relative; overflow: hidden;">
-        <!-- Background Glow -->
-        <div
-            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%); pointer-events: none;">
-        </div>
-
-        <div class="container" style="position: relative; z-index: 1;">
-            <div class="section-header">
-                <h2>Ready to Create <span class="gradient-text">Magic?</span></h2>
-                <p>Launch our professional, full-screen video editor to start your masterpiece.</p>
-            </div>
-
-            <div class="glass-card"
-                style="max-width: 800px; margin: 0 auto; padding: 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
-                <div style="font-size: 4rem;">🎬</div>
-                <h3>Professional Video Editor</h3>
-                <p>Access advanced features like AI Auto-Edit, Magic Cut, and Voice Synthesis in our dedicated studio
-                    environment.</p>
-                <a href="dashboard.html" class="btn btn-primary btn-large" style="min-width: 250px;">
-                    🚀 Launch Studio
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section">
+    <!-- Complete Features Breakdown -->
+    <section id="complete-features" style="padding: 6rem 2rem; background: var(--color-bg-secondary);">
         <div class="section-header">
-            <h2>Choose Your <span class="gradient-text">Plan</span></h2>
-            <p>Start free, upgrade when you need more power</p>
+            <h2>Everything You Need to <span class="gradient-text">Create Amazing Videos</span></h2>
+            <p>Professional-grade features that make video editing effortless and enjoyable</p>
         </div>
 
-        <div class="pricing-grid">
-            <!-- Free Plan -->
-            <div class="pricing-card">
-                <div class="pricing-name">Starter</div>
-                <div class="pricing-price">$0<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>720p export quality</li>
-                    <li>5 AI-powered edits/month</li>
-                    <li>Basic color grading</li>
-                    <li>Watermark on exports</li>
-                    <li>5GB cloud storage</li>
-                    <li>Community support</li>
-                </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Get Started</button>
+        <div style="max-width: 1200px; margin: 3rem auto 0; display: grid; gap: 3rem;">
+
+            <!-- 1. Easy-to-Use Interface -->
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem;">🎬</div>
+                    <h3 style="font-size: 1.75rem; margin: 0;">Easy-to-Use Interface</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">📐 Intuitive Timeline
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Drag, drop, cut, and trim clips with ease. Our intuitive timeline makes editing feel natural
+                            and productive.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">📚 Multiple Layers</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Stack unlimited layers of video, images, text, and audio to create complex, professional
+                            compositions.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Pro Plan -->
-            <div class="pricing-card featured">
-                <div class="pricing-badge">Most Popular</div>
-                <div class="pricing-name">Professional</div>
-                <div class="pricing-price">$9.99<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>4K export quality</li>
-                    <li>Unlimited AI features</li>
-                    <li>Advanced color grading</li>
-                    <li>No watermark</li>
-                    <li>100GB cloud storage</li>
-                    <li>Priority support</li>
-                    <li>Custom AI voice cloning</li>
-                    <li>Batch processing</li>
-                </ul>
-                <button class="btn btn-primary" style="width: 100%;">Start Free Trial</button>
+            <!-- 2. Professional Tools -->
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem;">⚙️</div>
+                    <h3 style="font-size: 1.75rem; margin: 0;">Professional Tools</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">🟢 Chroma Key</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Professional green screen editing for advanced background replacement and compositing
+                            effects.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">⏱️ Speed Control</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Create stunning slow motion and dynamic time-lapse effects with precision speed control.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">🎨 Color Adjustment</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Professional color grading with filters, curves, and LUTs for cinematic looks.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">🎯 Keyframe Animation
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Create smooth motion graphics and animated effects with powerful keyframe control.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Enterprise Plan -->
-            <div class="pricing-card">
-                <div class="pricing-name">Enterprise</div>
-                <div class="pricing-price">$29.99<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>8K export quality</li>
-                    <li>Unlimited everything</li>
-                    <li>Custom AI model training</li>
-                    <li>White-label solution</li>
-                    <li>Unlimited cloud storage</li>
-                    <li>24/7 dedicated support</li>
-                    <li>API access</li>
-                    <li>Team collaboration</li>
-                    <li>Advanced analytics</li>
-                </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Contact Sales</button>
+            <!-- 3. AI-Assisted Editing -->
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem;">🤖</div>
+                    <h3 style="font-size: 1.75rem; margin: 0;">AI-Assisted Editing</h3>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">💬 Auto Captions</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Generate accurate automatic subtitles in 100+ languages with perfect timing and speaker
+                            detection.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">✂️ AI Background Removal
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Remove backgrounds with AI precision - no green screen needed. Works on any footage.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">🎵 AI Music Suggestions
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Get intelligent music recommendations that match your video's mood, pace, and style
+                            perfectly.
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4 class="gradient-text">Vortex</h4>
-                <p style="color: var(--color-text-secondary); margin-top: 1rem;">
-                    The most advanced AI-powered video editing platform. Create professional videos in minutes.
+            <!-- 4. Asset Library -->
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem;">📦</div>
+                    <h3 style="font-size: 1.75rem; margin: 0;">Massive Asset Library</h3>
+                </div>
+                <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 2rem;">
+                    Access thousands of professional assets to speed up your editing and make your videos more dynamic:
                 </p>
-            </div>
-            <div class="footer-section">
-                <h4>Product</h4>
-                <ul class="footer-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#editor">Editor</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#">API</a></li>
-                    <li><a href="#">Integrations</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">Tutorials</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Support</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul class="footer-links">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Vortex. All rights reserved. Built with ❤️ and AI.</p>
-        </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Welcome Back</h3>
-                <button class="modal-close" id="closeLoginModal">&times;</button>
-            </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required placeholder="your@email.com">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📝</div>
+                        <h5 style="margin-bottom: 0.5rem;">Templates</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Ready-to-use video templates
+                        </p>
+                    </div>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">✨</div>
+                        <h5 style="margin-bottom: 0.5rem;">Effects</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Professional visual effects
+                        </p>
+                    </div>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔄</div>
+                        <h5 style="margin-bottom: 0.5rem;">Transitions</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Smooth scene transitions</p>
+                    </div>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">😊</div>
+                        <h5 style="margin-bottom: 0.5rem;">Stickers</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Fun animated stickers</p>
+                    </div>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔤</div>
+                        <h5 style="margin-bottom: 0.5rem;">Fonts</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Hundreds of font styles</p>
+                    </div>
+                    <div
+                        style="background: rgba(168, 85, 247, 0.1); padding: 1.5rem; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎶</div>
+                        <h5 style="margin-bottom: 0.5rem;">Music & SFX</h5>
+                        <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Royalty-free audio library
+                        </p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                    Login
-                </button>
-            </form>
-            <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
-                Don't have an account? <a href="#" id="switchToSignup" style="color: var(--color-accent-purple);">Sign
-                    up</a>
-            </p>
-        </div>
-    </div>
-
-    <!-- Signup Modal -->
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create Account</h3>
-                <button class="modal-close" id="closeSignupModal">&times;</button>
-            </div>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="signupName">Full Name</label>
-                    <input type="text" id="signupName" required placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" required placeholder="your@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                    Create Account
-                </button>
-            </form>
-            <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
-                Already have an account? <a href="#" id="switchToLogin" <p>Start free, upgrade when you need more power
-            </p>
-        </div>
-
-    </div>
-    </section>
-
-    <!-- Editor Launch Section -->
-    <section id="editor-launch"
-        style="padding: 6rem 2rem; text-align: center; background: var(--color-bg-secondary); position: relative; overflow: hidden;">
-        <!-- Background Glow -->
-        <div
-            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%); pointer-events: none;">
-        </div>
-
-        <div class="container" style="position: relative; z-index: 1;">
-            <div class="section-header">
-                <h2>Ready to Create <span class="gradient-text">Magic?</span></h2>
-                <p>Launch our professional, full-screen video editor to start your masterpiece.</p>
             </div>
 
-            <div class="glass-card"
-                style="max-width: 800px; margin: 0 auto; padding: 3rem; display: flex; flex-direction: column; align-items: center; gap: 2rem;">
-                <div style="font-size: 4rem;">🎬</div>
-                <h3>Professional Video Editor</h3>
-                <p>Access advanced features like AI Auto-Edit, Magic Cut, and Voice Synthesis in our dedicated studio
-                    environment.</p>
-                <a href="dashboard.html" class="btn btn-primary btn-large" style="min-width: 250px;">
-                    🚀 Launch Studio
-                </a>
+            <!-- 5. High-Quality Export -->
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem;">📤</div>
+                    <h3 style="font-size: 1.75rem; margin: 0;">High-Quality Export</h3>
+                </div>
+                <p style="color: var(--color-text-secondary); line-height: 1.8; margin-bottom: 2rem;">
+                    Export your masterpiece in the highest quality for any platform:
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">📺 Up to 4K Resolution
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Export stunning 4K Ultra HD videos (3840×2160) for maximum quality and detail.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">⚡ 60 FPS Support</h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Buttery smooth 60 frames per second for action videos, gaming content, and premium quality.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem;">🌐 Multi-Platform Ready
+                        </h4>
+                        <p style="color: var(--color-text-secondary); line-height: 1.7;">
+                            Optimized presets for YouTube, TikTok, Instagram, Twitter, Facebook, and more.
+                        </p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing-section">
+    <!-- Professional Tools Section -->
+    <section id="tools" style="padding: 6rem 2rem; background: var(--color-bg-primary);">
         <div class="section-header">
-            <h2>Choose Your <span class="gradient-text">Plan</span></h2>
-            <p>Start free, upgrade when you need more power</p>
+            <h2>Professional <span class="gradient-text">Editing Tools</span></h2>
+            <p>Everything you need to create stunning videos, all in one place</p>
         </div>
 
-        <div class="pricing-grid">
-            <!-- Free Plan -->
-            <div class="pricing-card">
-                <div class="pricing-name">Starter</div>
-                <div class="pricing-price">$0<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>720p export quality</li>
-                    <li>5 AI-powered edits/month</li>
-                    <li>Basic color grading</li>
-                    <li>Watermark on exports</li>
-                    <li>5GB cloud storage</li>
-                    <li>Community support</li>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto 0;">
+            <!-- Timeline & Cutting -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✂️</div>
+                <h3 style="margin-bottom: 1rem;">Timeline & Cutting</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>Multi-track timeline editor</li>
+                    <li>Precision frame-by-frame cutting</li>
+                    <li>Ripple, roll, and slip editing</li>
+                    <li>Magnetic timeline snapping</li>
+                    <li>Keyboard shortcuts for speed</li>
                 </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Get Started</button>
             </div>
 
-            <!-- Pro Plan -->
-            <div class="pricing-card featured">
-                <div class="pricing-badge">Most Popular</div>
-                <div class="pricing-name">Professional</div>
-                <div class="pricing-price">$9.99<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>4K export quality</li>
-                    <li>Unlimited AI features</li>
-                    <li>Advanced color grading</li>
-                    <li>No watermark</li>
-                    <li>100GB cloud storage</li>
-                    <li>Priority support</li>
-                    <li>Custom AI voice cloning</li>
-                    <li>Batch processing</li>
+            <!-- Effects & Transitions -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                <h3 style="margin-bottom: 1rem;">Effects & Transitions</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>200+ professional transitions</li>
+                    <li>Advanced video effects library</li>
+                    <li>Real-time preview rendering</li>
+                    <li>Custom effect presets</li>
+                    <li>Drag-and-drop simplicity</li>
                 </ul>
-                <button class="btn btn-primary" style="width: 100%;">Start Free Trial</button>
             </div>
 
-            <!-- Enterprise Plan -->
-            <div class="pricing-card">
-                <div class="pricing-name">Enterprise</div>
-                <div class="pricing-price">$29.99<span
-                        style="font-size: 1rem; color: var(--color-text-secondary);">/month</span></div>
-                <ul class="pricing-features">
-                    <li>8K export quality</li>
-                    <li>Unlimited everything</li>
-                    <li>Custom AI model training</li>
-                    <li>White-label solution</li>
-                    <li>Unlimited cloud storage</li>
-                    <li>24/7 dedicated support</li>
-                    <li>API access</li>
-                    <li>Team collaboration</li>
-                    <li>Advanced analytics</li>
+            <!-- Audio Tools -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎵</div>
+                <h3 style="margin-bottom: 1rem;">Audio Tools</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>Multi-channel audio mixing</li>
+                    <li>Noise reduction & enhancement</li>
+                    <li>EQ and audio effects</li>
+                    <li>Waveform visualization</li>
+                    <li>Royalty-free music library</li>
                 </ul>
-                <button class="btn btn-secondary" style="width: 100%;">Contact Sales</button>
+            </div>
+
+            <!-- Text & Graphics -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📝</div>
+                <h3 style="margin-bottom: 1rem;">Text & Graphics</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>Animated title templates</li>
+                    <li>Motion graphics toolkit</li>
+                    <li>Lower thirds & overlays</li>
+                    <li>Custom fonts & styling</li>
+                    <li>Keyframe animation</li>
+                </ul>
+            </div>
+
+            <!-- Color Correction -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+                <h3 style="margin-bottom: 1rem;">Color Correction</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>Professional color wheels</li>
+                    <li>LUT support (3D & 1D)</li>
+                    <li>Curves and levels</li>
+                    <li>HSL secondary correction</li>
+                    <li>Scopes & waveforms</li>
+                </ul>
+            </div>
+
+            <!-- Export & Sharing -->
+            <div class="glass-card" style="padding: 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📤</div>
+                <h3 style="margin-bottom: 1rem;">Export & Sharing</h3>
+                <ul style="text-align: left; color: var(--color-text-secondary); line-height: 1.8;">
+                    <li>4K & 8K rendering</li>
+                    <li>Multiple format support</li>
+                    <li>Direct social media upload</li>
+                    <li>Hardware acceleration</li>
+                    <li>Batch export processing</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Videos Section -->
+    <section id="demos" style="padding: 6rem 2rem; background: var(--color-bg-secondary);">
+        <div class="section-header">
+            <h2>See Vortex <span class="gradient-text">In Action</span></h2>
+            <p>Watch real examples of what you can create with our platform</p>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto 0;">
+            <!-- Demo 1 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">🎥</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">2:34</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Travel Vlog Tutorial</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Learn how to create engaging
+                        travel content with AI-powered editing</p>
+                </div>
+            </div>
+
+            <!-- Demo 2 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">🎬</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">3:12</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Product Showcase</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Create professional product
+                        videos with color grading and motion graphics</p>
+                </div>
+            </div>
+
+            <!-- Demo 3 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">🎙️</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">4:05</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Podcast Editing</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Master audio editing and add
+                        professional voiceovers to your content</p>
+                </div>
+            </div>
+
+            <!-- Demo 4 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">✨</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">1:58</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Social Media Clips</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Quick tips for creating
+                        viral-ready content with AI auto-cut</p>
+                </div>
+            </div>
+
+            <!-- Demo 5 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">🎨</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">3:45</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Color Grading Masterclass</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Transform your videos with
+                        cinematic color correction techniques</p>
+                </div>
+            </div>
+
+            <!-- Demo 6 -->
+            <div class="glass-card" style="padding: 0; overflow: hidden;">
+                <div
+                    style="aspect-ratio: 16/9; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="font-size: 4rem;">🚀</div>
+                    <div
+                        style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; background: rgba(0,0,0,0.5); padding: 0.5rem 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+                        <div style="font-size: 0.875rem; color: white;">2:20</div>
+                    </div>
+                </div>
+                <div style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 0.5rem;">Complete Workflow</h4>
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Follow a project from import to
+                        export in record time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="padding: 6rem 2rem; background: var(--color-bg-primary);">
+        <div class="section-header">
+            <h2>About <span class="gradient-text">Vortex</span></h2>
+            <p>Revolutionizing video editing with artificial intelligence</p>
+        </div>
+
+        <div style="max-width: 1000px; margin: 3rem auto 0;">
+            <div class="glass-card" style="padding: 3rem;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1rem;">✨</div>
+                    <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem;">Empowering Creators Worldwide</h3>
+                    <p style="color: var(--color-text-secondary); line-height: 1.8; font-size: 1.1rem;">
+                        Vortex is more than just a video editor—it's your creative partner powered by cutting-edge AI
+                        technology.
+                        We believe that professional video editing should be accessible to everyone, from beginners to
+                        Hollywood professionals.
+                    </p>
+                </div>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h4 style="margin-bottom: 0.5rem;">Our Mission</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">
+                            Democratize professional video editing through AI-powered tools that save time and boost
+                            creativity
+                        </p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚡</div>
+                        <h4 style="margin-bottom: 0.5rem;">Lightning Fast</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">
+                            Edit videos 10x faster with AI automation while maintaining complete creative control
+                        </p>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌍</div>
+                        <h4 style="margin-bottom: 0.5rem;">Global Community</h4>
+                        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">
+                            Join millions of creators worldwide who trust Vortex for their video editing needs
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <h4 style="text-align: center; margin-bottom: 1.5rem;">Why Choose Vortex?</h4>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div>
+                            <div style="color: var(--color-accent-purple); margin-bottom: 0.5rem;">✓ AI-Powered
+                                Automation</div>
+                            <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Smart tools that
+                                understand your content</p>
+                        </div>
+                        <div>
+                            <div style="color: var(--color-accent-purple); margin-bottom: 0.5rem;">✓ Cloud-Based
+                                Platform</div>
+                            <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Edit from anywhere, any
+                                device</p>
+                        </div>
+                        <div>
+                            <div style="color: var(--color-accent-purple); margin-bottom: 0.5rem;">✓ Real-Time
+                                Collaboration</div>
+                            <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Work together with your
+                                team seamlessly</p>
+                        </div>
+                        <div>
+                            <div style="color: var(--color-accent-purple); margin-bottom: 0.5rem;">✓ Professional
+                                Results</div>
+                            <p style="color: var(--color-text-secondary); font-size: 0.875rem;">Hollywood-quality output
+                                in minutes</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -525,8 +712,325 @@
         </div>
     </div>
 
+    <!-- Demo Video Modal -->
+    <div id="demoVideoModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>🎬 Watch Vortex in Action</h3>
+                <button class="modal-close" id="closeDemoModal">&times;</button>
+            </div>
+            <div style="padding: 2rem;">
+                <p style="text-align: center; color: var(--color-text-secondary); margin-bottom: 2rem;">
+                    Explore how Vortex helps creators produce stunning videos with AI-powered tools
+                </p>
+
+                <!-- Video Player -->
+                <div style="margin-bottom: 2rem; position: relative;">
+                    <!-- Previous Button -->
+                    <button id="prevVideoBtn"
+                        style="position: absolute; left: -50px; top: 50%; transform: translateY(-50%); background: rgba(168, 85, 247, 0.8); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; z-index: 10; backdrop-filter: blur(10px); transition: all 0.3s;">
+                        ←
+                    </button>
+
+                    <div id="demoVideoPlayer"
+                        style="aspect-ratio: 16/9; background-image: url('images/demo-tutorial.png'); background-size: cover; background-position: center; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));">
+                        </div>
+
+                        <!-- Back Button -->
+                        <button id="backToVideosBtn"
+                            style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; backdrop-filter: blur(10px); transition: all 0.3s; z-index: 5; display: none;">
+                            ← Back to Videos
+                        </button>
+
+                        <div style="text-align: center; color: white; position: relative; z-index: 1;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">▶️</div>
+                            <h4 style="margin-bottom: 0.5rem;">Quick Start Tutorial</h4>
+                            <p style="font-size: 0.875rem; opacity: 0.9;">Learn the basics of video editing with Vortex
+                            </p>
+                            <div
+                                style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(0,0,0,0.5); display: inline-block; border-radius: 8px; backdrop-filter: blur(10px);">
+                                Duration: 2:34
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Button -->
+                    <button id="nextVideoBtn"
+                        style="position: absolute; right: -50px; top: 50%; transform: translateY(-50%); background: rgba(168, 85, 247, 0.8); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; z-index: 10; backdrop-filter: blur(10px); transition: all 0.3s;">
+                        →
+                    </button>
+                </div>
+
+                <!-- Video Selection Grid -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                    <div class="demo-video-card" data-video="tutorial"
+                        style="cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: all 0.3s;">
+                        <div
+                            style="aspect-ratio: 16/9; background-image: url('images/demo-tutorial.png'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3);"></div>
+                            <div style="font-size: 2rem; position: relative; z-index: 1;">▶️</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: var(--color-bg-secondary);">
+                            <h5 style="font-size: 0.875rem; margin-bottom: 0.25rem;">Quick Start</h5>
+                            <p style="font-size: 0.75rem; color: var(--color-text-secondary);">2:34</p>
+                        </div>
+                    </div>
+
+                    <div class="demo-video-card" data-video="ai-tools"
+                        style="cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: all 0.3s;">
+                        <div
+                            style="aspect-ratio: 16/9; background-image: url('images/demo-ai-features.png'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3);"></div>
+                            <div style="font-size: 2rem; position: relative; z-index: 1;">▶️</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: var(--color-bg-secondary);">
+                            <h5 style="font-size: 0.875rem; margin-bottom: 0.25rem;">AI Features</h5>
+                            <p style="font-size: 0.75rem; color: var(--color-text-secondary);">3:12</p>
+                        </div>
+                    </div>
+
+                    <div class="demo-video-card" data-video="workflow"
+                        style="cursor: pointer; border-radius: 8px; overflow: hidden; border: 2px solid transparent; transition: all 0.3s;">
+                        <div
+                            style="aspect-ratio: 16/9; background-image: url('images/demo-workflow.png'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3);"></div>
+                            <div style="font-size: 2rem; position: relative; z-index: 1;">▶️</div>
+                        </div>
+                        <div style="padding: 0.75rem; background: var(--color-bg-secondary);">
+                            <h5 style="font-size: 0.875rem; margin-bottom: 0.25rem;">Full Workflow</h5>
+                            <p style="font-size: 0.75rem; color: var(--color-text-secondary);">4:05</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <p style="color: var(--color-text-secondary); font-size: 0.875rem;">
+                        💡 Click any video above to watch, or <a href="#demos"
+                            style="color: var(--color-accent-purple);"
+                            onclick="document.getElementById('closeDemoModal').click();">explore more demos</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
     <script src="js/password-security.js"></script>
+
+    <script>
+        // Demo video modal functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const watchDemoBtn = document.getElementById('watchDemoBtn');
+            const demoModal = document.getElementById('demoVideoModal');
+            const closeDemoBtn = document.getElementById('closeDemoModal');
+            const videoCards = document.querySelectorAll('.demo-video-card');
+            const videoPlayer = document.getElementById('demoVideoPlayer');
+
+            const videos = {
+                'tutorial': {
+                    icon: '▶️',
+                    title: 'Quick Start Tutorial',
+                    description: 'Learn the basics of video editing with Vortex',
+                    duration: '2:34',
+                    image: 'images/demo-tutorial.png'
+                },
+                'ai-tools': {
+                    icon: '▶️',
+                    title: 'AI-Powered Features',
+                    description: 'Discover how AI automation speeds up your workflow',
+                    duration: '3:12',
+                    image: 'images/demo-ai-features.png'
+                },
+                'workflow': {
+                    icon: '▶️',
+                    title: 'Complete Editing Workflow',
+                    description: 'Follow a project from import to final export',
+                    duration: '4:05',
+                    image: 'images/demo-workflow.png'
+                }
+            };
+
+            if (watchDemoBtn) {
+                watchDemoBtn.addEventListener('click', function () {
+                    demoModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            if (closeDemoBtn) {
+                closeDemoBtn.addEventListener('click', function () {
+                    demoModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+
+            if (demoModal) {
+                demoModal.addEventListener('click', function (e) {
+                    if (e.target === demoModal) {
+                        demoModal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+
+            // Video card selection
+            videoCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    const videoKey = this.getAttribute('data-video');
+                    const video = videos[videoKey];
+
+                    // Remove active state from all cards
+                    videoCards.forEach(c => c.style.borderColor = 'transparent');
+
+                    // Add active state to clicked card
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    // Update video player
+                    if (video && videoPlayer) {
+                        videoPlayer.style.backgroundImage = `url('${video.image}')`;
+                        videoPlayer.innerHTML = `
+                            <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));"></div>
+                            <div style="text-align: center; color: white; position: relative; z-index: 1;">
+                                <div style="font-size: 4rem; margin-bottom: 1rem;">${video.icon}</div>
+                                <h4 style="margin-bottom: 0.5rem;">${video.title}</h4>
+                                <p style="font-size: 0.875rem; opacity: 0.9;">${video.description}</p>
+                                <div style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(0,0,0,0.5); display: inline-block; border-radius: 8px; backdrop-filter: blur(10px);">
+                                    Duration: ${video.duration}
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                // Hover effect
+                card.addEventListener('mouseenter', function () {
+                    if (this.style.borderColor !== 'var(--color-accent-purple)') {
+                        this.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    if (this.style.borderColor !== 'var(--color-accent-purple)') {
+                        this.style.borderColor = 'transparent';
+                    }
+                });
+            });
+
+            // Navigation button functionality
+            const prevBtn = document.getElementById('prevVideoBtn');
+            const nextBtn = document.getElementById('nextVideoBtn');
+            const backBtn = document.getElementById('backToVideosBtn');
+            const videoKeys = ['tutorial', 'ai-tools', 'workflow'];
+            let currentVideoIndex = 0;
+
+            // Function to update video display
+            function updateVideoDisplay(index) {
+                const videoKey = videoKeys[index];
+                const video = videos[videoKey];
+                currentVideoIndex = index;
+
+                // Update video cards
+                videoCards.forEach(c => c.style.borderColor = 'transparent');
+                const activeCard = document.querySelector(`[data-video="${videoKey}"]`);
+                if (activeCard) {
+                    activeCard.style.borderColor = 'var(--color-accent-purple)';
+                }
+
+                // Update player
+                if (video && videoPlayer) {
+                    videoPlayer.style.backgroundImage = `url('${video.image}')`;
+                    videoPlayer.innerHTML = `
+                        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));"></div>
+                        <button id="backToVideosBtn" style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; backdrop-filter: blur(10px); transition: all 0.3s; z-index: 5;">
+                            ← Back to Videos
+                        </button>
+                        <div style="text-align: center; color: white; position: relative; z-index: 1;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">${video.icon}</div>
+                            <h4 style="margin-bottom: 0.5rem;">${video.title}</h4>
+                            <p style="font-size: 0.875rem; opacity: 0.9;">${video.description}</p>
+                            <div style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(0,0,0,0.5); display: inline-block; border-radius: 8px; backdrop-filter: blur(10px);">
+                                Duration: ${video.duration}
+                            </div>
+                        </div>
+                    `;
+
+                    // Reattach back button event after innerHTML update
+                    const newBackBtn = document.getElementById('backToVideosBtn');
+                    if (newBackBtn) {
+                        newBackBtn.addEventListener('click', resetToDefault);
+                    }
+                }
+            }
+
+            // Reset to default view
+            function resetToDefault() {
+                currentVideoIndex = 0;
+                videoCards.forEach(c => c.style.borderColor = 'transparent');
+
+                const defaultVideo = videos['tutorial'];
+                if (videoPlayer && defaultVideo) {
+                    videoPlayer.style.backgroundImage = `url('${defaultVideo.image}')`;
+                    videoPlayer.innerHTML = `
+                        <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));"></div>
+                        <button id="backToVideosBtn" style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; backdrop-filter: blur(10px); transition: all 0.3s; z-index: 5; display: none;">
+                            ← Back to Videos
+                        </button>
+                        <div style="text-align: center; color: white; position: relative; z-index: 1;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">${defaultVideo.icon}</div>
+                            <h4 style="margin-bottom: 0.5rem;">${defaultVideo.title}</h4>
+                            <p style="font-size: 0.875rem; opacity: 0.9;">${defaultVideo.description}</p>
+                            <div style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(0,0,0,0.5); display: inline-block; border-radius: 8px; backdrop-filter: blur(10px);">
+                                Duration: ${defaultVideo.duration}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Previous button
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function () {
+                    currentVideoIndex = (currentVideoIndex - 1 + videoKeys.length) % videoKeys.length;
+                    updateVideoDisplay(currentVideoIndex);
+                });
+
+                prevBtn.addEventListener('mouseenter', function () {
+                    this.style.background = 'rgba(168, 85, 247, 1)';
+                    this.style.transform = 'translateY(-50%) scale(1.1)';
+                });
+
+                prevBtn.addEventListener('mouseleave', function () {
+                    this.style.background = 'rgba(168, 85, 247, 0.8)';
+                    this.style.transform = 'translateY(-50%) scale(1)';
+                });
+            }
+
+            // Next button
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function () {
+                    currentVideoIndex = (currentVideoIndex + 1) % videoKeys.length;
+                    updateVideoDisplay(currentVideoIndex);
+                });
+
+                nextBtn.addEventListener('mouseenter', function () {
+                    this.style.background = 'rgba(168, 85, 247, 1)';
+                    this.style.transform = 'translateY(-50%) scale(1.1)';
+                });
+
+                nextBtn.addEventListener('mouseleave', function () {
+                    this.style.background = 'rgba(168, 85, 247, 0.8)';
+                    this.style.transform = 'translateY(-50%) scale(1)';
+                });
+            }
+
+            // Back button (will be reattached dynamically)
+            if (backBtn) {
+                backBtn.addEventListener('click', resetToDefault);
+            }
+        });
+    </script>
 </body>
 
 </html>

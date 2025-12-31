@@ -14,21 +14,21 @@
   --color-bg-secondary: #12121a;
   --color-bg-tertiary: #1a1a28;
 
-  /* Vibrant Accent Colors */
-  --color-accent-purple: #a855f7;
-  --color-accent-cyan: #06b6d4;
-  --color-accent-pink: #ec4899;
-  --color-accent-blue: #3b82f6;
-  --color-accent-green: #10b981;
+  /* Vibrant Accent Colors - Brighter Palette */
+  --color-accent-purple: #c084fc;
+  --color-accent-cyan: #22d3ee;
+  --color-accent-pink: #f472b6;
+  --color-accent-blue: #60a5fa;
+  --color-accent-green: #34d399;
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-  --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-  --gradient-tertiary: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, hsla(280, 100%, 70%, 0.3) 0px, transparent 50%),
-    radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.3) 0px, transparent 50%),
-    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.2) 0px, transparent 50%);
+  /* Gradients - Updated with brighter colors */
+  --gradient-primary: linear-gradient(135deg, #c084fc 0%, #f472b6 100%);
+  --gradient-secondary: linear-gradient(135deg, #22d3ee 0%, #60a5fa 100%);
+  --gradient-tertiary: linear-gradient(135deg, #f472b6 0%, #fb923c 100%);
+  --gradient-hero: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #f0abfc 100%);
+  --gradient-mesh: radial-gradient(at 40% 20%, hsla(280, 100%, 75%, 0.4) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 65%, 0.4) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(330, 100%, 85%, 0.3) 0px, transparent 50%);
 
   /* Text Colors */
   --color-text-primary: #ffffff;
@@ -1260,602 +1260,602 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-  @media (max-width: 768px) {
-    :root {
-      --font-size-6xl: 2.5rem;
-      --font-size-5xl: 2rem;
-      --font-size-3xl: 1.5rem;
-      --space-3xl: 3rem;
-      --space-xl: 1.5rem;
-    }
-
-    /* Navigation */
-    .navbar {
-      padding: var(--space-sm) var(--space-md);
-    }
-
-    .mobile-menu-btn {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      z-index: 1001;
-    }
-
-    .mobile-menu-btn span {
-      width: 24px;
-      height: 2px;
-      background-color: var(--color-text-primary);
-      transition: all var(--transition-base);
-    }
-
-    .mobile-menu-btn.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 6px);
-    }
-
-    .mobile-menu-btn.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .mobile-menu-btn.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -6px);
-    }
-
-    .nav-links {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      height: 100vh;
-      width: 70%;
-      background: rgba(10, 10, 15, 0.95);
-      backdrop-filter: blur(20px);
-      display: flex;
-      flex-direction: column;
-      padding: 6rem 2rem;
-      transition: right var(--transition-base);
-      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-    }
-
-    .nav-links.active {
-      right: 0;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding-top: 6rem;
-      text-align: center;
-    }
-
-    .hero-cta {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .btn-large {
-      width: 100%;
-    }
-
-    /* Features Grid */
-    .features-grid {
-      grid-template-columns: 1fr;
-    }
-
-    /* Editor Launch */
-    .glass-card {
-      padding: 1.5rem;
-    }
-
-    /* Footer */
-    .footer-content {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-
-    .footer-links {
-      align-items: center;
-    }
+@media (max-width: 768px) {
+  :root {
+    --font-size-6xl: 2.5rem;
+    --font-size-5xl: 2rem;
+    --font-size-3xl: 1.5rem;
+    --space-3xl: 3rem;
+    --space-xl: 1.5rem;
   }
 
-  @media (min-width: 769px) {
-    .mobile-menu-btn {
-      display: none;
-    }
+  /* Navigation */
+  .navbar {
+    padding: var(--space-sm) var(--space-md);
   }
 
-
-  /* ===================================
-   DASHBOARD STYLES
-   =================================== */
-
-  .dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 8rem 2rem 4rem;
-    min-height: 100vh;
-  }
-
-  .dashboard-header {
+  .mobile-menu-btn {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-
-  .project-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: all var(--transition-base);
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
     cursor: pointer;
-    position: relative;
+    padding: 0.5rem;
+    z-index: 1001;
   }
 
-  .project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border-color: rgba(168, 85, 247, 0.3);
+  .mobile-menu-btn span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    transition: all var(--transition-base);
   }
 
-  .project-thumbnail {
-    height: 180px;
-    background: #1a1a2e;
+  .mobile-menu-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+
+  .mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 70%;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(20px);
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    color: var(--color-text-secondary);
+    flex-direction: column;
+    padding: 6rem 2rem;
+    transition: right var(--transition-base);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
   }
 
-  .project-info {
+  .nav-links.active {
+    right: 0;
+  }
+
+  /* Hero Section */
+  .hero {
+    padding-top: 6rem;
+    text-align: center;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-large {
+    width: 100%;
+  }
+
+  /* Features Grid */
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Editor Launch */
+  .glass-card {
     padding: 1.5rem;
   }
 
-  .project-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-primary);
-  }
-
-  .project-meta {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .empty-state {
+  /* Footer */
+  .footer-content {
+    grid-template-columns: 1fr;
     text-align: center;
-    padding: 4rem;
-    background: var(--glass-bg);
-    border-radius: var(--radius-lg);
-    border: 1px dashed var(--glass-border);
   }
 
-  .empty-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-
-  .user-profile {
-    display: flex;
+  .footer-links {
     align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
+}
 
-  .avatar {
-    width: 32px;
-    height: 32px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
+@media (min-width: 769px) {
+  .mobile-menu-btn {
+    display: none;
   }
+}
 
-  .loading-spinner {
-    text-align: center;
-    padding: 3rem;
-    color: var(--color-text-secondary);
-  }
 
-  .search-container {
-    position: relative;
-    flex: 1;
-    max-width: 600px;
-  }
+/* ===================================
+   DASHBOARD STYLES
+   =================================== */
 
-  .search-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    color: var(--color-text-primary);
-    font-size: var(--font-size-base);
-    transition: all var(--transition-fast);
-  }
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 2rem 4rem;
+  min-height: 100vh;
+}
 
-  .search-input:focus {
-    outline: none;
-    border-color: var(--color-accent-purple);
-    background: rgba(255, 255, 255, 0.08);
-  }
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
 
-  /* ===================================
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  position: relative;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.project-thumbnail {
+  height: 180px;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: var(--color-text-secondary);
+}
+
+.project-info {
+  padding: 1.5rem;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.project-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem;
+  background: var(--glass-bg);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--glass-border);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-text-secondary);
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 600px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-fast);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-accent-purple);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===================================
    MOBILE RESPONSIVE STYLES
    =================================== */
 
-  /* Tablet and below (< 768px) */
-  @media (max-width: 768px) {
+/* Tablet and below (< 768px) */
+@media (max-width: 768px) {
 
-    /* Dashboard Responsive */
-    .dashboard-container {
-      padding: 6rem 1rem 2rem;
-    }
-
-    .dashboard-header {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 1rem;
-    }
-
-    .dashboard-header h1 {
-      font-size: var(--font-size-3xl);
-    }
-
-    .search-container {
-      max-width: 100%;
-      margin-bottom: 0.5rem;
-    }
-
-    .projects-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .project-card {
-      max-width: 100%;
-    }
-
-    .empty-state {
-      padding: 2rem 1rem;
-    }
-
-    .empty-icon {
-      font-size: 3rem;
-    }
-
-    /* Voice Assistant Responsive */
-    .voice-assistant-btn {
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 56px;
-      height: 56px;
-      font-size: 1.25rem;
-    }
-
-    .voice-panel {
-      left: 1rem;
-      right: 1rem;
-      bottom: 90px;
-      width: auto;
-    }
-
-    /* Editor Responsive - Make panels stackable */
-    .editor-workspace {
-      display: flex;
-      flex-direction: column;
-      height: auto;
-      min-height: calc(100vh - 130px);
-    }
-
-    .app-header {
-      flex-wrap: wrap;
-      padding: 0.75rem 1rem;
-    }
-
-    .header-left,
-    .header-right {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .project-title-input {
-      max-width: 150px;
-      font-size: 0.875rem;
-    }
-
-    .editor-toolbar {
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 0.5rem;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-    }
-
-    .editor-toolbar::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .editor-toolbar::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-    }
-
-    .toolbar-group {
-      flex-shrink: 0;
-    }
-
-    .tool-btn {
-      padding: 0.5rem 0.75rem;
-      font-size: 0.8rem;
-      white-space: nowrap;
-    }
-
-    .panel {
-      min-height: 200px;
-      max-height: 50vh;
-    }
-
-    .panel-header {
-      font-size: 0.875rem;
-      height: 40px;
-    }
-
-    .tool-item {
-      padding: 0.75rem;
-    }
-
-    .tool-icon {
-      font-size: 1.25rem;
-    }
-
-    .tool-name {
-      font-size: 0.75rem;
-    }
-
-    /* User profile adjustments */
-    .user-profile {
-      padding: 0.25rem 0.75rem;
-    }
-
-    .username {
-      display: none;
-    }
-
-    /* Button adjustments for better mobile UX */
-    .btn {
-      min-height: 44px;
-      padding: 0.75rem 1.5rem;
-    }
-
-    .btn-sm {
-      min-height: 40px;
-      padding: 0.5rem 1rem;
-    }
-
-    /* Modal adjustments */
-    .modal-content {
-      width: 95%;
-      max-width: 400px;
-      padding: 1.5rem;
-    }
-
-    /* Pricing cards on mobile */
-    .pricing-card.featured {
-      transform: scale(1);
-    }
-
-    .pricing-card:hover {
-      transform: translateY(-4px) scale(1);
-    }
+  /* Dashboard Responsive */
+  .dashboard-container {
+    padding: 6rem 1rem 2rem;
   }
 
-  /* Small mobile devices (< 640px) */
-  @media (max-width: 640px) {
-    .logo {
-      font-size: var(--font-size-lg);
-    }
-
-    .hero {
-      padding: 5rem 1rem 3rem;
-    }
-
-    .hero h1 {
-      font-size: var(--font-size-3xl);
-    }
-
-    .hero p {
-      font-size: var(--font-size-sm);
-    }
-
-    .btn-large {
-      padding: 1rem 1.5rem;
-      font-size: var(--font-size-base);
-    }
-
-    .section-header h2 {
-      font-size: var(--font-size-3xl);
-    }
-
-    .feature-card {
-      padding: 1.5rem;
-    }
-
-    .feature-icon {
-      width: 50px;
-      height: 50px;
-      font-size: var(--font-size-2xl);
-    }
-
-    .dashboard-container {
-      padding: 5rem 0.75rem 1.5rem;
-    }
-
-    .projects-grid {
-      gap: 0.75rem;
-    }
-
-    .project-info {
-      padding: 1rem;
-    }
-
-    .voice-panel {
-      left: 0.5rem;
-      right: 0.5rem;
-      padding: 1rem;
-    }
+  .dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
   }
 
-  /* Extra small mobile devices (< 480px) */
-  @media (max-width: 480px) {
-    :root {
-      --font-size-6xl: 2rem;
-      --font-size-5xl: 1.75rem;
-      --font-size-4xl: 1.5rem;
-      --font-size-3xl: 1.25rem;
-      --space-3xl: 2rem;
-      --space-2xl: 1.5rem;
-    }
-
-    .navbar {
-      padding: 0.75rem 1rem;
-    }
-
-    .navbar-container {
-      padding: 0;
-    }
-
-    .hero {
-      padding: 4rem 0.75rem 2rem;
-    }
-
-    .hero h1 {
-      font-size: var(--font-size-4xl);
-      line-height: 1.3;
-    }
-
-    p {
-      font-size: var(--font-size-sm);
-    }
-
-    .features-section,
-    .pricing-section,
-    .editor-section {
-      padding: 2rem 1rem;
-    }
-
-    .section-header {
-      margin-bottom: 2rem;
-    }
-
-    .feature-card,
-    .pricing-card {
-      padding: 1rem;
-    }
-
-    .btn {
-      padding: 0.75rem 1.25rem;
-      font-size: 0.875rem;
-    }
-
-    .dashboard-header h1 {
-      font-size: var(--font-size-2xl);
-    }
-
-    .project-card {
-      border-radius: var(--radius-md);
-    }
-
-    .project-thumbnail {
-      height: 150px;
-      font-size: 2.5rem;
-    }
-
-    .voice-assistant-btn {
-      width: 50px;
-      height: 50px;
-      bottom: 1rem;
-      right: 1rem;
-      font-size: 1.1rem;
-    }
-
-    .voice-panel {
-      bottom: 70px;
-      left: 0.25rem;
-      right: 0.25rem;
-    }
-
-    .app-header {
-      padding: 0.5rem 0.75rem;
-    }
-
-    .tool-btn {
-      padding: 0.4rem 0.6rem;
-      font-size: 0.75rem;
-    }
-
-    .modal-content {
-      padding: 1rem;
-      border-radius: var(--radius-md);
-    }
-
-    .footer {
-      padding: 2rem 1rem 1rem;
-    }
-
-    .footer-content {
-      gap: 1.5rem;
-    }
+  .dashboard-header h1 {
+    font-size: var(--font-size-3xl);
   }
 
-  /* Touch device optimizations */
-  @media (hover: none) and (pointer: coarse) {
-
-    /* Larger tap targets for touch devices */
-    .btn,
-    .tool-btn,
-    .feature-card,
-    .project-card {
-      min-height: 44px;
-    }
-
-    .nav-links a {
-      padding: 0.75rem 0;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Disable hover effects on touch devices */
-    .feature-card:hover,
-    .project-card:hover,
-    .glass-card:hover {
-      transform: none;
-    }
-
-    /* Keep only active/tap states */
-    .feature-card:active,
-    .project-card:active {
-      transform: scale(0.98);
-    }
+  .search-container {
+    max-width: 100%;
+    margin-bottom: 0.5rem;
   }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .project-card {
+    max-width: 100%;
+  }
+
+  .empty-state {
+    padding: 2rem 1rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+  }
+
+  /* Voice Assistant Responsive */
+  .voice-assistant-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+
+  .voice-panel {
+    left: 1rem;
+    right: 1rem;
+    bottom: 90px;
+    width: auto;
+  }
+
+  /* Editor Responsive - Make panels stackable */
+  .editor-workspace {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 130px);
+  }
+
+  .app-header {
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+  }
+
+  .header-left,
+  .header-right {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-title-input {
+    max-width: 150px;
+    font-size: 0.875rem;
+  }
+
+  .editor-toolbar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .editor-toolbar::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .editor-toolbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+
+  .toolbar-group {
+    flex-shrink: 0;
+  }
+
+  .tool-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .panel {
+    min-height: 200px;
+    max-height: 50vh;
+  }
+
+  .panel-header {
+    font-size: 0.875rem;
+    height: 40px;
+  }
+
+  .tool-item {
+    padding: 0.75rem;
+  }
+
+  .tool-icon {
+    font-size: 1.25rem;
+  }
+
+  .tool-name {
+    font-size: 0.75rem;
+  }
+
+  /* User profile adjustments */
+  .user-profile {
+    padding: 0.25rem 0.75rem;
+  }
+
+  .username {
+    display: none;
+  }
+
+  /* Button adjustments for better mobile UX */
+  .btn {
+    min-height: 44px;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .btn-sm {
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Modal adjustments */
+  .modal-content {
+    width: 95%;
+    max-width: 400px;
+    padding: 1.5rem;
+  }
+
+  /* Pricing cards on mobile */
+  .pricing-card.featured {
+    transform: scale(1);
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-4px) scale(1);
+  }
+}
+
+/* Small mobile devices (< 640px) */
+@media (max-width: 640px) {
+  .logo {
+    font-size: var(--font-size-lg);
+  }
+
+  .hero {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .hero h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .hero p {
+    font-size: var(--font-size-sm);
+  }
+
+  .btn-large {
+    padding: 1rem 1.5rem;
+    font-size: var(--font-size-base);
+  }
+
+  .section-header h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    font-size: var(--font-size-2xl);
+  }
+
+  .dashboard-container {
+    padding: 5rem 0.75rem 1.5rem;
+  }
+
+  .projects-grid {
+    gap: 0.75rem;
+  }
+
+  .project-info {
+    padding: 1rem;
+  }
+
+  .voice-panel {
+    left: 0.5rem;
+    right: 0.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Extra small mobile devices (< 480px) */
+@media (max-width: 480px) {
+  :root {
+    --font-size-6xl: 2rem;
+    --font-size-5xl: 1.75rem;
+    --font-size-4xl: 1.5rem;
+    --font-size-3xl: 1.25rem;
+    --space-3xl: 2rem;
+    --space-2xl: 1.5rem;
+  }
+
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-container {
+    padding: 0;
+  }
+
+  .hero {
+    padding: 4rem 0.75rem 2rem;
+  }
+
+  .hero h1 {
+    font-size: var(--font-size-4xl);
+    line-height: 1.3;
+  }
+
+  p {
+    font-size: var(--font-size-sm);
+  }
+
+  .features-section,
+  .pricing-section,
+  .editor-section {
+    padding: 2rem 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .feature-card,
+  .pricing-card {
+    padding: 1rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .project-card {
+    border-radius: var(--radius-md);
+  }
+
+  .project-thumbnail {
+    height: 150px;
+    font-size: 2.5rem;
+  }
+
+  .voice-assistant-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .voice-panel {
+    bottom: 70px;
+    left: 0.25rem;
+    right: 0.25rem;
+  }
+
+  .app-header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .tool-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .footer {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .footer-content {
+    gap: 1.5rem;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Larger tap targets for touch devices */
+  .btn,
+  .tool-btn,
+  .feature-card,
+  .project-card {
+    min-height: 44px;
+  }
+
+  .nav-links a {
+    padding: 0.75rem 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Disable hover effects on touch devices */
+  .feature-card:hover,
+  .project-card:hover,
+  .glass-card:hover {
+    transform: none;
+  }
+
+  /* Keep only active/tap states */
+  .feature-card:active,
+  .project-card:active {
+    transform: scale(0.98);
+  }
+}

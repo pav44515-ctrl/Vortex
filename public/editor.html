@@ -259,6 +259,8 @@
             <button class="btn btn-secondary btn-sm" id="importMediaBtn"
                 style="padding: 0.5rem 1rem; font-size: 0.875rem;">Import Media</button>
             <input type="file" id="mediaUpload" hidden multiple accept="video/*,image/*,audio/*">
+            <button class="btn btn-secondary btn-sm" id="tipsBtn" style="padding: 0.5rem 1rem; font-size: 0.875rem;">💡
+                Tips</button>
             <button class="btn btn-primary btn-sm" id="exportBtn"
                 style="padding: 0.5rem 1rem; font-size: 0.875rem;">Export Video</button>
             <div class="user-avatar" id="userAvatar"
@@ -269,6 +271,26 @@
 
     <!-- Editor Toolbar -->
     <div class="editor-toolbar">
+        <!-- Workflow Steps -->
+        <div class="toolbar-group" style="background: rgba(168,85,247,0.1); border-radius: 8px; padding: 0.25rem;">
+            <button class="tool-btn workflow-step" data-step="1" title="1. Project Setup - Import media, rename tracks"
+                style="font-size: 0.75rem;">1️⃣ Setup</button>
+            <button class="tool-btn workflow-step" data-step="2" title="2. Timeline - Organize tracks, add markers"
+                style="font-size: 0.75rem;">2️⃣ Timeline</button>
+            <button class="tool-btn workflow-step" data-step="3" title="3. Basic Edits - Cut, Undo, Speed"
+                style="font-size: 0.75rem;">3️⃣ Edits</button>
+            <button class="tool-btn workflow-step" data-step="4" title="4. Visual - Color, Chroma, Text"
+                style="font-size: 0.75rem;">4️⃣ Visual</button>
+            <button class="tool-btn workflow-step" data-step="5" title="5. Audio - Normalize, Fade, Voice"
+                style="font-size: 0.75rem;">5️⃣ Audio</button>
+            <button class="tool-btn workflow-step" data-step="6" title="6. Effects - Transitions, Keyframes"
+                style="font-size: 0.75rem;">6️⃣ Effects</button>
+            <button class="tool-btn workflow-step" data-step="7" title="7. Review - Watch at 1x/2x"
+                style="font-size: 0.75rem;">7️⃣ Review</button>
+            <button class="tool-btn workflow-step" data-step="8" title="8. Export - Resolution, MP4"
+                style="font-size: 0.75rem;">8️⃣ Export</button>
+        </div>
+
         <!-- Edit Controls -->
         <div class="toolbar-group">
             <button class="tool-btn" title="Undo last action">↶ Undo</button>
@@ -296,41 +318,197 @@
 
     <!-- Main Workspace -->
     <div class="editor-workspace" id="editor">
-        <!-- Left Panel: Assets & Tools -->
         <div class="panel">
             <div class="panel-header">
                 <span>Assets & Tools</span>
             </div>
             <div class="panel-content">
                 <div class="glass-card" id="mediaLibraryUpload"
-                    style="padding: 1.5rem; text-align: center; cursor: pointer; border-style: dashed; margin-bottom: 2rem;">
+                    style="padding: 1.5rem; text-align: center; cursor: pointer; border-style: dashed; margin-bottom: 1.5rem;">
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">📂</div>
                     <p style="font-size: 0.875rem;">Import Media</p>
                     <p style="font-size: 0.75rem; color: var(--color-text-tertiary);">Drag & drop files here</p>
                 </div>
 
                 <div id="mediaLibrary"
-                    style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 2rem;">
-                    <!-- Imported media will appear here -->
+                    style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.375rem; margin-bottom: 1.5rem; max-height: 180px; overflow-y: auto;">
+                    <!-- Imported media will appear here as small items with names -->
                 </div>
 
-                <h5 style="margin-bottom: 1rem; color: var(--color-text-secondary);">AI Tools</h5>
-                <div class="tools-grid">
-                    <div class="tool-item">
-                        <span class="tool-icon">🤖</span>
-                        <span class="tool-label">Auto Edit</span>
+                <!-- Pro/AI/Assets Tabs -->
+                <div class="feature-tabs"
+                    style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    <button class="tab-btn active" data-tab="professional"
+                        style="background: none; border: none; color: var(--color-text-primary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid var(--color-accent-purple); transition: all 0.2s; font-size: 0.8125rem;">
+                        ⚙️ Pro
+                    </button>
+                    <button class="tab-btn" data-tab="ai"
+                        style="background: none; border: none; color: var(--color-text-secondary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 0.8125rem;">
+                        🤖 AI
+                    </button>
+                    <button class="tab-btn" data-tab="assets"
+                        style="background: none; border: none; color: var(--color-text-secondary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 0.8125rem;">
+                        📦 Assets
+                    </button>
+                </div>
+
+                <!-- Professional Tools Tab -->
+                <div class="tab-content" id="professional-tab" style="display: block;">
+                    <h5
+                        style="margin-bottom: 1rem; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Professional Tools</h5>
+
+                    <!-- Chroma Key -->
+                    <div class="glass-card" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6
+                            style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 12px; height: 12px; background: #00ff00; border-radius: 50%;"></span>
+                            Chroma Key
+                        </h6>
+                        <button class="tool-btn" id="chromaKeyBtn" style="width: 100%; margin-bottom: 0.75rem;">Enable
+                            Green Screen</button>
+                        <div id="chromaKeyControls" style="display: none;">
+                            <label class="prop-label">Key Color</label>
+                            <input type="color" id="chromaColor" class="prop-input" value="#00ff00"
+                                style="height: 40px; padding: 0.25rem; margin-bottom: 0.5rem;">
+                            <label class="prop-label">Tolerance</label>
+                            <input type="range" class="prop-range" id="chromaTolerance" min="0" max="100" value="30">
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.625rem; color: var(--color-text-tertiary); margin-top: 0.25rem;">
+                                <span>0</span>
+                                <span id="chromaToleranceValue">30</span>
+                                <span>100</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tool-item">
-                        <span class="tool-icon">✂️</span>
-                        <span class="tool-label">Magic Cut</span>
+
+                    <!-- Speed Control -->
+                    <div class="glass-card" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6
+                            style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                            ⏱️ Speed Control
+                        </h6>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.75rem; color: var(--color-text-secondary);">Speed</span>
+                            <span id="speedDisplay"
+                                style="font-size: 0.75rem; color: var(--color-accent-purple); font-weight: 600;">1.0x</span>
+                        </div>
+                        <input type="range" class="prop-range" id="videoSpeed" min="0.25" max="4" step="0.25" value="1">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.75rem;">
+                            <button class="tool-btn speed-preset" data-speed="0.5"
+                                style="font-size: 0.75rem; padding: 0.5rem;">0.5x</button>
+                            <button class="tool-btn speed-preset active" data-speed="1"
+                                style="font-size: 0.75rem; padding: 0.5rem; background: var(--color-accent-purple); border-color: var(--color-accent-purple);">1x</button>
+                            <button class="tool-btn speed-preset" data-speed="2"
+                                style="font-size: 0.75rem; padding: 0.5rem;">2x</button>
+                            <button class="tool-btn speed-preset" data-speed="4"
+                                style="font-size: 0.75rem; padding: 0.5rem;">4x</button>
+                        </div>
                     </div>
-                    <div class="tool-item">
-                        <span class="tool-icon">🎙️</span>
-                        <span class="tool-label">Voiceover</span>
+
+                    <!-- Color Grading -->
+                    <div class="glass-card" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6
+                            style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                            🎨 Color Grading
+                        </h6>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label class="prop-label">Brightness</label>
+                            <input type="range" class="prop-range" id="colorBrightness" min="-100" max="100" value="0">
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label class="prop-label">Contrast</label>
+                            <input type="range" class="prop-range" id="colorContrast" min="-100" max="100" value="0">
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label class="prop-label">Saturation</label>
+                            <input type="range" class="prop-range" id="colorSaturation" min="-100" max="100" value="0">
+                        </div>
+
+                        <button class="btn btn-primary" id="applyColorGrading"
+                            style="width: 100%; font-size: 0.875rem; padding: 0.75rem;">Apply</button>
                     </div>
-                    <div class="tool-item">
-                        <span class="tool-icon">🎨</span>
-                        <span class="tool-label">Color</span>
+
+                    <!-- Keyframes -->
+                    <div class="glass-card" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6
+                            style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                            ⬥ Keyframes
+                        </h6>
+                        <button class="tool-btn" id="addKeyframeBtn" style="width: 100%;">+ Add Keyframe</button>
+                        <div id="keyframesList" style="margin-top: 0.75rem; max-height: 150px; overflow-y: auto;">
+                            <!-- Keyframes will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Tools Tab -->
+                <div class="tab-content" id="ai-tab" style="display: none;">
+                    <h5
+                        style="margin-bottom: 1rem; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        AI Tools</h5>
+                    <div class="tools-grid">
+                        <div class="tool-item" data-tool="auto-edit">
+                            <span class="tool-icon">🤖</span>
+                            <span class="tool-label">Auto Edit</span>
+                        </div>
+                        <div class="tool-item" data-tool="magic-cut">
+                            <span class="tool-icon">✂️</span>
+                            <span class="tool-label">Magic Cut</span>
+                        </div>
+                        <div class="tool-item" data-tool="voiceover">
+                            <span class="tool-icon">🎙️</span>
+                            <span class="tool-label">Voiceover</span>
+                        </div>
+                        <div class="tool-item" data-tool="bg-remove">
+                            <span class="tool-icon">🖼️</span>
+                            <span class="tool-label">BG Remove</span>
+                        </div>
+                        <div class="tool-item" data-tool="auto-captions">
+                            <span class="tool-icon">📝</span>
+                            <span class="tool-label">Captions</span>
+                        </div>
+                        <div class="tool-item" data-tool="enhance">
+                            <span class="tool-icon">✨</span>
+                            <span class="tool-label">Enhance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assets Tab -->
+                <div class="tab-content" id="assets-tab" style="display: none;">
+                    <h5
+                        style="margin-bottom: 1rem; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Asset Library</h5>
+                    <div class="tools-grid">
+                        <div class="tool-item" data-asset="templates">
+                            <span class="tool-icon">📝</span>
+                            <span class="tool-label">Templates</span>
+                        </div>
+                        <div class="tool-item" data-asset="effects">
+                            <span class="tool-icon">✨</span>
+                            <span class="tool-label">Effects</span>
+                        </div>
+                        <div class="tool-item" data-asset="transitions">
+                            <span class="tool-icon">🔄</span>
+                            <span class="tool-label">Transitions</span>
+                        </div>
+                        <div class="tool-item" data-asset="stickers">
+                            <span class="tool-icon">😊</span>
+                            <span class="tool-label">Stickers</span>
+                        </div>
+                        <div class="tool-item" data-asset="music">
+                            <span class="tool-icon">🎶</span>
+                            <span class="tool-label">Music</span>
+                        </div>
+                        <div class="tool-item" data-asset="fonts">
+                            <span class="tool-icon">🔤</span>
+                            <span class="tool-label">Fonts</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -444,9 +622,511 @@
     <div id="loginModal" class="modal"></div>
     <div id="signupModal" class="modal"></div>
 
+    <!-- Tips Modal -->
+    <div id="tipsModal" class="modal" style="display: none;">
+        <div class="modal-content"
+            style="max-width: 600px; max-height: 80vh; overflow-y: auto; background: var(--color-bg-secondary); border-radius: 1rem; padding: 0;">
+            <div class="modal-header"
+                style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background: var(--color-bg-secondary); z-index: 10;">
+                <h3 style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">💡 Video Editing Tips</h3>
+                <button class="modal-close" id="closeTipsModal"
+                    style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <div style="padding: 1.5rem;">
+                <!-- 1. Project Setup -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: var(--color-accent-purple); margin-bottom: 0.75rem; font-size: 1rem;">📂 1.
+                        Project Setup</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Import all media files (video, audio, images, overlays)</li>
+                        <li>Rename tracks for clarity (Main Video, Voiceover, Music)</li>
+                        <li>Save your project with a descriptive name</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Timeline Organization -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: var(--color-accent-cyan); margin-bottom: 0.75rem; font-size: 1rem;">🎬 2. Timeline
+                        Organization</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Place your main video on Video Track 1</li>
+                        <li>Add music and sound effects on separate audio tracks</li>
+                        <li>Use markers to highlight key moments</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Basic Edits -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: var(--color-accent-pink); margin-bottom: 0.75rem; font-size: 1rem;">✂️ 3. Basic
+                        Edits</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Trim unnecessary footage using the Cut tool</li>
+                        <li>Apply Undo/Redo often to experiment safely</li>
+                        <li>Adjust playback speed for dramatic effect</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Visual Enhancements -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: #10b981; margin-bottom: 0.75rem; font-size: 1rem;">🎨 4. Visual Enhancements</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Use Color Grading for brightness, contrast, saturation</li>
+                        <li>Apply Chroma Key to replace backgrounds</li>
+                        <li>Add Text overlays for titles and captions</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Audio Polishing -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: #f59e0b; margin-bottom: 0.75rem; font-size: 1rem;">🎵 5. Audio Polishing</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Normalize audio levels for clear dialogue</li>
+                        <li>Fade music in/out with keyframes</li>
+                        <li>Try Voice Presets or pitch adjustments</li>
+                    </ul>
+                </div>
+
+                <!-- 6. Transitions & Effects -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: #8b5cf6; margin-bottom: 0.75rem; font-size: 1rem;">✨ 6. Transitions & Effects</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Add smooth transitions (crossfade, dissolve)</li>
+                        <li>Use effects sparingly — enhance, don't distract</li>
+                        <li>Apply keyframes for gradual changes</li>
+                    </ul>
+                </div>
+
+                <!-- 7. Final Review -->
+                <div class="tip-section" style="margin-bottom: 1rem;">
+                    <h4 style="color: #3b82f6; margin-bottom: 0.75rem; font-size: 1rem;">👁️ 7. Final Review</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Watch full video at 1x speed to check pacing</li>
+                        <li>Preview at 2x to catch awkward cuts</li>
+                        <li>Review on different devices (phone, laptop)</li>
+                    </ul>
+                </div>
+
+                <!-- 8. Export & Share -->
+                <div class="tip-section" style="margin-bottom: 0;">
+                    <h4 style="color: #ef4444; margin-bottom: 0.75rem; font-size: 1rem;">📤 8. Export & Share</h4>
+                    <ul
+                        style="font-size: 0.875rem; color: var(--color-text-secondary); padding-left: 1.25rem; margin: 0;">
+                        <li>Choose resolution: 1080p for YouTube, 720p for social</li>
+                        <li>Export in MP4 for best compatibility</li>
+                        <li>Save a backup copy for future edits</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
+
+
+
+    <!-- Professional Tools JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ===== Tab Switching =====
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const tabName = this.getAttribute('data-tab');
+
+                    // Update button styles
+                    document.querySelectorAll('.tab-btn').forEach(b => {
+                        b.style.color = 'var(--color-text-secondary)';
+                        b.style.borderBottomColor = 'transparent';
+                    });
+                    this.style.color = 'var(--color-text-primary)';
+                    this.style.borderBottomColor = 'var(--color-accent-purple)';
+
+                    // Show/hide tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    document.getElementById(tabName + '-tab').style.display = 'block';
+                });
+            });
+
+            // ===== Chroma Key =====
+            const chromaKeyBtn = document.getElementById('chromaKeyBtn');
+            const chromaKeyControls = document.getElementById('chromaKeyControls');
+            let chromaKeyEnabled = false;
+
+            chromaKeyBtn?.addEventListener('click', function () {
+                chromaKeyEnabled = !chromaKeyEnabled;
+                if (chromaKeyEnabled) {
+                    this.textContent = 'Disable Green Screen';
+                    this.style.background = 'var(--color-accent-purple)';
+                    this.style.borderColor = 'var(--color-accent-purple)';
+                    chromaKeyControls.style.display = 'block';
+                    console.log('Chroma Key enabled');
+                } else {
+                    this.textContent = 'Enable Green Screen';
+                    this.style.background = '';
+                    this.style.borderColor = '';
+                    chromaKeyControls.style.display = 'none';
+                    console.log('Chroma Key disabled');
+                }
+            });
+
+            // Chroma Tolerance slider
+            const chromaTolerance = document.getElementById('chromaTolerance');
+            const chromaToleranceValue = document.getElementById('chromaToleranceValue');
+            chromaTolerance?.addEventListener('input', function () {
+                chromaToleranceValue.textContent = this.value;
+                console.log('Chroma tolerance:', this.value);
+            });
+
+            // ===== Speed Control =====
+            const videoSpeed = document.getElementById('videoSpeed');
+            const speedDisplay = document.getElementById('speedDisplay');
+            const speedPresets = document.querySelectorAll('.speed-preset');
+
+            videoSpeed?.addEventListener('input', function () {
+                const speed = parseFloat(this.value).toFixed(2);
+                speedDisplay.textContent = speed + 'x';
+                updateSpeedPresetButtons(parseFloat(this.value));
+                console.log('Video speed:', speed);
+            });
+
+            speedPresets.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const speed = parseFloat(this.getAttribute('data-speed'));
+                    videoSpeed.value = speed;
+                    speedDisplay.textContent = speed + 'x';
+                    updateSpeedPresetButtons(speed);
+                    console.log('Speed preset:', speed);
+                });
+            });
+
+            function updateSpeedPresetButtons(currentSpeed) {
+                speedPresets.forEach(btn => {
+                    const btnSpeed = parseFloat(btn.getAttribute('data-speed'));
+                    if (btnSpeed === currentSpeed) {
+                        btn.style.background = 'var(--color-accent-purple)';
+                        btn.style.borderColor = 'var(--color-accent-purple)';
+                    } else {
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                    }
+                });
+            }
+
+            // ===== Color Grading =====
+            const colorBrightness = document.getElementById('colorBrightness');
+            const colorContrast = document.getElementById('colorContrast');
+            const colorSaturation = document.getElementById('colorSaturation');
+            const applyColorGrading = document.getElementById('applyColorGrading');
+
+            applyColorGrading?.addEventListener('click', function () {
+                const settings = {
+                    brightness: colorBrightness?.value || 0,
+                    contrast: colorContrast?.value || 0,
+                    saturation: colorSaturation?.value || 0
+                };
+
+                console.log('Applying color grading:', settings);
+
+                // Visual feedback
+                this.textContent = 'Applied ✓';
+                this.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+                setTimeout(() => {
+                    this.textContent = 'Apply';
+                    this.style.background = '';
+                }, 1500);
+
+                // Apply to preview (if video element exists)
+                const previewVideo = document.querySelector('.preview-screen video');
+                if (previewVideo) {
+                    const brightness = 100 + parseInt(settings.brightness);
+                    const contrast = 100 + parseInt(settings.contrast);
+                    const saturation = 100 + parseInt(settings.saturation);
+                    previewVideo.style.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
+                }
+            });
+
+            // ===== Keyframes =====
+            const addKeyframeBtn = document.getElementById('addKeyframeBtn');
+            const keyframesList = document.getElementById('keyframesList');
+            let keyframeCount = 0;
+
+            addKeyframeBtn?.addEventListener('click', function () {
+                keyframeCount++;
+                const timestamp = document.getElementById('timeDisplay')?.textContent || '00:00:00';
+
+                const keyframeItem = document.createElement('div');
+                keyframeItem.style.cssText = 'display: flex; align-items: center; justify-content: space-between; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 0.375rem; margin-bottom: 0.5rem; font-size: 0.75rem;';
+                keyframeItem.innerHTML = `
+                    <span>⬥ Keyframe ${keyframeCount}</span>
+                    <span style="color: var(--color-text-tertiary);">${timestamp}</span>
+                    <button class="delete-keyframe" style="background: none; border: none; color: var(--color-accent-pink); cursor: pointer; font-size: 0.875rem;">×</button>
+                `;
+
+                // Delete keyframe
+                keyframeItem.querySelector('.delete-keyframe').addEventListener('click', function () {
+                    keyframeItem.remove();
+                    console.log('Keyframe deleted');
+                });
+
+                keyframesList.appendChild(keyframeItem);
+                console.log('Keyframe added at', timestamp);
+            });
+
+            // ===== AI Tools =====
+            document.querySelectorAll('.tool-item[data-tool]').forEach(item => {
+                item.addEventListener('click', function () {
+                    const tool = this.getAttribute('data-tool');
+                    console.log('AI Tool clicked:', tool);
+                    alert(`${tool.replace('-', ' ').toUpperCase()} - Coming soon!`);
+                });
+            });
+
+            // ===== Asset Items =====
+            document.querySelectorAll('.tool-item[data-asset]').forEach(item => {
+                item.addEventListener('click', function () {
+                    const asset = this.getAttribute('data-asset');
+                    console.log('Asset clicked:', asset);
+                    alert(`${asset.charAt(0).toUpperCase() + asset.slice(1)} library - Coming soon!`);
+                });
+            });
+
+            // ===== Voice Effects (Audio Only - No Speed Change) =====
+            const applyVoiceEffects = document.getElementById('applyVoiceEffects');
+            const voicePreset = document.getElementById('voicePreset');
+
+            applyVoiceEffects?.addEventListener('click', function () {
+                const preset = voicePreset?.value || 'none';
+
+                // Only apply voice preset - NOT video speed
+                console.log('Applying voice effect (audio only):', preset);
+
+                // Visual feedback
+                this.textContent = 'Applied ✓';
+                this.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+                setTimeout(() => {
+                    this.textContent = 'Apply Effect';
+                    this.style.background = '';
+                }, 1500);
+
+                // Apply audio effect only (no speed modification)
+                if (preset !== 'none') {
+                    console.log(`Audio preset "${preset}" applied - video speed unchanged`);
+                } else {
+                    console.log('Voice effect removed - audio reset to normal');
+                }
+            });
+
+            // ===== Media Import (Small View with Names) =====
+            const mediaLibrary = document.getElementById('mediaLibrary');
+            const mediaUpload = document.getElementById('mediaUpload');
+            const importMediaBtn = document.getElementById('importMediaBtn');
+            const mediaLibraryUpload = document.querySelector('#mediaLibraryUpload');
+
+            // Click Import Media button
+            importMediaBtn?.addEventListener('click', () => mediaUpload?.click());
+            mediaLibraryUpload?.addEventListener('click', () => mediaUpload?.click());
+
+            // Handle file selection
+            mediaUpload?.addEventListener('change', (e) => {
+                addMediaToLibrary(e.target.files);
+            });
+
+            // Drag and drop
+            mediaLibraryUpload?.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                mediaLibraryUpload.style.borderColor = 'var(--color-accent-purple)';
+                mediaLibraryUpload.style.background = 'rgba(168, 85, 247, 0.1)';
+            });
+
+            mediaLibraryUpload?.addEventListener('dragleave', () => {
+                mediaLibraryUpload.style.borderColor = '';
+                mediaLibraryUpload.style.background = '';
+            });
+
+            mediaLibraryUpload?.addEventListener('drop', (e) => {
+                e.preventDefault();
+                mediaLibraryUpload.style.borderColor = '';
+                mediaLibraryUpload.style.background = '';
+                addMediaToLibrary(e.dataTransfer.files);
+            });
+
+            // Add media items to library (small view with name + thumbnails)
+            function addMediaToLibrary(files) {
+                Array.from(files).forEach(file => {
+                    const isVideo = file.type.startsWith('video');
+                    const isImage = file.type.startsWith('image');
+                    const isAudio = file.type.startsWith('audio');
+
+                    const icon = isVideo ? '🎬' : isImage ? '🖼️' : isAudio ? '🎵' : '📄';
+
+                    // Truncate filename if too long
+                    const maxLen = 8;
+                    let displayName = file.name.split('.')[0];
+                    if (displayName.length > maxLen) {
+                        displayName = displayName.substring(0, maxLen) + '...';
+                    }
+                    const ext = file.name.split('.').pop();
+
+                    // Format file size
+                    const fileSize = file.size < 1024 ? file.size + ' B' :
+                        file.size < 1048576 ? (file.size / 1024).toFixed(1) + ' KB' :
+                            (file.size / 1048576).toFixed(1) + ' MB';
+
+                    const mediaItem = document.createElement('div');
+                    mediaItem.className = 'media-item';
+                    mediaItem.style.cssText = `
+                        background: rgba(255,255,255,0.05);
+                        border: 1px solid rgba(255,255,255,0.1);
+                        border-radius: 0.375rem;
+                        padding: 0.375rem;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        position: relative;
+                    `;
+
+                    // Create thumbnail for images/videos
+                    let thumbnailHtml = `<div style="font-size: 1.25rem; margin-bottom: 0.25rem;">${icon}</div>`;
+
+                    if (isImage || isVideo) {
+                        const objectUrl = URL.createObjectURL(file);
+                        if (isImage) {
+                            thumbnailHtml = `<img src="${objectUrl}" style="width: 100%; height: 40px; object-fit: cover; border-radius: 4px; margin-bottom: 0.25rem;">`;
+                        } else {
+                            thumbnailHtml = `<video src="${objectUrl}" style="width: 100%; height: 40px; object-fit: cover; border-radius: 4px; margin-bottom: 0.25rem;" muted></video>`;
+                        }
+                    }
+
+                    mediaItem.innerHTML = `
+                        <button class="delete-media" style="position: absolute; top: 2px; right: 2px; background: rgba(239, 68, 68, 0.8); border: none; color: white; width: 14px; height: 14px; border-radius: 50%; font-size: 10px; cursor: pointer; display: none; line-height: 1;">×</button>
+                        ${thumbnailHtml}
+                        <div style="font-size: 0.5625rem; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${file.name}">
+                            ${displayName}
+                        </div>
+                        <div style="font-size: 0.4375rem; color: var(--color-text-tertiary); text-transform: uppercase;">${ext} • ${fileSize}</div>
+                    `;
+
+                    // Show delete button on hover
+                    const deleteBtn = mediaItem.querySelector('.delete-media');
+                    mediaItem.addEventListener('mouseenter', () => {
+                        mediaItem.style.borderColor = 'var(--color-accent-purple)';
+                        mediaItem.style.background = 'rgba(168,85,247,0.15)';
+                        deleteBtn.style.display = 'block';
+                    });
+                    mediaItem.addEventListener('mouseleave', () => {
+                        if (!mediaItem.classList.contains('selected')) {
+                            mediaItem.style.borderColor = 'rgba(255,255,255,0.1)';
+                            mediaItem.style.background = 'rgba(255,255,255,0.05)';
+                        }
+                        deleteBtn.style.display = 'none';
+                    });
+
+                    // Delete media
+                    deleteBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        mediaItem.remove();
+                        console.log('Deleted media:', file.name);
+                    });
+
+                    // Click to select and preview
+                    mediaItem.addEventListener('click', () => {
+                        // Deselect all
+                        document.querySelectorAll('.media-item').forEach(item => {
+                            item.classList.remove('selected');
+                            item.style.borderColor = 'rgba(255,255,255,0.1)';
+                            item.style.background = 'rgba(255,255,255,0.05)';
+                        });
+
+                        // Select this one
+                        mediaItem.classList.add('selected');
+                        mediaItem.style.borderColor = 'var(--color-accent-purple)';
+                        mediaItem.style.background = 'rgba(168,85,247,0.2)';
+
+                        // Show in preview
+                        const previewScreen = document.querySelector('.preview-screen');
+                        if (previewScreen && (isImage || isVideo)) {
+                            const objectUrl = URL.createObjectURL(file);
+                            if (isImage) {
+                                previewScreen.innerHTML = `<img src="${objectUrl}" style="max-width: 100%; max-height: 100%; object-fit: contain;">`;
+                            } else {
+                                previewScreen.innerHTML = `<video src="${objectUrl}" controls style="max-width: 100%; max-height: 100%;">`;
+                            }
+                        }
+
+                        console.log('Selected media:', file.name);
+                    });
+
+                    mediaLibrary.appendChild(mediaItem);
+                });
+
+                console.log('Added', files.length, 'media files to library');
+            }
+
+            // ===== Tips Modal =====
+            const tipsBtn = document.getElementById('tipsBtn');
+            const tipsModal = document.getElementById('tipsModal');
+            const closeTipsModal = document.getElementById('closeTipsModal');
+
+            tipsBtn?.addEventListener('click', () => {
+                tipsModal.style.display = 'flex';
+                tipsModal.style.alignItems = 'center';
+                tipsModal.style.justifyContent = 'center';
+                tipsModal.style.position = 'fixed';
+                tipsModal.style.top = '0';
+                tipsModal.style.left = '0';
+                tipsModal.style.width = '100%';
+                tipsModal.style.height = '100%';
+                tipsModal.style.background = 'rgba(0,0,0,0.8)';
+                tipsModal.style.zIndex = '9999';
+            });
+
+            closeTipsModal?.addEventListener('click', () => {
+                tipsModal.style.display = 'none';
+            });
+
+            tipsModal?.addEventListener('click', (e) => {
+                if (e.target === tipsModal) {
+                    tipsModal.style.display = 'none';
+                }
+            });
+
+            // ===== Workflow Steps =====
+            document.querySelectorAll('.workflow-step').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const step = this.getAttribute('data-step');
+                    const steps = {
+                        '1': { title: '📂 Step 1: Project Setup', msg: '• Import all media files\n• Rename tracks (Main Video, Voiceover, Music)\n• Save project with descriptive name', action: () => document.getElementById('mediaUpload')?.click() },
+                        '2': { title: '🎬 Step 2: Timeline Organization', msg: '• Place main video on Video Track 1\n• Add music/sound on separate tracks\n• Use markers for key moments', action: () => alert('Tip: Drag clips to timeline tracks!') },
+                        '3': { title: '✂️ Step 3: Basic Edits', msg: '• Trim footage using Cut tool\n• Use Undo/Redo to experiment\n• Adjust playback speed', action: () => alert('Tip: Select a clip and use Cut/Speed controls!') },
+                        '4': { title: '🎨 Step 4: Visual Enhancements', msg: '• Color Grading (brightness, contrast)\n• Chroma Key for backgrounds\n• Add Text overlays', action: () => document.querySelector('[data-tab="professional"]')?.click() },
+                        '5': { title: '🎵 Step 5: Audio Polishing', msg: '• Normalize audio levels\n• Fade music with keyframes\n• Try Voice Presets', action: () => document.getElementById('voicePreset')?.focus() },
+                        '6': { title: '✨ Step 6: Transitions & Effects', msg: '• Add smooth transitions\n• Use effects sparingly\n• Apply keyframes for changes', action: () => document.querySelector('[data-tab="assets"]')?.click() },
+                        '7': { title: '👁️ Step 7: Final Review', msg: '• Watch at 1x speed for pacing\n• Preview at 2x to catch cuts\n• Test on different devices', action: () => alert('Tip: Use speed presets to review!') },
+                        '8': { title: '📤 Step 8: Export & Share', msg: '• 1080p for YouTube, 720p for social\n• Export in MP4\n• Save backup copy', action: () => document.getElementById('exportBtn')?.click() }
+                    };
+
+                    const stepInfo = steps[step];
+                    if (stepInfo) {
+                        alert(`${stepInfo.title}\n\n${stepInfo.msg}`);
+                        if (stepInfo.action) stepInfo.action();
+                    }
+                });
+            });
+
+            console.log('Professional Tools loaded successfully');
+        });
+    </script>
 
     <script src="js/app.js"></script>
 </body>

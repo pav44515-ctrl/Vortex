@@ -8,6 +8,10 @@ const db = require('./config/database');
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
 const uploadRoutes = require('./routes/upload');
+const aiRoutes = require('./routes/ai-features');
+const editorRoutes = require('./routes/editor');
+const assetsRoutes = require('./routes/assets');
+const exportRoutes = require('./routes/export');
 const securityMiddleware = require('./middleware/security-middleware');
 const { createHTTPSServer, redirectToHTTPS } = require('./config/ssl-config');
 const { apiLimiter } = require('./config/rate-limit-config');
@@ -51,9 +55,14 @@ app.use('/api/', apiLimiter);
 // ROUTES
 // ===================================
 
+
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/editor', editorRoutes);
+app.use('/api/assets', assetsRoutes);
+app.use('/api/export', exportRoutes);
 
 // Serve index.html for root route
 app.get('/', (req, res) => {

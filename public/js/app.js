@@ -633,6 +633,7 @@ async function handleLogin(e) {
         state.isAuthenticated = true;
         state.user = fakeUser;
         localStorage.setItem('demo_user', JSON.stringify(fakeUser));
+        localStorage.setItem('userSession', JSON.stringify(fakeUser));
 
         updateUIForAuthenticatedUser();
         closeModal(document.getElementById('loginModal'));
@@ -656,6 +657,7 @@ async function handleLogin(e) {
         if (response.ok) {
             state.isAuthenticated = true;
             state.user = data.user;
+            localStorage.setItem('userSession', JSON.stringify(data.user));
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('loginModal'));
             showNotification('Welcome back! 🎉', 'success');
@@ -682,6 +684,7 @@ async function handleSignup(e) {
         state.isAuthenticated = true;
         state.user = fakeUser;
         localStorage.setItem('demo_user', JSON.stringify(fakeUser));
+        localStorage.setItem('userSession', JSON.stringify(fakeUser));
 
         updateUIForAuthenticatedUser();
         closeModal(document.getElementById('signupModal'));
@@ -705,6 +708,7 @@ async function handleSignup(e) {
         if (response.ok) {
             state.isAuthenticated = true;
             state.user = data.user;
+            localStorage.setItem('userSession', JSON.stringify(data.user));
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('signupModal'));
             showNotification('Account created successfully! 🎉', 'success');
