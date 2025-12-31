@@ -291,6 +291,123 @@
             updateUserDisplay();
             setTimeout(updateUserDisplay, 500);
             setTimeout(updateUserDisplay, 1500);
+
+            // ===== Dashboard Functionality =====
+            const projectsGrid = document.getElementById('projectsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const createNewProjectBtn = document.getElementById('createNewProjectBtn');
+            const projectSearch = document.getElementById('projectSearch');
+
+            // Load and render projects
+            function loadProjects() {
+                const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+                renderProjects(projects);
+            }
+
+            // Render projects to grid
+            function renderProjects(projects) {
+                if (!projectsGrid) return;
+
+                if (projects.length === 0) {
+                    projectsGrid.style.display = 'none';
+                    if (emptyState) emptyState.style.display = 'flex';
+                } else {
+                    projectsGrid.style.display = 'grid';
+                    if (emptyState) emptyState.style.display = 'none';
+
+                    projectsGrid.innerHTML = projects.map(project => `
+                        <div class="project-card glass-card" data-id="${project.id}" style="padding: 1.5rem; cursor: pointer; transition: all 0.3s;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="font-size: 2rem;">🎬</div>
+                                <div>
+                                    <h4 style="margin: 0 0 0.25rem 0;">${project.name}</h4>
+                                    <p style="font-size: 0.75rem; color: var(--color-text-tertiary); margin: 0;">
+                                        ${new Date(project.modified || project.created).toLocaleDateString()}
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-primary btn-sm open-project" data-id="${project.id}" style="flex: 1; font-size: 0.75rem; padding: 0.5rem;">Open</button>
+                                <button class="btn btn-secondary btn-sm delete-project" data-id="${project.id}" style="font-size: 0.75rem; padding: 0.5rem;">🗑️</button>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Add event listeners for project cards
+                    projectsGrid.querySelectorAll('.open-project').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const projectId = btn.getAttribute('data-id');
+                            window.location.href = `editor.html?project=${projectId}`;
+                        });
+                    });
+
+                    projectsGrid.querySelectorAll('.delete-project').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const projectId = btn.getAttribute('data-id');
+                            if (confirm('Delete this project?')) {
+                                deleteProject(projectId);
+                            }
+                        });
+                    });
+
+                    projectsGrid.querySelectorAll('.project-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const projectId = card.getAttribute('data-id');
+                            window.location.href = `editor.html?project=${projectId}`;
+                        });
+                    });
+                }
+            }
+
+            // Create new project
+            function createProject() {
+                const projectName = prompt('Enter project name:', 'My New Project');
+                if (!projectName) return;
+
+                const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+                const newProject = {
+                    id: 'proj_' + Date.now(),
+                    name: projectName,
+                    created: new Date().toISOString(),
+                    modified: new Date().toISOString(),
+                    data: { mediaFiles: [], timelineClips: [] }
+                };
+
+                projects.unshift(newProject);
+                localStorage.setItem('user_projects', JSON.stringify(projects));
+
+                // Open the new project in editor
+                window.location.href = `editor.html?project=${newProject.id}`;
+            }
+
+            // Delete project
+            function deleteProject(projectId) {
+                let projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+                projects = projects.filter(p => p.id !== projectId);
+                localStorage.setItem('user_projects', JSON.stringify(projects));
+                loadProjects();
+            }
+
+            // Search projects
+            function searchProjects(query) {
+                const projects = JSON.parse(localStorage.getItem('user_projects') || '[]');
+                const filtered = projects.filter(p =>
+                    p.name.toLowerCase().includes(query.toLowerCase())
+                );
+                renderProjects(filtered);
+            }
+
+            // Event listeners
+            createNewProjectBtn?.addEventListener('click', createProject);
+
+            projectSearch?.addEventListener('input', (e) => {
+                searchProjects(e.target.value);
+            });
+
+            // Initial load
+            loadProjects();
         });
     </script>
 </body>

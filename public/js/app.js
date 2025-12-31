@@ -458,9 +458,9 @@ function setupModalListeners() {
     if (startEditingBtn) {
         startEditingBtn.addEventListener('click', () => {
             if (state.isAuthenticated) {
-                scrollToEditor();
+                window.location.href = 'dashboard.html';
             } else {
-                openModal(signupModal);
+                openModal(loginModal);
             }
         });
     }
@@ -638,7 +638,11 @@ async function handleLogin(e) {
         updateUIForAuthenticatedUser();
         closeModal(document.getElementById('loginModal'));
         showNotification('Welcome back! (Demo Mode) 🎉', 'success');
-        if (typeof loadUserProjects === 'function') loadUserProjects();
+
+        // Redirect to dashboard after login
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 500);
         return;
     }
 
@@ -661,7 +665,11 @@ async function handleLogin(e) {
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('loginModal'));
             showNotification('Welcome back! 🎉', 'success');
-            if (typeof loadUserProjects === 'function') loadUserProjects();
+
+            // Redirect to dashboard after login
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 500);
         } else {
             showNotification(data.error || 'Login failed', 'error');
         }
@@ -689,7 +697,11 @@ async function handleSignup(e) {
         updateUIForAuthenticatedUser();
         closeModal(document.getElementById('signupModal'));
         showNotification('Account created! (Demo Mode) 🎉', 'success');
-        scrollToEditor();
+
+        // Redirect to dashboard after signup
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 500);
         return;
     }
 
@@ -712,7 +724,11 @@ async function handleSignup(e) {
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('signupModal'));
             showNotification('Account created successfully! 🎉', 'success');
-            scrollToEditor();
+
+            // Redirect to dashboard after signup
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 500);
         } else {
             showNotification(data.error || 'Signup failed', 'error');
         }

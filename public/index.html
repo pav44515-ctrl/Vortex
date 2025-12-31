@@ -43,9 +43,9 @@
                 Professional results in minutes, not hours.
             </p>
             <div class="hero-cta">
-                <a href="dashboard.html" class="btn btn-primary btn-large">
+                <button class="btn btn-primary btn-large" id="startEditingBtn">
                     🎬 Start Creating Free
-                </a>
+                </button>
                 <button class="btn btn-secondary btn-large" id="watchDemoBtn">
                     ▶️ Watch Demo
                 </button>
@@ -733,27 +733,12 @@
                     </button>
 
                     <div id="demoVideoPlayer"
-                        style="aspect-ratio: 16/9; background-image: url('images/demo-tutorial.png'); background-size: cover; background-position: center; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-                        <div
-                            style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));">
-                        </div>
-
-                        <!-- Back Button -->
-                        <button id="backToVideosBtn"
-                            style="position: absolute; top: 1rem; left: 1rem; background: rgba(0,0,0,0.6); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; backdrop-filter: blur(10px); transition: all 0.3s; z-index: 5; display: none;">
-                            ← Back to Videos
-                        </button>
-
-                        <div style="text-align: center; color: white; position: relative; z-index: 1;">
-                            <div style="font-size: 4rem; margin-bottom: 1rem;">▶️</div>
-                            <h4 style="margin-bottom: 0.5rem;">Quick Start Tutorial</h4>
-                            <p style="font-size: 0.875rem; opacity: 0.9;">Learn the basics of video editing with Vortex
-                            </p>
-                            <div
-                                style="margin-top: 1rem; padding: 0.5rem 1rem; background: rgba(0,0,0,0.5); display: inline-block; border-radius: 8px; backdrop-filter: blur(10px);">
-                                Duration: 2:34
-                            </div>
-                        </div>
+                        style="aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; background: #000;">
+                        <video id="mainDemoVideo" controls style="width: 100%; height: 100%;"
+                            poster="images/demo-tutorial.png">
+                            <source src="videos/demo-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
 
                     <!-- Next Button -->

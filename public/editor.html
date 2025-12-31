@@ -619,8 +619,78 @@
             </div>
         </div>
     </div>
-    <div id="loginModal" class="modal"></div>
-    <div id="signupModal" class="modal"></div>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content"
+            style="max-width: 400px; background: var(--color-bg-secondary); border-radius: 1rem; padding: 0;">
+            <div class="modal-header" style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="margin: 0;">🔐 Sign In</h3>
+                <button class="modal-close" id="closeLoginModal"
+                    style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <form id="loginForm" style="padding: 1.5rem;">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="loginEmail"
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem;">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="your@email.com"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="loginPassword"
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem;">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.75rem; margin-top: 0.5rem;">Sign In</button>
+            </form>
+            <p
+                style="text-align: center; padding: 0 1.5rem 1.5rem; color: var(--color-text-secondary); font-size: 0.875rem;">
+                Don't have an account? <a href="#" id="switchToSignup" style="color: var(--color-accent-purple);">Sign
+                    up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal" style="display: none;">
+        <div class="modal-content"
+            style="max-width: 400px; background: var(--color-bg-secondary); border-radius: 1rem; padding: 0;">
+            <div class="modal-header" style="padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="margin: 0;">✨ Create Account</h3>
+                <button class="modal-close" id="closeSignupModal"
+                    style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <form id="signupForm" style="padding: 1.5rem;">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="signupName" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem;">Full
+                        Name</label>
+                    <input type="text" id="signupName" required placeholder="Your Name"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="signupEmail"
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem;">Email</label>
+                    <input type="email" id="signupEmail" required placeholder="your@email.com"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label for="signupPassword"
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem;">Password</label>
+                    <input type="password" id="signupPassword" required placeholder="••••••••"
+                        style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.75rem; margin-top: 0.5rem;">Create Account</button>
+            </form>
+            <p
+                style="text-align: center; padding: 0 1.5rem 1.5rem; color: var(--color-text-secondary); font-size: 0.875rem;">
+                Already have an account? <a href="#" id="switchToLogin" style="color: var(--color-accent-purple);">Sign
+                    in</a>
+            </p>
+        </div>
+    </div>
+
 
     <!-- Tips Modal -->
     <div id="tipsModal" class="modal" style="display: none;">
@@ -1123,6 +1193,117 @@
                     }
                 });
             });
+
+            // ===== Sign In Modal (in Editor) =====
+            const loginModal = document.getElementById('loginModal');
+            const signupModal = document.getElementById('signupModal');
+            const userAvatar = document.getElementById('userAvatar');
+            const closeLoginModal = document.getElementById('closeLoginModal');
+            const closeSignupModal = document.getElementById('closeSignupModal');
+            const switchToSignup = document.getElementById('switchToSignup');
+            const switchToLogin = document.getElementById('switchToLogin');
+
+            function openModal(modal) {
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.style.alignItems = 'center';
+                    modal.style.justifyContent = 'center';
+                    modal.style.position = 'fixed';
+                    modal.style.top = '0';
+                    modal.style.left = '0';
+                    modal.style.width = '100%';
+                    modal.style.height = '100%';
+                    modal.style.background = 'rgba(0,0,0,0.8)';
+                    modal.style.zIndex = '9999';
+                }
+            }
+
+            function closeModalFn(modal) {
+                if (modal) modal.style.display = 'none';
+            }
+
+            // Click avatar to sign in
+            userAvatar?.addEventListener('click', () => {
+                // Check if already logged in
+                const userSession = localStorage.getItem('userSession');
+                if (userSession) {
+                    const user = JSON.parse(userSession);
+                    if (confirm(`Logged in as ${user.name}\n\nDo you want to log out?`)) {
+                        localStorage.removeItem('userSession');
+                        localStorage.removeItem('demo_user');
+                        userAvatar.textContent = '👤';
+                        alert('Logged out successfully!');
+                    }
+                } else {
+                    openModal(loginModal);
+                }
+            });
+
+            closeLoginModal?.addEventListener('click', () => closeModalFn(loginModal));
+            closeSignupModal?.addEventListener('click', () => closeModalFn(signupModal));
+
+            loginModal?.addEventListener('click', (e) => {
+                if (e.target === loginModal) closeModalFn(loginModal);
+            });
+            signupModal?.addEventListener('click', (e) => {
+                if (e.target === signupModal) closeModalFn(signupModal);
+            });
+
+            switchToSignup?.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeModalFn(loginModal);
+                openModal(signupModal);
+            });
+
+            switchToLogin?.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeModalFn(signupModal);
+                openModal(loginModal);
+            });
+
+            // Handle login form
+            document.getElementById('loginForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                // Demo login
+                const userName = email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1);
+                const user = { id: 'demo-' + Date.now(), name: userName, email: email };
+                localStorage.setItem('userSession', JSON.stringify(user));
+                localStorage.setItem('demo_user', JSON.stringify(user));
+
+                userAvatar.textContent = userName.charAt(0).toUpperCase();
+                userAvatar.title = userName;
+
+                closeModalFn(loginModal);
+                alert(`Welcome back, ${userName}! 🎉`);
+            });
+
+            // Handle signup form
+            document.getElementById('signupForm')?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+
+                const user = { id: 'demo-' + Date.now(), name: name, email: email };
+                localStorage.setItem('userSession', JSON.stringify(user));
+                localStorage.setItem('demo_user', JSON.stringify(user));
+
+                userAvatar.textContent = name.charAt(0).toUpperCase();
+                userAvatar.title = name;
+
+                closeModalFn(signupModal);
+                alert(`Welcome, ${name}! Your account has been created. 🎉`);
+            });
+
+            // Check if already logged in on load
+            const existingSession = localStorage.getItem('userSession');
+            if (existingSession) {
+                const user = JSON.parse(existingSession);
+                userAvatar.textContent = user.name.charAt(0).toUpperCase();
+                userAvatar.title = user.name;
+            }
 
             console.log('Professional Tools loaded successfully');
         });
