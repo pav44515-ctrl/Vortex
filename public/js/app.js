@@ -473,6 +473,33 @@ function setupModalListeners() {
         });
     }
 
+    // Demo Login Button - instant access without account
+    const demoLoginBtn = document.getElementById('demoLoginBtn');
+    if (demoLoginBtn) {
+        demoLoginBtn.addEventListener('click', () => {
+            // Create demo user session
+            const demoUser = {
+                id: 'demo-' + Date.now(),
+                name: 'Demo User',
+                email: 'demo@vortex.app'
+            };
+
+            state.isAuthenticated = true;
+            state.user = demoUser;
+            localStorage.setItem('demo_user', JSON.stringify(demoUser));
+            localStorage.setItem('userSession', JSON.stringify(demoUser));
+
+            updateUIForAuthenticatedUser();
+            closeModal(loginModal);
+            showNotification('Welcome to Vortex Demo! 🚀 Explore all features freely.', 'success');
+
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 800);
+        });
+    }
+
     if (closeLoginModal) {
         closeLoginModal.addEventListener('click', () => closeModal(loginModal));
     }
