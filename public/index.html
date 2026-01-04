@@ -670,6 +670,17 @@
                     <label for="loginPassword">Password</label>
                     <input type="password" id="loginPassword" required placeholder="••••••••">
                 </div>
+                <div class="form-group"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                    <label
+                        style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                        <input type="checkbox" id="rememberMe"
+                            style="width: 16px; height: 16px; accent-color: var(--color-accent-purple);">
+                        Remember me
+                    </label>
+                    <a href="#" id="forgotPasswordLink"
+                        style="color: var(--color-accent-purple); font-size: 0.875rem;">Forgot password?</a>
+                </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
                     Login
                 </button>
@@ -708,6 +719,32 @@
             <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
                 Already have an account? <a href="#" id="switchToLogin"
                     style="color: var(--color-accent-purple);">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <button class="modal-close" id="closeForgotPasswordModal">&times;</button>
+            </div>
+            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; text-align: center;">
+                Enter your email address and we'll send you instructions to reset your password.
+            </p>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email</label>
+                    <input type="email" id="resetEmail" required placeholder="your@email.com">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Send Reset Link
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; color: var(--color-text-secondary);">
+                Remember your password? <a href="#" id="backToLogin" style="color: var(--color-accent-purple);">Back to
+                    Login</a>
             </p>
         </div>
     </div>

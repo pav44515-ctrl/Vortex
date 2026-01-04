@@ -105,4 +105,43 @@ router.get('/check', (req, res) => {
     }
 });
 
+// Forgot Password Route
+router.post('/forgot-password',
+    authLimiter,
+    [
+        body('email').isEmail().normalizeEmail().withMessage('Valid email is required')
+    ],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ error: errors.array()[0].msg });
+        }
+
+        const { email } = req.body;
+
+        // Check if user exists
+        const sql = `SELECT id, email FROM users WHERE email = ?`;
+        db.get(sql, [email], (err, user) => {
+            if (err) {
+                return res.status(500).json({ error: 'Server error' });
+            }
+
+            // Always return success to prevent email enumeration attacks
+            // In production, you would:
+            // 1. Generate a secure reset token
+            // 2. Store it in the database with an expiry
+            // 3. Send an email with the reset link
+
+            if (user) {
+                console.log(`[Password Reset] Reset requested for user: ${email}`);
+                // TODO: Implement actual email sending with a service like SendGrid, Nodemailer, etc.
+            }
+
+            res.json({
+                message: 'If an account exists with this email, you will receive password reset instructions.'
+            });
+        });
+    }
+);
+
 module.exports = router;

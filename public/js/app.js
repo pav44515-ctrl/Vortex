@@ -444,6 +444,14 @@ function setupModalListeners() {
             e.preventDefault();
             if (!state.isAuthenticated) {
                 openModal(loginModal);
+                // Auto-fill remembered email
+                const rememberedEmail = localStorage.getItem('rememberedEmail');
+                if (rememberedEmail) {
+                    const emailInput = document.getElementById('loginEmail');
+                    const rememberCheckbox = document.getElementById('rememberMe');
+                    if (emailInput) emailInput.value = rememberedEmail;
+                    if (rememberCheckbox) rememberCheckbox.checked = true;
+                }
             }
         });
     }
@@ -499,6 +507,76 @@ function setupModalListeners() {
             });
         }
     });
+
+    // Forgot Password Modal
+    const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const closeForgotPasswordModal = document.getElementById('closeForgotPasswordModal');
+    const backToLogin = document.getElementById('backToLogin');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+    if (forgotPasswordLink && forgotPasswordModal) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(loginModal);
+            openModal(forgotPasswordModal);
+        });
+    }
+
+    if (closeForgotPasswordModal && forgotPasswordModal) {
+        closeForgotPasswordModal.addEventListener('click', () => closeModal(forgotPasswordModal));
+    }
+
+    if (backToLogin && forgotPasswordModal) {
+        backToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(forgotPasswordModal);
+            openModal(loginModal);
+        });
+    }
+
+    if (forgotPasswordModal) {
+        forgotPasswordModal.addEventListener('click', (e) => {
+            if (e.target === forgotPasswordModal) {
+                closeModal(forgotPasswordModal);
+            }
+        });
+    }
+
+    if (forgotPasswordForm) {
+        forgotPasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+
+            if (isDemoMode) {
+                showNotification('Password reset email sent! (Demo Mode) 📧', 'success');
+                closeModal(forgotPasswordModal);
+                openModal(loginModal);
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showNotification('Password reset instructions sent to your email! 📧', 'success');
+                    closeModal(forgotPasswordModal);
+                    openModal(loginModal);
+                } else {
+                    showNotification(data.error || 'Failed to send reset email', 'error');
+                }
+            } catch (error) {
+                console.error('Forgot password error:', error);
+                showNotification('Connection error. Please try again.', 'error');
+            }
+        });
+    }
 
     // Demo Video Modal
     const watchDemoBtn = document.getElementById('watchDemoBtn');
@@ -625,6 +703,7 @@ async function handleLogin(e) {
 
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
+    const rememberMe = document.getElementById('rememberMe')?.checked || false;
 
     if (isDemoMode) {
         // Extract name from email (before @)
@@ -634,6 +713,13 @@ async function handleLogin(e) {
         state.user = fakeUser;
         localStorage.setItem('demo_user', JSON.stringify(fakeUser));
         localStorage.setItem('userSession', JSON.stringify(fakeUser));
+
+        // Remember Me - save email for next login
+        if (rememberMe) {
+            localStorage.setItem('rememberedEmail', email);
+        } else {
+            localStorage.removeItem('rememberedEmail');
+        }
 
         updateUIForAuthenticatedUser();
         closeModal(document.getElementById('loginModal'));
@@ -662,6 +748,14 @@ async function handleLogin(e) {
             state.isAuthenticated = true;
             state.user = data.user;
             localStorage.setItem('userSession', JSON.stringify(data.user));
+
+            // Remember Me - save email for next login
+            if (rememberMe) {
+                localStorage.setItem('rememberedEmail', email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+
             updateUIForAuthenticatedUser();
             closeModal(document.getElementById('loginModal'));
             showNotification('Welcome back! 🎉', 'success');
