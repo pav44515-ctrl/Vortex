@@ -1974,18 +1974,161 @@
                 });
             });
 
-            // Crop Ratio Buttons
+            // Crop Ratio Buttons - WORKING IMPLEMENTATION
+            let currentCropRatio = 'free';
+
             document.querySelectorAll('.crop-ratio-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
+                    const ratio = this.getAttribute('data-ratio');
+                    currentCropRatio = ratio;
+
+                    // Update button styles
                     document.querySelectorAll('.crop-ratio-btn').forEach(b => {
                         b.classList.remove('active');
                         b.style.background = 'rgba(255,255,255,0.05)';
+                        b.style.borderColor = 'transparent';
                     });
                     this.classList.add('active');
                     this.style.background = 'var(--color-accent-purple)';
-                    console.log('Crop ratio:', this.getAttribute('data-ratio'));
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    // Apply crop to preview
+                    applyCropRatio(ratio);
+
+                    // Save to history
+                    saveToHistory();
+
+                    console.log('Crop ratio applied:', ratio);
                 });
             });
+
+            function applyCropRatio(ratio) {
+                const previewScreen = document.querySelector('.preview-screen');
+                const previewImg = document.querySelector('.preview-screen img');
+
+                if (!previewScreen) return;
+
+                // Remove existing crop overlay
+                const existingOverlay = document.getElementById('cropOverlay');
+                if (existingOverlay) existingOverlay.remove();
+
+                if (ratio === 'free' || !previewImg) {
+                    // Remove crop constraints
+                    if (previewImg) {
+                        previewImg.style.clipPath = 'none';
+                        previewImg.style.objectFit = 'contain';
+                    }
+                    previewScreen.style.aspectRatio = '';
+                    return;
+                }
+
+                // Parse ratio
+                const [w, h] = ratio.split(':').map(Number);
+                const aspectRatio = w / h;
+
+                // Get image dimensions
+                const imgRect = previewImg.getBoundingClientRect();
+                const imgAspect = imgRect.width / imgRect.height;
+
+                // Calculate crop clip-path
+                let clipLeft = 0, clipTop = 0, clipRight = 100, clipBottom = 100;
+
+                if (imgAspect > aspectRatio) {
+                    // Image is wider than target ratio - crop sides
+                    const newWidthPercent = (aspectRatio / imgAspect) * 100;
+                    const cropAmount = (100 - newWidthPercent) / 2;
+                    clipLeft = cropAmount;
+                    clipRight = 100 - cropAmount;
+                } else {
+                    // Image is taller than target ratio - crop top/bottom
+                    const newHeightPercent = (imgAspect / aspectRatio) * 100;
+                    const cropAmount = (100 - newHeightPercent) / 2;
+                    clipTop = cropAmount;
+                    clipBottom = 100 - cropAmount;
+                }
+
+                // Apply clip-path
+                previewImg.style.clipPath = `inset(${clipTop}% ${100 - clipRight}% ${100 - clipBottom}% ${clipLeft}%)`;
+
+                // Create crop overlay indicator
+                const overlay = document.createElement('div');
+                overlay.id = 'cropOverlay';
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    pointer-events: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 5;
+                `;
+
+                // Create crop frame indicator
+                const cropFrame = document.createElement('div');
+                cropFrame.style.cssText = `
+                    border: 2px dashed rgba(168, 85, 247, 0.8);
+                    background: transparent;
+                    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+                    aspect-ratio: ${w}/${h};
+                    max-width: 90%;
+                    max-height: 90%;
+                    width: auto;
+                    height: auto;
+                `;
+
+                // Calculate frame size based on preview area
+                const previewRect = previewScreen.getBoundingClientRect();
+                const previewAspect = previewRect.width / previewRect.height;
+
+                if (previewAspect > aspectRatio) {
+                    // Preview is wider - height constrained
+                    cropFrame.style.height = '85%';
+                    cropFrame.style.width = 'auto';
+                } else {
+                    // Preview is taller - width constrained
+                    cropFrame.style.width = '85%';
+                    cropFrame.style.height = 'auto';
+                }
+
+                // Add rule of thirds grid
+                cropFrame.innerHTML = `
+                    <div style="position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);">
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-bottom: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div style="border-right: 1px solid rgba(255,255,255,0.3);"></div>
+                        <div></div>
+                    </div>
+                    <div style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--color-accent-purple); background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 4px;">
+                        Crop: ${ratio}
+                    </div>
+                `;
+                cropFrame.style.position = 'relative';
+
+                overlay.appendChild(cropFrame);
+                previewScreen.style.position = 'relative';
+                previewScreen.appendChild(overlay);
+
+                // Store crop ratio in state
+                photoEditorState.settings.cropRatio = ratio;
+
+                // Visual feedback
+                const activeBtn = document.querySelector(`.crop-ratio-btn[data-ratio="${ratio}"]`);
+                if (activeBtn) {
+                    const originalText = activeBtn.textContent;
+                    activeBtn.textContent = '✓ ' + ratio;
+                    setTimeout(() => {
+                        activeBtn.textContent = originalText;
+                    }, 1000);
+                }
+            }
 
             // Flip Buttons
             document.getElementById('flipHorizontalBtn')?.addEventListener('click', function () {
