@@ -2398,7 +2398,7 @@
                 });
             });
 
-            // Export Photo
+            // Export Photo - WITH CROP RATIO SUPPORT
             document.getElementById('exportPhotoBtn')?.addEventListener('click', function () {
                 const previewImg = document.querySelector('.preview-screen img');
                 if (!previewImg) {
@@ -2406,12 +2406,46 @@
                     return;
                 }
 
-                // Create canvas with applied filters
+                const s = photoEditorState.settings;
+                const cropRatio = s.cropRatio || currentCropRatio || 'free';
+
+                // Get original image dimensions
+                let srcWidth = previewImg.naturalWidth;
+                let srcHeight = previewImg.naturalHeight;
+                let srcX = 0;
+                let srcY = 0;
+                let destWidth = srcWidth;
+                let destHeight = srcHeight;
+
+                // Apply crop ratio calculations
+                if (cropRatio && cropRatio !== 'free') {
+                    const [ratioW, ratioH] = cropRatio.split(':').map(Number);
+                    const targetAspect = ratioW / ratioH;
+                    const imgAspect = srcWidth / srcHeight;
+
+                    if (imgAspect > targetAspect) {
+                        // Image is wider than target - crop sides
+                        destWidth = Math.round(srcHeight * targetAspect);
+                        destHeight = srcHeight;
+                        srcX = Math.round((srcWidth - destWidth) / 2);
+                        srcY = 0;
+                    } else {
+                        // Image is taller than target - crop top/bottom
+                        destWidth = srcWidth;
+                        destHeight = Math.round(srcWidth / targetAspect);
+                        srcX = 0;
+                        srcY = Math.round((srcHeight - destHeight) / 2);
+                    }
+                }
+
+                // Create canvas with cropped dimensions
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
 
-                canvas.width = previewImg.naturalWidth;
-                canvas.height = previewImg.naturalHeight;
+                // Apply scale to final dimensions
+                const scaleFactor = s.scale / 100;
+                canvas.width = Math.round(destWidth * scaleFactor);
+                canvas.height = Math.round(destHeight * scaleFactor);
 
                 // Apply current filter
                 ctx.filter = previewImg.style.filter || 'none';
@@ -2420,18 +2454,24 @@
                 ctx.save();
                 ctx.translate(canvas.width / 2, canvas.height / 2);
 
-                const s = photoEditorState.settings;
                 if (s.rotation !== 0) ctx.rotate(s.rotation * Math.PI / 180);
-                if (s.scale !== 100) ctx.scale(s.scale / 100, s.scale / 100);
                 if (s.flipH) ctx.scale(-1, 1);
                 if (s.flipV) ctx.scale(1, -1);
 
-                ctx.drawImage(previewImg, -canvas.width / 2, -canvas.height / 2);
+                // Draw cropped image
+                ctx.drawImage(
+                    previewImg,
+                    srcX, srcY,           // Source x, y (where to start cropping)
+                    destWidth, destHeight, // Source width, height (crop size)
+                    -canvas.width / 2, -canvas.height / 2,  // Destination x, y
+                    canvas.width, canvas.height              // Destination width, height
+                );
                 ctx.restore();
 
                 // Download
                 const link = document.createElement('a');
-                link.download = 'edited-photo-' + Date.now() + '.png';
+                const ratioSuffix = cropRatio !== 'free' ? `_${cropRatio.replace(':', 'x')}` : '';
+                link.download = `edited-photo${ratioSuffix}-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
 
@@ -2444,7 +2484,7 @@
                     this.style.background = '';
                 }, 2000);
 
-                console.log('Photo exported');
+                console.log('Photo exported with crop ratio:', cropRatio);
             });
 
             // Split Toning
