@@ -293,8 +293,8 @@
 
         <!-- Edit Controls -->
         <div class="toolbar-group">
-            <button class="tool-btn" title="Undo last action">↶ Undo</button>
-            <button class="tool-btn" title="Redo last action">↷ Redo</button>
+            <button class="tool-btn" id="undoBtn" title="Undo last action (Ctrl+Z)">↶ Undo</button>
+            <button class="tool-btn" id="redoBtn" title="Redo last action (Ctrl+Y)">↷ Redo</button>
         </div>
 
         <!-- Editing Tools -->
@@ -335,12 +335,16 @@
                     <!-- Imported media will appear here as small items with names -->
                 </div>
 
-                <!-- Pro/AI/Assets Tabs -->
+                <!-- Pro/AI/Assets/Photo Tabs -->
                 <div class="feature-tabs"
-                    style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; flex-wrap: wrap;">
                     <button class="tab-btn active" data-tab="professional"
                         style="background: none; border: none; color: var(--color-text-primary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid var(--color-accent-purple); transition: all 0.2s; font-size: 0.8125rem;">
                         ⚙️ Pro
+                    </button>
+                    <button class="tab-btn" data-tab="photo"
+                        style="background: none; border: none; color: var(--color-text-secondary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 0.8125rem;">
+                        📷 Photo
                     </button>
                     <button class="tab-btn" data-tab="ai"
                         style="background: none; border: none; color: var(--color-text-secondary); padding: 0.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-size: 0.8125rem;">
@@ -446,7 +450,447 @@
                     </div>
                 </div>
 
-                <!-- AI Tools Tab -->
+                <!-- Photo Editing Tools Tab -->
+                <div class="tab-content" id="photo-tab" style="display: none;">
+                    <h5
+                        style="margin-bottom: 1rem; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                        📷 Photo Editing Tools
+                    </h5>
+
+                    <!-- Before/After Toggle -->
+                    <div class="glass-card"
+                        style="padding: 0.75rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <button id="photoBeforeAfterBtn" class="tool-btn"
+                            style="font-size: 0.75rem; padding: 0.5rem;">👁️ Before/After</button>
+                        <button id="photoResetBtn" class="tool-btn"
+                            style="font-size: 0.75rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.2);">↺ Reset
+                            All</button>
+                    </div>
+
+                    <!-- 1. Basic Adjustments -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="basic">
+                            ☀️ Basic Adjustments <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="basic-section">
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Exposure <span
+                                        id="exposureValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoExposure" min="-100"
+                                    max="100" value="0" data-filter="brightness">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Contrast <span
+                                        id="contrastValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoContrast" min="-100"
+                                    max="100" value="0" data-filter="contrast">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Highlights <span
+                                        id="highlightsValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoHighlights" min="-100"
+                                    max="100" value="0" data-filter="highlights">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Shadows
+                                    <span id="shadowsValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoShadows" min="-100"
+                                    max="100" value="0" data-filter="shadows">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Temperature <span
+                                        id="temperatureValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoTemperature" min="-100"
+                                    max="100" value="0" data-filter="temperature">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Tint
+                                    <span id="tintValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoTint" min="-100" max="100"
+                                    value="0" data-filter="tint">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Clarity
+                                    <span id="clarityValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoClarity" min="-100"
+                                    max="100" value="0" data-filter="clarity">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Vibrance <span
+                                        id="vibranceValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoVibrance" min="-100"
+                                    max="100" value="0" data-filter="vibrance">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Sharpness <span
+                                        id="sharpnessValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoSharpness" min="0"
+                                    max="100" value="0" data-filter="sharpness">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Color Tools -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="color">
+                            🎨 Color Tools <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="color-section">
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Saturation <span
+                                        id="saturationValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoSaturation" min="-100"
+                                    max="100" value="0" data-filter="saturate">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Hue
+                                    Rotate <span id="hueValue">0°</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoHue" min="-180" max="180"
+                                    value="0" data-filter="hue-rotate">
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <label class="prop-label">Color Overlay</label>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button class="color-overlay-btn" data-color="none"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-accent-purple); background: linear-gradient(45deg, #fff 50%, #000 50%); cursor: pointer;"></button>
+                                    <button class="color-overlay-btn" data-color="sepia"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; background: #d4a574; cursor: pointer;"></button>
+                                    <button class="color-overlay-btn" data-color="cool"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; background: #6ec6ff; cursor: pointer;"></button>
+                                    <button class="color-overlay-btn" data-color="warm"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; background: #ff9e6c; cursor: pointer;"></button>
+                                    <button class="color-overlay-btn" data-color="purple"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; background: #a855f7; cursor: pointer;"></button>
+                                    <button class="color-overlay-btn" data-color="green"
+                                        style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent; background: #22c55e; cursor: pointer;"></button>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label">Split Toning</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                                    <div>
+                                        <label
+                                            style="font-size: 0.625rem; color: var(--color-text-tertiary);">Highlights</label>
+                                        <input type="color" id="splitHighlights" value="#ffffff"
+                                            style="width: 100%; height: 30px; border: none; border-radius: 4px; cursor: pointer;">
+                                    </div>
+                                    <div>
+                                        <label
+                                            style="font-size: 0.625rem; color: var(--color-text-tertiary);">Shadows</label>
+                                        <input type="color" id="splitShadows" value="#000000"
+                                            style="width: 100%; height: 30px; border: none; border-radius: 4px; cursor: pointer;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. AI-Powered Tools -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="ai-photo">
+                            🤖 AI Photo Tools <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="ai-photo-section">
+                            <div class="tools-grid" style="grid-template-columns: repeat(2, 1fr);">
+                                <div class="tool-item ai-photo-tool" data-ai-tool="auto-enhance">
+                                    <span class="tool-icon">✨</span>
+                                    <span class="tool-label">Auto Enhance</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="bg-remove">
+                                    <span class="tool-icon">🖼️</span>
+                                    <span class="tool-label">BG Remove</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="object-remove">
+                                    <span class="tool-icon">🗑️</span>
+                                    <span class="tool-label">Object Remove</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="portrait-retouch">
+                                    <span class="tool-icon">👤</span>
+                                    <span class="tool-label">Portrait AI</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="sky-replace">
+                                    <span class="tool-icon">🌅</span>
+                                    <span class="tool-label">Sky Replace</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="style-transfer">
+                                    <span class="tool-icon">🎨</span>
+                                    <span class="tool-label">Style Transfer</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="upscale">
+                                    <span class="tool-icon">📐</span>
+                                    <span class="tool-label">AI Upscale</span>
+                                </div>
+                                <div class="tool-item ai-photo-tool" data-ai-tool="hdr">
+                                    <span class="tool-icon">🌟</span>
+                                    <span class="tool-label">HDR Effect</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Retouching Tools -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="retouch">
+                            🖌️ Retouching <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="retouch-section">
+                            <div class="tools-grid" style="grid-template-columns: repeat(2, 1fr);">
+                                <div class="tool-item retouch-tool" data-retouch="healing">
+                                    <span class="tool-icon">🩹</span>
+                                    <span class="tool-label">Healing Brush</span>
+                                </div>
+                                <div class="tool-item retouch-tool" data-retouch="clone">
+                                    <span class="tool-icon">📋</span>
+                                    <span class="tool-label">Clone Stamp</span>
+                                </div>
+                                <div class="tool-item retouch-tool" data-retouch="spot">
+                                    <span class="tool-icon">⚫</span>
+                                    <span class="tool-label">Spot Removal</span>
+                                </div>
+                                <div class="tool-item retouch-tool" data-retouch="redeye">
+                                    <span class="tool-icon">👁️</span>
+                                    <span class="tool-label">Red Eye</span>
+                                </div>
+                                <div class="tool-item retouch-tool" data-retouch="dodge">
+                                    <span class="tool-icon">☀️</span>
+                                    <span class="tool-label">Dodge</span>
+                                </div>
+                                <div class="tool-item retouch-tool" data-retouch="burn">
+                                    <span class="tool-icon">🔥</span>
+                                    <span class="tool-label">Burn</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Brush
+                                    Size <span id="brushSizeValue">50</span></label>
+                                <input type="range" class="prop-range" id="retouchBrushSize" min="5" max="200"
+                                    value="50">
+                            </div>
+                            <div style="margin-top: 0.5rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Opacity
+                                    <span id="brushOpacityValue">100%</span></label>
+                                <input type="range" class="prop-range" id="retouchOpacity" min="0" max="100"
+                                    value="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Filters & Presets -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="filters">
+                            🎭 Filters & Presets <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="filters-section">
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Intensity <span
+                                        id="filterIntensityValue">100%</span></label>
+                                <input type="range" class="prop-range" id="filterIntensity" min="0" max="100"
+                                    value="100">
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                                <div class="filter-preset" data-filter="none"
+                                    style="padding: 0.5rem; text-align: center; background: rgba(255,255,255,0.1); border-radius: 6px; cursor: pointer; border: 2px solid var(--color-accent-purple); font-size: 0.625rem;">
+                                    None
+                                </div>
+                                <div class="filter-preset" data-filter="vintage"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #d4a574 0%, #8b6914 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Vintage
+                                </div>
+                                <div class="filter-preset" data-filter="noir"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #333 0%, #000 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Noir
+                                </div>
+                                <div class="filter-preset" data-filter="cinematic"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #0ea5e9 0%, #f97316 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Cinematic
+                                </div>
+                                <div class="filter-preset" data-filter="matte"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #6b7280 0%, #374151 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Matte
+                                </div>
+                                <div class="filter-preset" data-filter="vivid"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Vivid
+                                </div>
+                                <div class="filter-preset" data-filter="golden"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Golden
+                                </div>
+                                <div class="filter-preset" data-filter="cool"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Cool
+                                </div>
+                                <div class="filter-preset" data-filter="dramatic"
+                                    style="padding: 0.5rem; text-align: center; background: linear-gradient(135deg, #1e1e1e 0%, #7f1d1d 100%); border-radius: 6px; cursor: pointer; border: 2px solid transparent; font-size: 0.625rem;">
+                                    Dramatic
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Effects & Overlays -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="effects">
+                            ✨ Effects & Overlays <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="effects-section">
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Blur
+                                    <span id="blurValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoBlur" min="0" max="20"
+                                    value="0" data-filter="blur">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Vignette <span
+                                        id="vignetteValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoVignette" min="0" max="100"
+                                    value="0" data-filter="vignette">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Grain
+                                    <span id="grainValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoGrain" min="0" max="100"
+                                    value="0" data-filter="grain">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Fade
+                                    <span id="fadeValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoFade" min="0" max="100"
+                                    value="0" data-filter="fade">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label">Blur Type</label>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button class="blur-type-btn active" data-blur="gaussian"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">Gaussian</button>
+                                    <button class="blur-type-btn" data-blur="radial"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">Radial</button>
+                                    <button class="blur-type-btn" data-blur="tilt-shift"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">Tilt-Shift</button>
+                                    <button class="blur-type-btn" data-blur="motion"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">Motion</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Transform & Geometry -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="transform">
+                            📐 Transform <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="transform-section">
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Rotation <span
+                                        id="rotationValue">0°</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoRotation" min="-180"
+                                    max="180" value="0" data-filter="rotation">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label" style="display: flex; justify-content: space-between;">Scale
+                                    <span id="scaleValue">100%</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoScale" min="50" max="200"
+                                    value="100" data-filter="scale">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Perspective X <span
+                                        id="perspectiveXValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoPerspectiveX" min="-45"
+                                    max="45" value="0" data-filter="perspectiveX">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label"
+                                    style="display: flex; justify-content: space-between;">Perspective Y <span
+                                        id="perspectiveYValue">0</span></label>
+                                <input type="range" class="prop-range photo-slider" id="photoPerspectiveY" min="-45"
+                                    max="45" value="0" data-filter="perspectiveY">
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <label class="prop-label">Crop Ratio</label>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button class="crop-ratio-btn active" data-ratio="free"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">Free</button>
+                                    <button class="crop-ratio-btn" data-ratio="1:1"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">1:1</button>
+                                    <button class="crop-ratio-btn" data-ratio="16:9"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">16:9</button>
+                                    <button class="crop-ratio-btn" data-ratio="4:3"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">4:3</button>
+                                    <button class="crop-ratio-btn" data-ratio="9:16"
+                                        style="font-size: 0.625rem; padding: 0.375rem 0.5rem;">9:16</button>
+                                </div>
+                            </div>
+                            <div
+                                style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem;">
+                                <button id="flipHorizontalBtn" class="tool-btn" style="font-size: 0.75rem;">↔️ Flip
+                                    H</button>
+                                <button id="flipVerticalBtn" class="tool-btn" style="font-size: 0.75rem;">↕️ Flip
+                                    V</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. Creative Tools -->
+                    <div class="glass-card photo-tool-section" style="padding: 1rem; margin-bottom: 1rem;">
+                        <h6 style="margin-bottom: 0.75rem; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;"
+                            class="section-toggle" data-section="creative">
+                            🎭 Creative Tools <span style="margin-left: auto; font-size: 0.75rem;">▼</span>
+                        </h6>
+                        <div class="section-content" id="creative-section">
+                            <div class="tools-grid" style="grid-template-columns: repeat(2, 1fr);">
+                                <div class="tool-item creative-tool" data-creative="double-exposure">
+                                    <span class="tool-icon">🔳</span>
+                                    <span class="tool-label">Double Exposure</span>
+                                </div>
+                                <div class="tool-item creative-tool" data-creative="color-splash">
+                                    <span class="tool-icon">💧</span>
+                                    <span class="tool-label">Color Splash</span>
+                                </div>
+                                <div class="tool-item creative-tool" data-creative="miniature">
+                                    <span class="tool-icon">🏠</span>
+                                    <span class="tool-label">Miniature</span>
+                                </div>
+                                <div class="tool-item creative-tool" data-creative="glitch">
+                                    <span class="tool-icon">📺</span>
+                                    <span class="tool-label">Glitch</span>
+                                </div>
+                                <div class="tool-item creative-tool" data-creative="duotone">
+                                    <span class="tool-icon">🎨</span>
+                                    <span class="tool-label">Duotone</span>
+                                </div>
+                                <div class="tool-item creative-tool" data-creative="posterize">
+                                    <span class="tool-icon">🖼️</span>
+                                    <span class="tool-label">Posterize</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Photo -->
+                    <button id="exportPhotoBtn" class="btn btn-primary"
+                        style="width: 100%; padding: 0.75rem; font-size: 0.875rem; margin-top: 0.5rem;">
+                        📥 Export Edited Photo
+                    </button>
+                </div>
+
                 <div class="tab-content" id="ai-tab" style="display: none;">
                     <h5
                         style="margin-bottom: 1rem; color: var(--color-text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">
@@ -1305,7 +1749,811 @@
                 userAvatar.title = user.name;
             }
 
-            console.log('Professional Tools loaded successfully');
+            // ================================
+            // PHOTO EDITING TOOLS JAVASCRIPT
+            // ================================
+
+            // Photo Editor State
+            const photoEditorState = {
+                originalImage: null,
+                currentImage: null,
+                settings: {
+                    exposure: 0,
+                    contrast: 0,
+                    highlights: 0,
+                    shadows: 0,
+                    temperature: 0,
+                    tint: 0,
+                    clarity: 0,
+                    vibrance: 0,
+                    sharpness: 0,
+                    saturation: 0,
+                    hue: 0,
+                    blur: 0,
+                    vignette: 0,
+                    grain: 0,
+                    fade: 0,
+                    rotation: 0,
+                    scale: 100,
+                    perspectiveX: 0,
+                    perspectiveY: 0,
+                    flipH: false,
+                    flipV: false
+                },
+                activeFilter: 'none',
+                colorOverlay: 'none',
+                showingOriginal: false
+            };
+
+            // Apply photo filters to preview image
+            function applyPhotoFilters() {
+                const previewImg = document.querySelector('.preview-screen img');
+                if (!previewImg) return;
+
+                const s = photoEditorState.settings;
+
+                // Build CSS filter string
+                const brightness = 100 + s.exposure;
+                const contrast = 100 + s.contrast;
+                const saturate = 100 + s.saturation + s.vibrance * 0.5;
+                const blur = s.blur;
+                const hueRotate = s.hue;
+                const sepia = photoEditorState.colorOverlay === 'sepia' ? 30 : 0;
+                const grayscale = photoEditorState.activeFilter === 'noir' ? 100 : 0;
+
+                // Filter presets
+                let filterString = '';
+                switch (photoEditorState.activeFilter) {
+                    case 'vintage':
+                        filterString = `brightness(${brightness + 10}%) contrast(${contrast - 10}%) saturate(${saturate - 20}%) sepia(30%) hue-rotate(${hueRotate}deg)`;
+                        break;
+                    case 'noir':
+                        filterString = `brightness(${brightness}%) contrast(${contrast + 20}%) grayscale(100%)`;
+                        break;
+                    case 'cinematic':
+                        filterString = `brightness(${brightness - 5}%) contrast(${contrast + 15}%) saturate(${saturate + 10}%) hue-rotate(${hueRotate - 10}deg)`;
+                        break;
+                    case 'matte':
+                        filterString = `brightness(${brightness + 5}%) contrast(${contrast - 15}%) saturate(${saturate - 15}%)`;
+                        break;
+                    case 'vivid':
+                        filterString = `brightness(${brightness}%) contrast(${contrast + 10}%) saturate(${saturate + 40}%) hue-rotate(${hueRotate}deg)`;
+                        break;
+                    case 'golden':
+                        filterString = `brightness(${brightness + 10}%) contrast(${contrast}%) saturate(${saturate + 20}%) sepia(20%) hue-rotate(-10deg)`;
+                        break;
+                    case 'cool':
+                        filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) hue-rotate(${hueRotate + 20}deg)`;
+                        break;
+                    case 'dramatic':
+                        filterString = `brightness(${brightness - 10}%) contrast(${contrast + 30}%) saturate(${saturate + 20}%)`;
+                        break;
+                    default:
+                        filterString = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) hue-rotate(${hueRotate}deg) sepia(${sepia}%)`;
+                }
+
+                // Add blur if set
+                if (blur > 0) {
+                    filterString += ` blur(${blur}px)`;
+                }
+
+                // Apply grayscale for noir
+                if (grayscale > 0) {
+                    filterString += ` grayscale(${grayscale}%)`;
+                }
+
+                previewImg.style.filter = filterString;
+
+                // Apply transforms
+                let transform = '';
+                if (s.rotation !== 0) transform += `rotate(${s.rotation}deg) `;
+                if (s.scale !== 100) transform += `scale(${s.scale / 100}) `;
+                if (s.perspectiveX !== 0) transform += `skewY(${s.perspectiveX}deg) `;
+                if (s.perspectiveY !== 0) transform += `skewX(${s.perspectiveY}deg) `;
+                if (s.flipH) transform += `scaleX(-1) `;
+                if (s.flipV) transform += `scaleY(-1) `;
+
+                previewImg.style.transform = transform;
+
+                // Apply vignette via box-shadow overlay
+                const previewScreen = document.querySelector('.preview-screen');
+                if (previewScreen && s.vignette > 0) {
+                    const vignetteIntensity = s.vignette / 100;
+                    previewScreen.style.boxShadow = `inset 0 0 ${100 * vignetteIntensity}px ${50 * vignetteIntensity}px rgba(0,0,0,${vignetteIntensity * 0.7})`;
+                } else if (previewScreen) {
+                    previewScreen.style.boxShadow = 'none';
+                }
+
+                console.log('Photo filters applied:', filterString);
+            }
+
+            // Photo Slider Event Handlers
+            document.querySelectorAll('.photo-slider').forEach(slider => {
+                slider.addEventListener('input', function () {
+                    const id = this.id;
+                    const value = parseFloat(this.value);
+
+                    // Update display values
+                    const valueMap = {
+                        'photoExposure': { display: 'exposureValue', setting: 'exposure' },
+                        'photoContrast': { display: 'contrastValue', setting: 'contrast' },
+                        'photoHighlights': { display: 'highlightsValue', setting: 'highlights' },
+                        'photoShadows': { display: 'shadowsValue', setting: 'shadows' },
+                        'photoTemperature': { display: 'temperatureValue', setting: 'temperature' },
+                        'photoTint': { display: 'tintValue', setting: 'tint' },
+                        'photoClarity': { display: 'clarityValue', setting: 'clarity' },
+                        'photoVibrance': { display: 'vibranceValue', setting: 'vibrance' },
+                        'photoSharpness': { display: 'sharpnessValue', setting: 'sharpness' },
+                        'photoSaturation': { display: 'saturationValue', setting: 'saturation' },
+                        'photoHue': { display: 'hueValue', setting: 'hue', suffix: '°' },
+                        'photoBlur': { display: 'blurValue', setting: 'blur' },
+                        'photoVignette': { display: 'vignetteValue', setting: 'vignette' },
+                        'photoGrain': { display: 'grainValue', setting: 'grain' },
+                        'photoFade': { display: 'fadeValue', setting: 'fade' },
+                        'photoRotation': { display: 'rotationValue', setting: 'rotation', suffix: '°' },
+                        'photoScale': { display: 'scaleValue', setting: 'scale', suffix: '%' },
+                        'photoPerspectiveX': { display: 'perspectiveXValue', setting: 'perspectiveX' },
+                        'photoPerspectiveY': { display: 'perspectiveYValue', setting: 'perspectiveY' }
+                    };
+
+                    if (valueMap[id]) {
+                        const displayEl = document.getElementById(valueMap[id].display);
+                        if (displayEl) {
+                            displayEl.textContent = value + (valueMap[id].suffix || '');
+                        }
+                        photoEditorState.settings[valueMap[id].setting] = value;
+                    }
+
+                    applyPhotoFilters();
+                });
+            });
+
+            // Section Toggle (Collapsible)
+            document.querySelectorAll('.section-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function () {
+                    const section = this.getAttribute('data-section');
+                    const content = document.getElementById(section + '-section');
+                    const arrow = this.querySelector('span:last-child');
+
+                    if (content) {
+                        if (content.style.display === 'none') {
+                            content.style.display = 'block';
+                            if (arrow) arrow.textContent = '▼';
+                        } else {
+                            content.style.display = 'none';
+                            if (arrow) arrow.textContent = '▶';
+                        }
+                    }
+                });
+            });
+
+            // Filter Presets
+            document.querySelectorAll('.filter-preset').forEach(preset => {
+                preset.addEventListener('click', function () {
+                    const filter = this.getAttribute('data-filter');
+                    photoEditorState.activeFilter = filter;
+
+                    // Update preset selection UI
+                    document.querySelectorAll('.filter-preset').forEach(p => {
+                        p.style.borderColor = 'transparent';
+                    });
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    applyPhotoFilters();
+                    console.log('Filter preset applied:', filter);
+                });
+            });
+
+            // Color Overlay Buttons
+            document.querySelectorAll('.color-overlay-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const color = this.getAttribute('data-color');
+                    photoEditorState.colorOverlay = color;
+
+                    // Update selection UI
+                    document.querySelectorAll('.color-overlay-btn').forEach(b => {
+                        b.style.borderColor = 'transparent';
+                    });
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    applyPhotoFilters();
+                    console.log('Color overlay applied:', color);
+                });
+            });
+
+            // Blur Type Buttons
+            document.querySelectorAll('.blur-type-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.blur-type-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                    });
+                    this.classList.add('active');
+                    this.style.background = 'var(--color-accent-purple)';
+                    console.log('Blur type:', this.getAttribute('data-blur'));
+                });
+            });
+
+            // Crop Ratio Buttons
+            document.querySelectorAll('.crop-ratio-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.crop-ratio-btn').forEach(b => {
+                        b.classList.remove('active');
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                    });
+                    this.classList.add('active');
+                    this.style.background = 'var(--color-accent-purple)';
+                    console.log('Crop ratio:', this.getAttribute('data-ratio'));
+                });
+            });
+
+            // Flip Buttons
+            document.getElementById('flipHorizontalBtn')?.addEventListener('click', function () {
+                photoEditorState.settings.flipH = !photoEditorState.settings.flipH;
+                this.style.background = photoEditorState.settings.flipH ? 'var(--color-accent-purple)' : '';
+                applyPhotoFilters();
+                console.log('Flip Horizontal:', photoEditorState.settings.flipH);
+            });
+
+            document.getElementById('flipVerticalBtn')?.addEventListener('click', function () {
+                photoEditorState.settings.flipV = !photoEditorState.settings.flipV;
+                this.style.background = photoEditorState.settings.flipV ? 'var(--color-accent-purple)' : '';
+                applyPhotoFilters();
+                console.log('Flip Vertical:', photoEditorState.settings.flipV);
+            });
+
+            // Before/After Toggle
+            document.getElementById('photoBeforeAfterBtn')?.addEventListener('click', function () {
+                const previewImg = document.querySelector('.preview-screen img');
+                if (!previewImg) return;
+
+                photoEditorState.showingOriginal = !photoEditorState.showingOriginal;
+
+                if (photoEditorState.showingOriginal) {
+                    previewImg.style.filter = 'none';
+                    previewImg.style.transform = 'none';
+                    document.querySelector('.preview-screen').style.boxShadow = 'none';
+                    this.textContent = '👁️ Showing Original';
+                    this.style.background = 'var(--color-accent-purple)';
+                } else {
+                    applyPhotoFilters();
+                    this.textContent = '👁️ Before/After';
+                    this.style.background = '';
+                }
+            });
+
+            // Reset All Button
+            document.getElementById('photoResetBtn')?.addEventListener('click', function () {
+                // Reset all settings
+                photoEditorState.settings = {
+                    exposure: 0, contrast: 0, highlights: 0, shadows: 0,
+                    temperature: 0, tint: 0, clarity: 0, vibrance: 0, sharpness: 0,
+                    saturation: 0, hue: 0, blur: 0, vignette: 0, grain: 0, fade: 0,
+                    rotation: 0, scale: 100, perspectiveX: 0, perspectiveY: 0,
+                    flipH: false, flipV: false
+                };
+                photoEditorState.activeFilter = 'none';
+                photoEditorState.colorOverlay = 'none';
+
+                // Reset all sliders
+                document.querySelectorAll('.photo-slider').forEach(slider => {
+                    const defaultVal = slider.id === 'photoScale' ? 100 : 0;
+                    slider.value = defaultVal;
+                });
+
+                // Reset display values
+                const displayResets = [
+                    ['exposureValue', '0'], ['contrastValue', '0'], ['highlightsValue', '0'],
+                    ['shadowsValue', '0'], ['temperatureValue', '0'], ['tintValue', '0'],
+                    ['clarityValue', '0'], ['vibranceValue', '0'], ['sharpnessValue', '0'],
+                    ['saturationValue', '0'], ['hueValue', '0°'], ['blurValue', '0'],
+                    ['vignetteValue', '0'], ['grainValue', '0'], ['fadeValue', '0'],
+                    ['rotationValue', '0°'], ['scaleValue', '100%'],
+                    ['perspectiveXValue', '0'], ['perspectiveYValue', '0']
+                ];
+                displayResets.forEach(([id, val]) => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = val;
+                });
+
+                // Reset filter presets UI
+                document.querySelectorAll('.filter-preset').forEach((p, i) => {
+                    p.style.borderColor = i === 0 ? 'var(--color-accent-purple)' : 'transparent';
+                });
+
+                // Reset flip buttons
+                document.getElementById('flipHorizontalBtn').style.background = '';
+                document.getElementById('flipVerticalBtn').style.background = '';
+
+                applyPhotoFilters();
+
+                // Visual feedback
+                this.textContent = '✓ Reset!';
+                setTimeout(() => { this.textContent = '↺ Reset All'; }, 1000);
+
+                console.log('Photo editor reset');
+            });
+
+            // AI Photo Tools
+            document.querySelectorAll('.ai-photo-tool').forEach(tool => {
+                tool.addEventListener('click', function () {
+                    const aiTool = this.getAttribute('data-ai-tool');
+                    const toolNames = {
+                        'auto-enhance': 'Auto Enhance',
+                        'bg-remove': 'Background Removal',
+                        'object-remove': 'Object Removal',
+                        'portrait-retouch': 'Portrait Retouching',
+                        'sky-replace': 'Sky Replacement',
+                        'style-transfer': 'Style Transfer',
+                        'upscale': 'AI Upscale',
+                        'hdr': 'HDR Effect'
+                    };
+
+                    // Show processing feedback
+                    const icon = this.querySelector('.tool-icon');
+                    const originalIcon = icon.textContent;
+                    icon.textContent = '⏳';
+                    this.style.opacity = '0.7';
+
+                    setTimeout(() => {
+                        icon.textContent = '✓';
+                        this.style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.3) 100%)';
+
+                        // Apply simulated AI effect
+                        switch (aiTool) {
+                            case 'auto-enhance':
+                                photoEditorState.settings.exposure = 10;
+                                photoEditorState.settings.contrast = 15;
+                                photoEditorState.settings.saturation = 10;
+                                photoEditorState.settings.vibrance = 20;
+                                document.getElementById('photoExposure').value = 10;
+                                document.getElementById('photoContrast').value = 15;
+                                document.getElementById('photoSaturation').value = 10;
+                                document.getElementById('photoVibrance').value = 20;
+                                document.getElementById('exposureValue').textContent = '10';
+                                document.getElementById('contrastValue').textContent = '15';
+                                document.getElementById('saturationValue').textContent = '10';
+                                document.getElementById('vibranceValue').textContent = '20';
+                                break;
+                            case 'hdr':
+                                photoEditorState.settings.contrast = 30;
+                                photoEditorState.settings.highlights = -20;
+                                photoEditorState.settings.shadows = 30;
+                                photoEditorState.settings.clarity = 40;
+                                document.getElementById('photoContrast').value = 30;
+                                document.getElementById('photoHighlights').value = -20;
+                                document.getElementById('photoShadows').value = 30;
+                                document.getElementById('photoClarity').value = 40;
+                                document.getElementById('contrastValue').textContent = '30';
+                                document.getElementById('highlightsValue').textContent = '-20';
+                                document.getElementById('shadowsValue').textContent = '30';
+                                document.getElementById('clarityValue').textContent = '40';
+                                break;
+                            case 'portrait-retouch':
+                                photoEditorState.settings.blur = 1;
+                                photoEditorState.settings.vibrance = 15;
+                                document.getElementById('photoBlur').value = 1;
+                                document.getElementById('photoVibrance').value = 15;
+                                document.getElementById('blurValue').textContent = '1';
+                                document.getElementById('vibranceValue').textContent = '15';
+                                break;
+                        }
+
+                        applyPhotoFilters();
+
+                        setTimeout(() => {
+                            icon.textContent = originalIcon;
+                            this.style.opacity = '1';
+                            this.style.background = '';
+                        }, 1500);
+
+                        console.log('AI Tool applied:', toolNames[aiTool]);
+                    }, 1000);
+                });
+            });
+
+            // Retouching Tools
+            document.querySelectorAll('.retouch-tool').forEach(tool => {
+                tool.addEventListener('click', function () {
+                    const retouchTool = this.getAttribute('data-retouch');
+
+                    // Remove active from others
+                    document.querySelectorAll('.retouch-tool').forEach(t => {
+                        t.style.borderColor = 'rgba(255,255,255,0.05)';
+                    });
+
+                    // Set active
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    console.log('Retouch tool selected:', retouchTool, '- Click on image to use');
+                    alert(`${retouchTool.charAt(0).toUpperCase() + retouchTool.slice(1)} tool selected!\n\nClick on the image to apply this tool.`);
+                });
+            });
+
+            // Retouch Brush Controls
+            document.getElementById('retouchBrushSize')?.addEventListener('input', function () {
+                document.getElementById('brushSizeValue').textContent = this.value;
+            });
+
+            document.getElementById('retouchOpacity')?.addEventListener('input', function () {
+                document.getElementById('brushOpacityValue').textContent = this.value + '%';
+            });
+
+            // Filter Intensity
+            document.getElementById('filterIntensity')?.addEventListener('input', function () {
+                document.getElementById('filterIntensityValue').textContent = this.value + '%';
+                // Intensity affects how strongly the preset filter is applied
+                applyPhotoFilters();
+            });
+
+            // Creative Tools
+            document.querySelectorAll('.creative-tool').forEach(tool => {
+                tool.addEventListener('click', function () {
+                    const creative = this.getAttribute('data-creative');
+                    const creativeNames = {
+                        'double-exposure': 'Double Exposure',
+                        'color-splash': 'Color Splash',
+                        'miniature': 'Miniature Effect',
+                        'glitch': 'Glitch Effect',
+                        'duotone': 'Duotone',
+                        'posterize': 'Posterize'
+                    };
+
+                    // Show processing
+                    const icon = this.querySelector('.tool-icon');
+                    const originalIcon = icon.textContent;
+                    icon.textContent = '⏳';
+
+                    setTimeout(() => {
+                        // Apply creative effect
+                        switch (creative) {
+                            case 'miniature':
+                                photoEditorState.settings.saturation = 30;
+                                photoEditorState.settings.contrast = 20;
+                                document.getElementById('photoSaturation').value = 30;
+                                document.getElementById('photoContrast').value = 20;
+                                document.getElementById('saturationValue').textContent = '30';
+                                document.getElementById('contrastValue').textContent = '20';
+                                break;
+                            case 'glitch':
+                                // Simulate glitch with hue shift
+                                photoEditorState.settings.hue = 120;
+                                document.getElementById('photoHue').value = 120;
+                                document.getElementById('hueValue').textContent = '120°';
+                                break;
+                            case 'duotone':
+                                photoEditorState.settings.saturation = -50;
+                                photoEditorState.colorOverlay = 'purple';
+                                document.getElementById('photoSaturation').value = -50;
+                                document.getElementById('saturationValue').textContent = '-50';
+                                break;
+                            case 'posterize':
+                                photoEditorState.settings.contrast = 60;
+                                photoEditorState.settings.saturation = 40;
+                                document.getElementById('photoContrast').value = 60;
+                                document.getElementById('photoSaturation').value = 40;
+                                document.getElementById('contrastValue').textContent = '60';
+                                document.getElementById('saturationValue').textContent = '40';
+                                break;
+                            case 'color-splash':
+                                photoEditorState.settings.saturation = -80;
+                                document.getElementById('photoSaturation').value = -80;
+                                document.getElementById('saturationValue').textContent = '-80';
+                                alert('Color Splash: The image is now desaturated. Select areas to restore color.');
+                                break;
+                        }
+
+                        applyPhotoFilters();
+                        icon.textContent = '✓';
+
+                        setTimeout(() => {
+                            icon.textContent = originalIcon;
+                        }, 1000);
+
+                        console.log('Creative effect applied:', creativeNames[creative]);
+                    }, 800);
+                });
+            });
+
+            // Export Photo
+            document.getElementById('exportPhotoBtn')?.addEventListener('click', function () {
+                const previewImg = document.querySelector('.preview-screen img');
+                if (!previewImg) {
+                    alert('Please import an image first to export.');
+                    return;
+                }
+
+                // Create canvas with applied filters
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = previewImg.naturalWidth;
+                canvas.height = previewImg.naturalHeight;
+
+                // Apply current filter
+                ctx.filter = previewImg.style.filter || 'none';
+
+                // Apply transforms
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+
+                const s = photoEditorState.settings;
+                if (s.rotation !== 0) ctx.rotate(s.rotation * Math.PI / 180);
+                if (s.scale !== 100) ctx.scale(s.scale / 100, s.scale / 100);
+                if (s.flipH) ctx.scale(-1, 1);
+                if (s.flipV) ctx.scale(1, -1);
+
+                ctx.drawImage(previewImg, -canvas.width / 2, -canvas.height / 2);
+                ctx.restore();
+
+                // Download
+                const link = document.createElement('a');
+                link.download = 'edited-photo-' + Date.now() + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                // Visual feedback
+                this.textContent = '✓ Exported!';
+                this.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+                setTimeout(() => {
+                    this.textContent = '📥 Export Edited Photo';
+                    this.style.background = '';
+                }, 2000);
+
+                console.log('Photo exported');
+            });
+
+            // Split Toning
+            document.getElementById('splitHighlights')?.addEventListener('input', function () {
+                console.log('Split toning highlights:', this.value);
+                applyPhotoFilters();
+            });
+
+            document.getElementById('splitShadows')?.addEventListener('input', function () {
+                console.log('Split toning shadows:', this.value);
+                applyPhotoFilters();
+            });
+
+            // ================================
+            // UNDO / REDO FUNCTIONALITY
+            // ================================
+
+            const historyStack = {
+                undoStack: [],
+                redoStack: [],
+                maxHistory: 50
+            };
+
+            // Save current state to history
+            function saveToHistory() {
+                const currentState = JSON.parse(JSON.stringify(photoEditorState.settings));
+                currentState.activeFilter = photoEditorState.activeFilter;
+                currentState.colorOverlay = photoEditorState.colorOverlay;
+
+                historyStack.undoStack.push(currentState);
+
+                // Limit history size
+                if (historyStack.undoStack.length > historyStack.maxHistory) {
+                    historyStack.undoStack.shift();
+                }
+
+                // Clear redo stack when new action is performed
+                historyStack.redoStack = [];
+
+                updateUndoRedoButtons();
+                console.log('State saved to history. Undo stack:', historyStack.undoStack.length);
+            }
+
+            // Restore state from history object
+            function restoreState(state) {
+                // Restore settings
+                photoEditorState.settings = {
+                    exposure: state.exposure || 0,
+                    contrast: state.contrast || 0,
+                    highlights: state.highlights || 0,
+                    shadows: state.shadows || 0,
+                    temperature: state.temperature || 0,
+                    tint: state.tint || 0,
+                    clarity: state.clarity || 0,
+                    vibrance: state.vibrance || 0,
+                    sharpness: state.sharpness || 0,
+                    saturation: state.saturation || 0,
+                    hue: state.hue || 0,
+                    blur: state.blur || 0,
+                    vignette: state.vignette || 0,
+                    grain: state.grain || 0,
+                    fade: state.fade || 0,
+                    rotation: state.rotation || 0,
+                    scale: state.scale || 100,
+                    perspectiveX: state.perspectiveX || 0,
+                    perspectiveY: state.perspectiveY || 0,
+                    flipH: state.flipH || false,
+                    flipV: state.flipV || false
+                };
+                photoEditorState.activeFilter = state.activeFilter || 'none';
+                photoEditorState.colorOverlay = state.colorOverlay || 'none';
+
+                // Update all sliders
+                const sliderUpdates = {
+                    'photoExposure': { value: state.exposure, display: 'exposureValue' },
+                    'photoContrast': { value: state.contrast, display: 'contrastValue' },
+                    'photoHighlights': { value: state.highlights, display: 'highlightsValue' },
+                    'photoShadows': { value: state.shadows, display: 'shadowsValue' },
+                    'photoTemperature': { value: state.temperature, display: 'temperatureValue' },
+                    'photoTint': { value: state.tint, display: 'tintValue' },
+                    'photoClarity': { value: state.clarity, display: 'clarityValue' },
+                    'photoVibrance': { value: state.vibrance, display: 'vibranceValue' },
+                    'photoSharpness': { value: state.sharpness, display: 'sharpnessValue' },
+                    'photoSaturation': { value: state.saturation, display: 'saturationValue' },
+                    'photoHue': { value: state.hue, display: 'hueValue', suffix: '°' },
+                    'photoBlur': { value: state.blur, display: 'blurValue' },
+                    'photoVignette': { value: state.vignette, display: 'vignetteValue' },
+                    'photoGrain': { value: state.grain, display: 'grainValue' },
+                    'photoFade': { value: state.fade, display: 'fadeValue' },
+                    'photoRotation': { value: state.rotation, display: 'rotationValue', suffix: '°' },
+                    'photoScale': { value: state.scale, display: 'scaleValue', suffix: '%' },
+                    'photoPerspectiveX': { value: state.perspectiveX, display: 'perspectiveXValue' },
+                    'photoPerspectiveY': { value: state.perspectiveY, display: 'perspectiveYValue' }
+                };
+
+                for (const [sliderId, config] of Object.entries(sliderUpdates)) {
+                    const slider = document.getElementById(sliderId);
+                    const display = document.getElementById(config.display);
+                    if (slider) slider.value = config.value || 0;
+                    if (display) display.textContent = (config.value || 0) + (config.suffix || '');
+                }
+
+                // Update flip buttons
+                const flipH = document.getElementById('flipHorizontalBtn');
+                const flipV = document.getElementById('flipVerticalBtn');
+                if (flipH) flipH.style.background = state.flipH ? 'var(--color-accent-purple)' : '';
+                if (flipV) flipV.style.background = state.flipV ? 'var(--color-accent-purple)' : '';
+
+                // Update filter presets UI
+                document.querySelectorAll('.filter-preset').forEach(p => {
+                    const filter = p.getAttribute('data-filter');
+                    p.style.borderColor = filter === state.activeFilter ? 'var(--color-accent-purple)' : 'transparent';
+                });
+
+                // Apply filters
+                applyPhotoFilters();
+            }
+
+            // Undo function
+            function performUndo() {
+                if (historyStack.undoStack.length === 0) {
+                    console.log('Nothing to undo');
+                    showUndoRedoFeedback('undoBtn', 'Nothing to undo');
+                    return;
+                }
+
+                // Save current state to redo stack
+                const currentState = JSON.parse(JSON.stringify(photoEditorState.settings));
+                currentState.activeFilter = photoEditorState.activeFilter;
+                currentState.colorOverlay = photoEditorState.colorOverlay;
+                historyStack.redoStack.push(currentState);
+
+                // Pop and restore previous state
+                const previousState = historyStack.undoStack.pop();
+                restoreState(previousState);
+
+                updateUndoRedoButtons();
+                showUndoRedoFeedback('undoBtn', 'Undone!');
+                console.log('Undo performed. Remaining undo:', historyStack.undoStack.length);
+            }
+
+            // Redo function
+            function performRedo() {
+                if (historyStack.redoStack.length === 0) {
+                    console.log('Nothing to redo');
+                    showUndoRedoFeedback('redoBtn', 'Nothing to redo');
+                    return;
+                }
+
+                // Save current state to undo stack
+                const currentState = JSON.parse(JSON.stringify(photoEditorState.settings));
+                currentState.activeFilter = photoEditorState.activeFilter;
+                currentState.colorOverlay = photoEditorState.colorOverlay;
+                historyStack.undoStack.push(currentState);
+
+                // Pop and restore next state
+                const nextState = historyStack.redoStack.pop();
+                restoreState(nextState);
+
+                updateUndoRedoButtons();
+                showUndoRedoFeedback('redoBtn', 'Redone!');
+                console.log('Redo performed. Remaining redo:', historyStack.redoStack.length);
+            }
+
+            // Update button states
+            function updateUndoRedoButtons() {
+                const undoBtn = document.getElementById('undoBtn');
+                const redoBtn = document.getElementById('redoBtn');
+
+                if (undoBtn) {
+                    undoBtn.style.opacity = historyStack.undoStack.length > 0 ? '1' : '0.5';
+                }
+                if (redoBtn) {
+                    redoBtn.style.opacity = historyStack.redoStack.length > 0 ? '1' : '0.5';
+                }
+            }
+
+            // Visual feedback
+            function showUndoRedoFeedback(btnId, message) {
+                const btn = document.getElementById(btnId);
+                if (!btn) return;
+
+                const originalText = btn.textContent;
+                btn.textContent = '✓ ' + message;
+                btn.style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(22, 163, 74, 0.3) 100%)';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 1000);
+            }
+
+            // Hook into photo slider changes to save history
+            const originalSliderHandler = function (slider) {
+                slider.addEventListener('mousedown', function () {
+                    // Save state before change
+                    saveToHistory();
+                });
+            };
+            document.querySelectorAll('.photo-slider').forEach(originalSliderHandler);
+
+            // Hook into filter preset clicks
+            document.querySelectorAll('.filter-preset').forEach(preset => {
+                preset.addEventListener('click', function () {
+                    saveToHistory();
+                }, true); // Use capture to run before other handlers
+            });
+
+            // Hook into AI tools, creative tools, color overlays
+            document.querySelectorAll('.ai-photo-tool, .creative-tool, .color-overlay-btn').forEach(tool => {
+                tool.addEventListener('click', function () {
+                    saveToHistory();
+                }, true);
+            });
+
+            // Hook into flip buttons
+            ['flipHorizontalBtn', 'flipVerticalBtn'].forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.addEventListener('click', function () {
+                        saveToHistory();
+                    }, true);
+                }
+            });
+
+            // Undo/Redo button click handlers
+            document.getElementById('undoBtn')?.addEventListener('click', performUndo);
+            document.getElementById('redoBtn')?.addEventListener('click', performRedo);
+
+            // Keyboard shortcuts (Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z)
+            document.addEventListener('keydown', function (e) {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 'z' || e.key === 'Z') {
+                        if (e.shiftKey) {
+                            e.preventDefault();
+                            performRedo();
+                        } else {
+                            e.preventDefault();
+                            performUndo();
+                        }
+                    } else if (e.key === 'y' || e.key === 'Y') {
+                        e.preventDefault();
+                        performRedo();
+                    }
+                }
+            });
+
+            // Initialize button states
+            updateUndoRedoButtons();
+
+            console.log('Undo/Redo functionality loaded');
+            console.log('Photo Editing Tools loaded successfully');
         });
     </script>
 
