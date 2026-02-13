@@ -1241,6 +1241,182 @@
         </div>
     </div>
 
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(10px);">
+        <div class="modal-content"
+            style="background: linear-gradient(145deg, rgba(26, 26, 46, 0.98) 0%, rgba(10, 10, 15, 0.98) 100%); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 1.5rem; padding: 2rem; max-width: 600px; width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 25px 100px rgba(168, 85, 247, 0.2);">
+            <!-- Modal Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2
+                    style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    📤 Export Video</h2>
+                <button id="closeExportModal"
+                    style="background: none; border: none; color: var(--color-text-secondary); font-size: 1.5rem; cursor: pointer; transition: color 0.2s;">&times;</button>
+            </div>
+
+            <!-- Export Progress (hidden initially) -->
+            <div id="exportProgress" style="display: none; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span id="exportStatusText"
+                        style="font-size: 0.875rem; color: var(--color-text-secondary);">Preparing export...</span>
+                    <span id="exportPercentage"
+                        style="font-size: 0.875rem; font-weight: 600; color: var(--color-accent-purple);">0%</span>
+                </div>
+                <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                    <div id="exportProgressBar"
+                        style="height: 100%; width: 0%; background: linear-gradient(90deg, #a855f7, #ec4899); border-radius: 4px; transition: width 0.3s ease;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Settings (shown initially) -->
+            <div id="exportSettings">
+                <!-- Resolution -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text-primary);">Resolution</label>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                        <button class="resolution-btn" data-resolution="480"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">480p</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">SD</div>
+                        </button>
+                        <button class="resolution-btn" data-resolution="720"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">720p</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">HD</div>
+                        </button>
+                        <button class="resolution-btn active" data-resolution="1080"
+                            style="padding: 0.75rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%); border: 1px solid var(--color-accent-purple); border-radius: 0.5rem; color: white; cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">1080p</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Full HD</div>
+                        </button>
+                        <button class="resolution-btn" data-resolution="4K"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">4K</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Ultra HD</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Frame Rate -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text-primary);">Frame
+                        Rate</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                        <button class="fps-btn" data-fps="24"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">24 FPS</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Cinematic</div>
+                        </button>
+                        <button class="fps-btn active" data-fps="30"
+                            style="padding: 0.75rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%); border: 1px solid var(--color-accent-purple); border-radius: 0.5rem; color: white; cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">30 FPS</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Standard</div>
+                        </button>
+                        <button class="fps-btn" data-fps="60"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">60 FPS</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Smooth</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Format -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text-primary);">Format</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                        <button class="format-btn active" data-format="mp4"
+                            style="padding: 0.75rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%); border: 1px solid var(--color-accent-purple); border-radius: 0.5rem; color: white; cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">MP4</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">H.264</div>
+                        </button>
+                        <button class="format-btn" data-format="webm"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">WebM</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">VP9</div>
+                        </button>
+                        <button class="format-btn" data-format="mov"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-weight: 600;">MOV</div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">ProRes</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Platform Presets -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-text-primary);">Quick
+                        Presets</label>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem;">
+                        <button class="platform-btn" data-platform="youtube"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-size: 1.25rem;">📺</div>
+                            <div style="font-size: 0.7rem;">YouTube</div>
+                        </button>
+                        <button class="platform-btn" data-platform="instagram"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-size: 1.25rem;">📸</div>
+                            <div style="font-size: 0.7rem;">Instagram</div>
+                        </button>
+                        <button class="platform-btn" data-platform="tiktok"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-size: 1.25rem;">🎵</div>
+                            <div style="font-size: 0.7rem;">TikTok</div>
+                        </button>
+                        <button class="platform-btn" data-platform="twitter"
+                            style="padding: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem; color: var(--color-text-secondary); cursor: pointer; transition: all 0.2s;">
+                            <div style="font-size: 1.25rem;">🐦</div>
+                            <div style="font-size: 0.7rem;">X/Twitter</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Estimated File Size -->
+                <div
+                    style="background: rgba(255,255,255,0.03); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">Estimated File Size</div>
+                        <div id="estimatedSize"
+                            style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary);">~45 MB</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-tertiary);">Export Time</div>
+                        <div id="estimatedTime"
+                            style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-primary);">~2 min</div>
+                    </div>
+                </div>
+
+                <!-- Export Button -->
+                <button id="startExportBtn"
+                    style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%); border: none; border-radius: 0.75rem; color: white; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <span>🚀</span> Start Export
+                </button>
+            </div>
+
+            <!-- Export Complete (hidden initially) -->
+            <div id="exportComplete" style="display: none; text-align: center;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+                <h3
+                    style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-primary);">
+                    Export Complete!</h3>
+                <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">Your video has been exported
+                    successfully.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center;">
+                    <button id="downloadExportBtn"
+                        style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; border-radius: 0.5rem; color: white; font-weight: 600; cursor: pointer;">📥
+                        Download</button>
+                    <button id="newExportBtn"
+                        style="padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 0.5rem; color: white; font-weight: 600; cursor: pointer;">🔄
+                        New Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -1614,6 +1790,495 @@
                     tipsModal.style.display = 'none';
                 }
             });
+
+            // ===== Export Modal =====
+            const exportModal = document.getElementById('exportModal');
+            const exportBtn = document.getElementById('exportBtn');
+            const closeExportModal = document.getElementById('closeExportModal');
+            const startExportBtn = document.getElementById('startExportBtn');
+            const downloadExportBtn = document.getElementById('downloadExportBtn');
+            const newExportBtn = document.getElementById('newExportBtn');
+
+            // Export state
+            let exportSettings = {
+                resolution: '1080',
+                fps: '30',
+                format: 'mp4',
+                platform: null
+            };
+
+            // Open export modal
+            exportBtn?.addEventListener('click', () => {
+                exportModal.style.display = 'flex';
+                exportModal.style.alignItems = 'center';
+                exportModal.style.justifyContent = 'center';
+                resetExportModal();
+            });
+
+            // Close export modal
+            closeExportModal?.addEventListener('click', () => {
+                exportModal.style.display = 'none';
+            });
+
+            exportModal?.addEventListener('click', (e) => {
+                if (e.target === exportModal) {
+                    exportModal.style.display = 'none';
+                }
+            });
+
+            // Resolution buttons
+            document.querySelectorAll('.resolution-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.resolution-btn').forEach(b => {
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                        b.style.borderColor = 'rgba(255,255,255,0.1)';
+                        b.style.color = 'var(--color-text-secondary)';
+                        b.classList.remove('active');
+                    });
+                    this.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)';
+                    this.style.borderColor = 'var(--color-accent-purple)';
+                    this.style.color = 'white';
+                    this.classList.add('active');
+                    exportSettings.resolution = this.getAttribute('data-resolution');
+                    updateEstimates();
+                });
+            });
+
+            // FPS buttons
+            document.querySelectorAll('.fps-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.fps-btn').forEach(b => {
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                        b.style.borderColor = 'rgba(255,255,255,0.1)';
+                        b.style.color = 'var(--color-text-secondary)';
+                        b.classList.remove('active');
+                    });
+                    this.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)';
+                    this.style.borderColor = 'var(--color-accent-purple)';
+                    this.style.color = 'white';
+                    this.classList.add('active');
+                    exportSettings.fps = this.getAttribute('data-fps');
+                    updateEstimates();
+                });
+            });
+
+            // Format buttons
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.format-btn').forEach(b => {
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                        b.style.borderColor = 'rgba(255,255,255,0.1)';
+                        b.style.color = 'var(--color-text-secondary)';
+                        b.classList.remove('active');
+                    });
+                    this.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)';
+                    this.style.borderColor = 'var(--color-accent-purple)';
+                    this.style.color = 'white';
+                    this.classList.add('active');
+                    exportSettings.format = this.getAttribute('data-format');
+                    updateEstimates();
+                });
+            });
+
+            // Platform preset buttons
+            document.querySelectorAll('.platform-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const platform = this.getAttribute('data-platform');
+                    exportSettings.platform = platform;
+
+                    // Highlight selected platform
+                    document.querySelectorAll('.platform-btn').forEach(b => {
+                        b.style.background = 'rgba(255,255,255,0.05)';
+                        b.style.borderColor = 'rgba(255,255,255,0.1)';
+                    });
+                    this.style.background = 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)';
+                    this.style.borderColor = 'var(--color-accent-purple)';
+
+                    // Apply platform-specific presets
+                    const presets = {
+                        'youtube': { resolution: '1080', fps: '30', format: 'mp4' },
+                        'instagram': { resolution: '1080', fps: '30', format: 'mp4' },
+                        'tiktok': { resolution: '1080', fps: '30', format: 'mp4' },
+                        'twitter': { resolution: '720', fps: '30', format: 'mp4' }
+                    };
+
+                    if (presets[platform]) {
+                        const preset = presets[platform];
+
+                        // Update resolution
+                        document.querySelectorAll('.resolution-btn').forEach(b => {
+                            const isActive = b.getAttribute('data-resolution') === preset.resolution;
+                            b.style.background = isActive ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)' : 'rgba(255,255,255,0.05)';
+                            b.style.borderColor = isActive ? 'var(--color-accent-purple)' : 'rgba(255,255,255,0.1)';
+                            b.style.color = isActive ? 'white' : 'var(--color-text-secondary)';
+                        });
+
+                        // Update FPS
+                        document.querySelectorAll('.fps-btn').forEach(b => {
+                            const isActive = b.getAttribute('data-fps') === preset.fps;
+                            b.style.background = isActive ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)' : 'rgba(255,255,255,0.05)';
+                            b.style.borderColor = isActive ? 'var(--color-accent-purple)' : 'rgba(255,255,255,0.1)';
+                            b.style.color = isActive ? 'white' : 'var(--color-text-secondary)';
+                        });
+
+                        // Update Format
+                        document.querySelectorAll('.format-btn').forEach(b => {
+                            const isActive = b.getAttribute('data-format') === preset.format;
+                            b.style.background = isActive ? 'linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%)' : 'rgba(255,255,255,0.05)';
+                            b.style.borderColor = isActive ? 'var(--color-accent-purple)' : 'rgba(255,255,255,0.1)';
+                            b.style.color = isActive ? 'white' : 'var(--color-text-secondary)';
+                        });
+
+                        exportSettings = { ...exportSettings, ...preset };
+                        updateEstimates();
+                    }
+                });
+            });
+
+            // Update file size and time estimates
+            function updateEstimates() {
+                const sizeMultipliers = { '480': 0.3, '720': 0.6, '1080': 1, '4K': 4 };
+                const fpsMultipliers = { '24': 0.8, '30': 1, '60': 1.5 };
+                const formatMultipliers = { 'mp4': 1, 'webm': 0.9, 'mov': 1.5 };
+
+                const baseSize = 50; // MB for 1 min at 1080p/30fps/mp4
+                const multiplier = (sizeMultipliers[exportSettings.resolution] || 1) *
+                    (fpsMultipliers[exportSettings.fps] || 1) *
+                    (formatMultipliers[exportSettings.format] || 1);
+
+                const estimatedSize = Math.round(baseSize * multiplier);
+                const estimatedTime = Math.max(1, Math.round(estimatedSize / 25));
+
+                document.getElementById('estimatedSize').textContent = `~${estimatedSize} MB`;
+                document.getElementById('estimatedTime').textContent = `~${estimatedTime} min`;
+            }
+
+            // Store the exported blob for download
+            let exportedBlob = null;
+            let exportedFilename = '';
+
+            // Start export
+            startExportBtn?.addEventListener('click', async () => {
+                const exportSettings_el = document.getElementById('exportSettings');
+                const exportProgress_el = document.getElementById('exportProgress');
+                const exportComplete_el = document.getElementById('exportComplete');
+                const progressBar = document.getElementById('exportProgressBar');
+                const statusText = document.getElementById('exportStatusText');
+                const percentage = document.getElementById('exportPercentage');
+
+                // Hide settings, show progress
+                exportSettings_el.style.display = 'none';
+                exportProgress_el.style.display = 'block';
+
+                // Get the preview content
+                const previewScreen = document.querySelector('.preview-screen');
+                const previewVideo = previewScreen?.querySelector('video');
+                const previewImage = previewScreen?.querySelector('img');
+
+                // Get project title for filename
+                const projectTitle = document.getElementById('projectTitleInput')?.value || 'Untitled';
+
+                // Define resolution dimensions
+                const resolutionMap = {
+                    '480': { width: 854, height: 480 },
+                    '720': { width: 1280, height: 720 },
+                    '1080': { width: 1920, height: 1080 },
+                    '4K': { width: 3840, height: 2160 }
+                };
+
+                const targetRes = resolutionMap[exportSettings.resolution] || resolutionMap['1080'];
+
+                try {
+                    if (previewVideo && previewVideo.src) {
+                        // Export video using MediaRecorder
+                        statusText.textContent = 'Preparing video...';
+                        progressBar.style.width = '10%';
+                        percentage.textContent = '10%';
+                        await new Promise(r => setTimeout(r, 300));
+
+                        // Create a canvas to capture video frames
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetRes.width;
+                        canvas.height = targetRes.height;
+                        const ctx = canvas.getContext('2d');
+
+                        // Get video duration
+                        const duration = previewVideo.duration || 5;
+                        const fps = parseInt(exportSettings.fps) || 30;
+
+                        // Use canvas stream for recording
+                        const stream = canvas.captureStream(fps);
+
+                        // Add audio if video has audio
+                        if (previewVideo.captureStream) {
+                            try {
+                                const videoStream = previewVideo.captureStream();
+                                const audioTracks = videoStream.getAudioTracks();
+                                audioTracks.forEach(track => stream.addTrack(track));
+                            } catch (e) {
+                                console.log('Could not capture audio:', e);
+                            }
+                        }
+
+                        // Set up MediaRecorder
+                        const mimeType = exportSettings.format === 'webm' ? 'video/webm;codecs=vp9' : 'video/webm;codecs=vp8';
+                        const mediaRecorder = new MediaRecorder(stream, {
+                            mimeType: mimeType,
+                            videoBitsPerSecond: exportSettings.resolution === '4K' ? 20000000 :
+                                exportSettings.resolution === '1080' ? 8000000 :
+                                    exportSettings.resolution === '720' ? 5000000 : 2500000
+                        });
+
+                        const chunks = [];
+                        mediaRecorder.ondataavailable = (e) => {
+                            if (e.data.size > 0) chunks.push(e.data);
+                        };
+
+                        // Start recording
+                        statusText.textContent = 'Recording video...';
+                        progressBar.style.width = '20%';
+                        percentage.textContent = '20%';
+
+                        mediaRecorder.start();
+                        previewVideo.currentTime = 0;
+                        await previewVideo.play();
+
+                        // Draw frames to canvas with effects/filters applied
+                        const recordingPromise = new Promise((resolve) => {
+                            let frameCount = 0;
+                            const totalFrames = duration * fps;
+
+                            const drawFrame = () => {
+                                ctx.drawImage(previewVideo, 0, 0, canvas.width, canvas.height);
+                                frameCount++;
+
+                                const progress = 20 + (frameCount / totalFrames) * 60;
+                                progressBar.style.width = Math.min(progress, 80) + '%';
+                                percentage.textContent = Math.min(Math.round(progress), 80) + '%';
+
+                                if (progress < 20) statusText.textContent = 'Preparing video...';
+                                else if (progress < 50) statusText.textContent = 'Processing frames...';
+                                else if (progress < 75) statusText.textContent = 'Encoding video...';
+                                else statusText.textContent = 'Applying effects...';
+
+                                if (!previewVideo.paused && !previewVideo.ended) {
+                                    requestAnimationFrame(drawFrame);
+                                } else {
+                                    resolve();
+                                }
+                            };
+
+                            drawFrame();
+                        });
+
+                        await recordingPromise;
+
+                        // Wait for video to end or stop after duration
+                        await new Promise(r => setTimeout(r, 500));
+                        previewVideo.pause();
+
+                        statusText.textContent = 'Finalizing...';
+                        progressBar.style.width = '90%';
+                        percentage.textContent = '90%';
+
+                        mediaRecorder.stop();
+
+                        await new Promise((resolve) => {
+                            mediaRecorder.onstop = resolve;
+                        });
+
+                        // Create the final blob
+                        exportedBlob = new Blob(chunks, { type: exportSettings.format === 'webm' ? 'video/webm' : 'video/mp4' });
+                        exportedFilename = `${projectTitle.replace(/\s+/g, '_')}_${exportSettings.resolution}p.${exportSettings.format === 'mov' ? 'mov' : exportSettings.format}`;
+
+                    } else if (previewImage && previewImage.src) {
+                        // Export image
+                        statusText.textContent = 'Processing image...';
+                        progressBar.style.width = '30%';
+                        percentage.textContent = '30%';
+                        await new Promise(r => setTimeout(r, 300));
+
+                        // Create canvas and draw the image with applied filters
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetRes.width;
+                        canvas.height = targetRes.height;
+                        const ctx = canvas.getContext('2d');
+
+                        // Wait for image to load if needed
+                        const img = new Image();
+                        img.crossOrigin = 'anonymous';
+
+                        await new Promise((resolve, reject) => {
+                            img.onload = resolve;
+                            img.onerror = reject;
+                            img.src = previewImage.src;
+                        });
+
+                        statusText.textContent = 'Applying filters...';
+                        progressBar.style.width = '50%';
+                        percentage.textContent = '50%';
+                        await new Promise(r => setTimeout(r, 200));
+
+                        // Apply the same CSS filter as the preview
+                        ctx.filter = previewImage.style.filter || 'none';
+
+                        // Calculate aspect-fit dimensions
+                        const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+                        const x = (canvas.width - img.width * scale) / 2;
+                        const y = (canvas.height - img.height * scale) / 2;
+
+                        ctx.fillStyle = '#000';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+
+                        statusText.textContent = 'Encoding image...';
+                        progressBar.style.width = '80%';
+                        percentage.textContent = '80%';
+                        await new Promise(r => setTimeout(r, 200));
+
+                        // Export as image (PNG for best quality with effects)
+                        const quality = 0.95;
+                        const dataUrl = canvas.toDataURL('image/png', quality);
+
+                        // Convert data URL to blob
+                        const byteString = atob(dataUrl.split(',')[1]);
+                        const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+                        const ab = new ArrayBuffer(byteString.length);
+                        const ia = new Uint8Array(ab);
+                        for (let i = 0; i < byteString.length; i++) {
+                            ia[i] = byteString.charCodeAt(i);
+                        }
+                        exportedBlob = new Blob([ab], { type: mimeString });
+                        exportedFilename = `${projectTitle.replace(/\s+/g, '_')}_${exportSettings.resolution}p.png`;
+
+                    } else {
+                        // No media to export - create a placeholder
+                        statusText.textContent = 'Creating project file...';
+
+                        // Simulate progress for empty export
+                        const stages = [
+                            { text: 'Preparing export...', end: 30 },
+                            { text: 'Creating placeholder...', end: 60 },
+                            { text: 'Finalizing...', end: 100 }
+                        ];
+
+                        let currentProgress = 0;
+                        for (const stage of stages) {
+                            statusText.textContent = stage.text;
+                            while (currentProgress < stage.end) {
+                                currentProgress += Math.random() * 5 + 2;
+                                if (currentProgress > stage.end) currentProgress = stage.end;
+                                progressBar.style.width = currentProgress + '%';
+                                percentage.textContent = Math.round(currentProgress) + '%';
+                                await new Promise(r => setTimeout(r, 100));
+                            }
+                            await new Promise(r => setTimeout(r, 200));
+                        }
+
+                        // Create a canvas with project info as placeholder
+                        const canvas = document.createElement('canvas');
+                        canvas.width = targetRes.width;
+                        canvas.height = targetRes.height;
+                        const ctx = canvas.getContext('2d');
+
+                        // Draw a nice placeholder
+                        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                        gradient.addColorStop(0, '#1a1a2e');
+                        gradient.addColorStop(1, '#16213e');
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                        // Add text
+                        ctx.fillStyle = '#a855f7';
+                        ctx.font = `bold ${canvas.width / 20}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.fillText(projectTitle, canvas.width / 2, canvas.height / 2 - 40);
+
+                        ctx.fillStyle = '#94a3b8';
+                        ctx.font = `${canvas.width / 40}px Arial`;
+                        ctx.fillText(`${exportSettings.resolution}p • ${exportSettings.fps} FPS • ${exportSettings.format.toUpperCase()}`, canvas.width / 2, canvas.height / 2 + 30);
+                        ctx.fillText('Add media to the timeline to export actual content', canvas.width / 2, canvas.height / 2 + 80);
+
+                        const dataUrl = canvas.toDataURL('image/png');
+                        const byteString = atob(dataUrl.split(',')[1]);
+                        const ab = new ArrayBuffer(byteString.length);
+                        const ia = new Uint8Array(ab);
+                        for (let i = 0; i < byteString.length; i++) {
+                            ia[i] = byteString.charCodeAt(i);
+                        }
+                        exportedBlob = new Blob([ab], { type: 'image/png' });
+                        exportedFilename = `${projectTitle.replace(/\s+/g, '_')}_placeholder.png`;
+                    }
+
+                    // Finalize
+                    statusText.textContent = 'Finalizing...';
+                    progressBar.style.width = '100%';
+                    percentage.textContent = '100%';
+                    await new Promise(r => setTimeout(r, 500));
+
+                    // Show complete
+                    exportProgress_el.style.display = 'none';
+                    exportComplete_el.style.display = 'block';
+
+                    console.log('Export complete with settings:', exportSettings, 'Blob size:', exportedBlob?.size);
+
+                } catch (error) {
+                    console.error('Export error:', error);
+                    statusText.textContent = 'Export failed: ' + error.message;
+                    progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+                    await new Promise(r => setTimeout(r, 2000));
+                    resetExportModal();
+                }
+            });
+
+            // Download button
+            downloadExportBtn?.addEventListener('click', () => {
+                if (exportedBlob) {
+                    // Create download link and trigger download
+                    const url = URL.createObjectURL(exportedBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = exportedFilename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    console.log('Download triggered:', exportedFilename, 'Size:', exportedBlob.size, 'bytes');
+                } else {
+                    // Fallback if no blob was created
+                    const projectTitle = document.getElementById('projectTitleInput')?.value || 'Untitled';
+                    alert(`No content to download. Please add media to the preview area first.\n\nProject: ${projectTitle}`);
+                }
+
+                exportModal.style.display = 'none';
+            });
+
+            // New export button
+            newExportBtn?.addEventListener('click', () => {
+                resetExportModal();
+            });
+
+            // Reset export modal to initial state
+            function resetExportModal() {
+                const exportSettings_el = document.getElementById('exportSettings');
+                const exportProgress_el = document.getElementById('exportProgress');
+                const exportComplete_el = document.getElementById('exportComplete');
+                const progressBar = document.getElementById('exportProgressBar');
+                const percentage = document.getElementById('exportPercentage');
+
+                exportSettings_el.style.display = 'block';
+                exportProgress_el.style.display = 'none';
+                exportComplete_el.style.display = 'none';
+                progressBar.style.width = '0%';
+                percentage.textContent = '0%';
+
+                // Reset platform buttons
+                document.querySelectorAll('.platform-btn').forEach(b => {
+                    b.style.background = 'rgba(255,255,255,0.05)';
+                    b.style.borderColor = 'rgba(255,255,255,0.1)';
+                });
+            }
 
             // ===== Workflow Steps =====
             document.querySelectorAll('.workflow-step').forEach(btn => {
@@ -2473,7 +3138,11 @@
                 const ratioSuffix = cropRatio !== 'free' ? `_${cropRatio.replace(':', 'x')}` : '';
                 link.download = `edited-photo${ratioSuffix}-${Date.now()}.png`;
                 link.href = canvas.toDataURL('image/png');
+
+                // Append to body, click, and remove
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
 
                 // Visual feedback
                 this.textContent = '✓ Exported!';

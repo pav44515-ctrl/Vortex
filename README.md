@@ -1,8 +1,8 @@
-# 🎬 Vertex
+# 🎬 AI Video Studio
 
 A premium, web-based video editing platform powered by AI.
 
-![Vertex](public/images/hero-bg.jpg)
+![AI Video Studio](public/images/hero-bg.jpg)
 
 ## ✨ Features
 
